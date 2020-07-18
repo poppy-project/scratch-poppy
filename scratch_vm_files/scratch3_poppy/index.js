@@ -11,6 +11,20 @@ class Scratch3Poppy {
 		.then(res =>res.data);
 	}
 
+	motorsStatusUrl(motors,status,value){
+		var url = '';
+		for(let i=0;i<motors.length;i++){
+			if(motors.substring(i,i+1) == ' '){
+				url += ':' + status + ':' + value + ';';
+			}
+			else{
+				url += motors.substring(i,i+1);
+			}
+		}
+		url += ':' + status + ':' + value;
+		return url;	
+	}
+
     constructor (runtime) {
 		this.runtime = runtime;
 		this._robotUrl = '';
@@ -149,6 +163,84 @@ class Scratch3Poppy {
 		},
 
 		{
+			opcode: 'getSitemap',
+			blockType: BlockType.REPORTER,
+			text: 'http:// [URL]',
+			arguments:{
+				URL:{
+					type: ArgumentType.STRING,
+					defaultValue: ' '
+				}
+			}
+		},
+
+		{
+			opcode: 'setCompliant',
+			blockType: BlockType.COMMAND,
+			text: 'set motor(s) [MOTORS] [STATUS]',
+			arguments:{
+				MOTORS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'motor_name'
+				},
+				STATUS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'compliant',
+					menu: 'compliant'
+				}
+			}
+		},
+
+		{
+			opcode: 'setValue',
+			blockType: BlockType.COMMAND,
+			text: 'set [STATUS] motor(s) [MOTORS] to [VALUE]',
+			arguments:{
+				MOTORS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'motor_name'
+				},
+				STATUS:{
+					type: ArgumentType.STRING,
+					defaultValue: ' '
+				},
+				VALUE:{
+					type: ArgumentType.STRING,
+					defaultValue: 'value'
+				}
+			}
+		},
+
+		{
+			opcode: 'setLed',
+			blockType: BlockType.COMMAND,
+			text: 'set color leds of motor(s) [MOTORS] in [STATUS]',
+			arguments:{
+				MOTORS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'motor_name'
+				},
+				STATUS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'off',
+					menu: 'color'
+				}
+			}
+		},
+
+		{
+			opcode: 'popup',
+			blockType: BlockType.COMMAND,
+			text: 'popup [TEXT]',
+			arguments:{
+				TEXT:{
+					type: ArgumentType.STRING,
+					defaultValue: ' '
+				}
+			}
+		},
+
+		{
 			opcode: 'test1',
 			blockType: BlockType.REPORTER,
 			text: 'test1'
@@ -188,6 +280,14 @@ class Scratch3Poppy {
 			actionBehaviours:{
 				acceptReporters: false,
 				items:['start', 'stop', 'pause', 'resume']
+			},
+			compliant:{
+				acceptReporters: false,
+				items:['compliant', 'stiff']
+			},
+			color:{
+				acceptReporters: false,
+				items:['off', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white']
 			}
 		}
 	};
@@ -300,6 +400,46 @@ class Scratch3Poppy {
 		return resultat;
 	}
 	
+	getSitemap(args){
+		var url = 'http://' + args.URL + '/';
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(()=>alert('Robot is not connected to ' + url));
+		return resultat;
+	}
+
+	setCompliant(args){
+		var compliant;
+		if(args.STATUS == 'compliant')
+			compliant = 1;
+		else
+			compliant = 0;
+		var url = this._robotUrlTmp + '/motors/set/registers/' + this.motorsStatusUrl(args.MOTORS,'compliant',compliant);
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		return resultat;
+	}
+
+	setValue(args){
+		var url = this._robotUrlTmp + '/motors/set/registers/' + this.motorsStatusUrl(args.MOTORS,args.STATUS,args.VALUE);
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		return resultat;
+	}
+
+	setLed(args){
+		var url = this._robotUrlTmp + '/motors/set/registers/' + this.motorsStatusUrl(args.MOTORS,'led',args.VALUE);
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		return resultat;
+	}
+
+	popup(args){
+		return alert(args.TEXT);
+	}
 
 	/*--------------------------------------------------*/
 	/*              Button code not working             */
