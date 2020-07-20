@@ -241,6 +241,63 @@ class Scratch3Poppy {
 		},
 
 		{
+			opcode: 'startMovePlayerWithSpeed',
+			blockType: BlockType.COMMAND,
+			text: 'play move [MOVE] | speed x [SPEED]',
+			arguments:{
+				MOVE:{
+					type: ArgumentType.STRING,
+					defaultValue: 'move_name'
+				},
+				SPEED:{
+					type: ArgumentType.NUMBER,
+					defaultValue: 1
+				}
+			}
+		},
+
+		{
+			opcode: 'startMovePlayerBackwardsWithSpeed',
+			blockType: BlockType.COMMAND,
+			text: 'play move [MOVE] in reverse | speed x [SPEED]',
+			arguments:{
+				MOVE:{
+					type: ArgumentType.STRING,
+					defaultValue: 'move_name'
+				},
+				SPEED:{
+					type: ArgumentType.NUMBER,
+					defaultValue: 1
+				}
+			}
+		},
+
+		{
+			opcode: 'setMotorsGoto',
+			blockType: BlockType.COMMAND,
+			text: 'set position [POS] of motor(s) [MOTORS] in [TIME] seconds | wait ? [WAIT]',
+			arguments:{
+				MOTORS:{
+					type: ArgumentType.STRING,
+					defaultValue: 'motor_name'
+				},
+				POS:{
+					type: ArgumentType.NUMBER,
+					defaultValue: 0
+				},
+				TIME:{
+					type: ArgumentType.NUMBER,
+					defaultValue: 2
+				},
+				WAIT:{
+					type: ArgumentType.STRING,
+					defaultValue: 'false',
+					menu: 'wait'
+				}
+			}
+		},
+
+		{
 			opcode: 'test1',
 			blockType: BlockType.REPORTER,
 			text: 'test1'
@@ -288,6 +345,10 @@ class Scratch3Poppy {
 			color:{
 				acceptReporters: false,
 				items:['off', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white']
+			},
+			wait:{
+				acceptReporters: false,
+				items:['false','true']
 			}
 		}
 	};
@@ -441,6 +502,36 @@ class Scratch3Poppy {
 		return alert(args.TEXT);
 	}
 
+	startMovePlayerWithSpeed(args){
+		var url = this._robotUrlTmp + '/primitive/MovePlayer/' + args.MOVE + '/start/' + args.SPEED;
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		return resultat;
+	}
+
+	startMovePlayerBackwardsWithSpeed(args){
+		var url = this._robotUrlTmp + '/primitive/MovePlayer/' + args.MOVE + '/start/' + args.SPEED + '/backwards';
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		return resultat;
+	}
+
+	setMotorsGoto(args){
+		var url = this._robotUrlTmp + '/motors/set/goto/' + this.motorsStatusUrl(args.MOTORS,args.POS,args.TIME);
+		const resultat = this.makeARequest(url)
+		.then(data=>data)
+		.catch(err=>console.log(err));
+		if(args.WAIT == 'true'){
+			setTimeout(()=>{return resultat}, args.TIME * 1000);
+		}
+		else{
+			return resultat;
+		}
+			
+	}
+
 	/*--------------------------------------------------*/
 	/*              Button code not working             */
 	/*--------------------------------------------------*/
@@ -451,16 +542,17 @@ class Scratch3Poppy {
 	test1(){
 		var test;
 		const resultat = this.makeARequest('http://poppy.local:6969/ip/')
-		.then(data=>{ test = data;})
-		.catch(err=>alert('Your robot host is unreachable'));
+		.then(data=>data)
+		.catch(()=>alert('Your robot host is unreachable'));
+		test = resultat + '/test';
 		return test;
 	}
 
 	//Retrieve the IP adress
 	test2(){
-		const resultat = this.makeARequest('http://poppy.local:6969/')
+		const resultat = this.makeARequest('http://poppy.local:6969/ip/')
 		.then(data=>data)
-		.catch(err=>alert('Your robot host is unreachable'));
+		.catch(()=>alert('Your robot host is unreachable'));
 		return resultat;
 	}
 
