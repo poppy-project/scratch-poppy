@@ -1,16 +1,14 @@
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const axios = require('axios').default;
-const Cast = require('../../util/cast');
-const log = require('../../util/log');
-const Timer = require('../../util/timer');
+
 
 class Scratch3Poppy {
 
 	motorsStatusUrl(motors,status,value){
-		var url = '';
+		let url = '';
 		for(let i=0;i<motors.length;i++){
-			if(motors.substring(i,i+1) == ' ' || motors.substring(i,i+1) == ','){
+			if(motors.substring(i,i+1) == ' ' || motors.substring(i,i+1) == '/' || motors.substring(i,i+1) == ',' || motors.substring(i,i+1) == ';'){
 				url += ':' + status + ':' + value + ';';
 			}
 			else{
@@ -21,26 +19,34 @@ class Scratch3Poppy {
 		return url;	
 	}
 
-	//Problem to display results
-	display(text){
-		/*let num = 1;
-		let resultat = '1: ';*/
+	toArray(text){
 		let res = [];
 		let result = '';
 		for(let i= 0; i < text.length; i++){
-			if(text.substring(i,i+1) == ';' || text.substring(i,i+1) == '/'){
-				/*num++;
-				resultat += '\n' + num + ': ';*/
+			if(text.substring(i,i+1) == ' ' || text.substring(i,i+1) == '/' || text.substring(i,i+1) == ',' || text.substring(i,i+1) == ';'){
 				res.push(result);
+				result = '';
 			}
 			else{
-				//resultat += text.substring(i,i+1); 
 				result += text.substring(i,i+1);
 			}
 				
 		}
-		//return resultat;
-		return result;
+		res.push(result);
+		return res;
+	}
+
+	toMotorsListApiFormat(motors){
+		let motorApiFormat = '';
+		for(let i=0;i<motors.length;i++){
+			if(motors.substring(i,i+1) == ' ' || motors.substring(i,i+1) == '/' || motors.substring(i,i+1) == ',' || motors.substring(i,i+1) == ';'){
+				motorApiFormat += ';';
+			}
+			else{
+				motorApiFormat += motors.substring(i,i+1);
+			}
+		}
+		return motorApiFormat;
 	}
 
     constructor (runtime) {
@@ -68,18 +74,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'getMotorsPositions',
-					blockType: BlockType.REPORTER,
-					text: 'get all motors positions',
-				},
-
-				{
-					opcode: 'getRobotAliases',
-					blockType: BlockType.REPORTER,
-					text: 'all motors groups'
-				},
-
-				{
 					opcode: 'detectMarker',
 					blockType: BlockType.BOOLEAN,
 					text: 'card [TEXT] is detected ?',
@@ -88,54 +82,6 @@ class Scratch3Poppy {
 							type: ArgumentType.STRING,
 							defaultValue: "caribou",
 							menu: "marker"
-						}
-					}
-				},
-
-				{
-					opcode: 'getMotorsInGroup',
-					blockType: BlockType.REPORTER,
-					text:  'motors in group [TEXT]',
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: 'group_name'
-						}
-					}
-				},
-
-				{
-					opcode: 'getMotors',
-					blockType: BlockType.REPORTER,
-					text: 'all motors'
-				},
-
-				{
-					opcode: 'getPrimitives',
-					blockType: BlockType.REPORTER,
-					text: 'get [TEXT] behaviours',
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: 'all',
-							menu: 'getBehaviours'
-						}
-					}
-				},
-
-				{
-					opcode: 'getPropertiesMethodes',
-					blockType: BlockType.REPORTER,
-					text: 'get [PROP] of behaviour [TEXT]',
-					arguments:{
-						PROP: {
-							type: ArgumentType.STRING,
-							defaultValue: 'methodes',
-							menu: 'getPropBehaviours'
-						},
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
 						}
 					}
 				},
@@ -167,12 +113,6 @@ class Scratch3Poppy {
 					opcode: 'testConnection',
 					blockType: BlockType.REPORTER,
 					text: 'test connection'
-				},
-
-				{
-					opcode: 'getAvailableRecords',
-					blockType: BlockType.REPORTER,
-					text: 'all recorded moves'
 				},
 
 				{
@@ -323,14 +263,14 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'reset',
+					opcode: 'initRobot',
 					blockType: BlockType.COMMAND,
-					text: 'reset [TEXT]',
+					text: 'robot [TEXT]',
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
-							defaultValue: 'simulation',
-							menu: 'reset'
+							defaultValue: 'start',
+							menu: 'init'
 						}
 					}
 				},
@@ -360,6 +300,128 @@ class Scratch3Poppy {
 				},
 
 				{
+					opcode: 'createRecordMove',
+					BlockType: BlockType.COMMAND,
+					text: 'create & start record move [MOVE] with motor(s) [MOTOR]',
+					arguments:{
+						MOVE:{
+							type: ArgumentType.STRING,
+							defaultValue: 'move_name'
+						},
+						MOTOR:{
+							type: ArgumentType.STRING,
+							defaultValue: ' '
+						}
+					}
+				},
+
+				{
+					opcode: 'stopSaveMove',
+					BlockType: BlockType.COMMAND,
+					text: 'stop record & save move [MOVE]',
+					arguments:{
+						MOVE:{
+							type: ArgumentType.STRING,
+							defaultValue: 'move_name'
+						}
+					}
+				},
+
+				{
+					opcode: 'getMotorRegister',
+					blockType: BlockType.REPORTER,
+					text: 'get [REG] of motor(s) [MOTOR]',
+					arguments:{
+						REG:{
+							type: ArgumentType.STRING,
+							defaultValue: 'present_position'
+						},
+						MOTOR:{
+							type: ArgumentType.STRING,
+							defaultValue: 'motor_name'
+						}
+					}
+				},
+
+				{
+					opcode: 'callAPI',
+					blockType: BlockType.REPORTER,
+					text: 'call the API [TEXT]',
+					arguments:{
+						TEXT:{
+							type: ArgumentType.STRING,
+							defaultValue: '/motors/motors'
+						}
+					}
+				},
+
+				{
+					opcode: 'getMotorsPositions',
+					blockType: BlockType.REPORTER,
+					text: 'get all motors positions',
+				},
+
+				{
+					opcode: 'getRobotAliases',
+					blockType: BlockType.REPORTER,
+					text: 'all motors groups'
+				},
+
+				{
+					opcode: 'getMotorsInGroup',
+					blockType: BlockType.REPORTER,
+					text:  'motors in group [TEXT]',
+					arguments: {
+						TEXT: {
+							type: ArgumentType.STRING,
+							defaultValue: 'group_name'
+						}
+					}
+				},
+
+				{
+					opcode: 'getMotors',
+					blockType: BlockType.REPORTER,
+					text: 'all motors'
+				},
+
+				{
+					opcode: 'getPrimitives',
+					blockType: BlockType.REPORTER,
+					text: 'get [TEXT] behaviours',
+					arguments: {
+						TEXT: {
+							type: ArgumentType.STRING,
+							defaultValue: 'all',
+							menu: 'getBehaviours'
+						}
+					}
+				},
+
+				{
+					opcode: 'getPropertiesMethodes',
+					blockType: BlockType.REPORTER,
+					text: 'get [PROP] of behaviour [TEXT]',
+					arguments:{
+						PROP: {
+							type: ArgumentType.STRING,
+							defaultValue: 'methodes',
+							menu: 'getPropBehaviours'
+						},
+						TEXT: {
+							type: ArgumentType.STRING,
+							defaultValue: ' '
+						}
+					}
+				},
+
+				{
+					opcode: 'getAvailableRecords',
+					blockType: BlockType.REPORTER,
+					text: 'all recorded moves'
+				},
+
+				{
 					opcode: 'test1',
 					blockType: BlockType.REPORTER,
 					text: 'test1'
@@ -375,36 +437,36 @@ class Scratch3Poppy {
 
 			menus:{
 				marker:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['caribou', 'tetris', 'lapin']
 				},
 				getBehaviours:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['all', 'running']
 				},
 				getPropBehaviours:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['methodes', 'properties']
 				},
 				actionBehaviours:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['start', 'stop', 'pause', 'resume']
 				},
 				compliant:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['compliant', 'stiff']
 				},
 				color:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['off', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white']
 				},
 				wait:{
-					acceptReporters: false,
+					acceptReporters: true,
 					items:['false','true']
 				},
-				reset:{
-					acceptReporters: false,
-					items:['simulation', 'robot']
+				init:{
+					acceptReporters: true,
+					items:['start', 'stop', 'reset']
 				}
 			}
 		};
@@ -416,7 +478,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let pos = resp.data;
-			let motorsPos = this.display(pos);
+			let motorsPos = this.toArray(pos);
 			return motorsPos;
 		})
 		.catch(err=>{console.log(err); alert('Error with the connection')});
@@ -428,7 +490,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let name = resp.data;
-			let groupMotorsName = this.display(name);
+			let groupMotorsName = this.toArray(name);
 			return groupMotorsName;
 		})
 		.catch(err=>{console.log(err); alert('Error with the connection')});
@@ -447,7 +509,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let group = resp.data;
-			let motorsInGroup = this.display(group);
+			let motorsInGroup = this.toArray(group);
 			return motorsInGroup;
 		})
 		.catch(()=>alert('Group <' + args.TEXT + '> is not in the available groups of your robot. See "all motors groups" button for the available groups'));
@@ -459,7 +521,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let name = resp.data;
-			let motorsName = this.display(name);
+			let motorsName = this.toArray(name);
 			return motorsName;
 		})
 		.catch(err=>{console.log(err); alert('Error with the connection')});
@@ -473,7 +535,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let name = resp.data;
-			let behaviorsName = this.display(name);
+			let behaviorsName = this.toArray(name);
 			return behaviorsName;
 		})
 		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
@@ -485,7 +547,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let prop = resp.data;
-			let methodesName = this.display(prop);
+			let methodesName = this.toArray(prop);
 			return methodesName;
 		})
 		.catch(()=>alert('Primitive <' + args.TEXT + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
@@ -511,7 +573,7 @@ class Scratch3Poppy {
 		const resultat = axios.get(url)
 		.then(resp=>{
 			let record = resp.data;
-			let recordsName = this.display(record);
+			let recordsName = this.toArray(record);
 			return recordsName;
 		})
 		.catch(err=>{console.log(err); alert('Error with the connection')});
@@ -590,13 +652,8 @@ class Scratch3Poppy {
 		return this._robotIp + ':' + this._robotPort;
 	}
 
-	// Reset robot not implemented (call not working: http://169.254.224.95/services.php?python=restart + http://169.254.224.95/reset)
-	reset(args){
-		let url = this._robotUrl;
-		if(args.TEXT == 'simulation'){
-			url +=  '/reset-simulation';
-		}
-		let url = this._robotUrl + '/primitive/MovePlayer/' + args.MOVE + '/start/' + args.SPEED + '/backwards';
+	initRobot(args){
+		let url = 'http://poppy.local/api/' + args.TEXT;
 		axios.get(url)
 		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
 	}
@@ -613,7 +670,7 @@ class Scratch3Poppy {
 		.then(resp=>{
 			let index = -1;
 			let motors = resp.data;
-			let motorsName = this.display(motors);
+			let motorsName = this.toArray(motors);
 			for(let i =0;i<motorsName.length;i++){
 				if(args.TEXT == motorsName[i]){
 					index = i+1;
@@ -628,6 +685,78 @@ class Scratch3Poppy {
 		})
 		.catch(err=>{console.log(err); alert('Error with the connection')});
 		return resultat;
+	}
+
+	callAPI(args){
+		let url = this._robotUrl + args.TEXT;
+		const resultat = axios.get(url)
+		.then(resp=>resp.data)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+		return resultat;
+	}
+
+	setMotorsGoto(args){
+		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(args.MOTORS,args.POS,args.TIME);
+		axios.get(url)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+	}
+
+	getMotorRegister(args){
+		let url = this._robotUrl + '/motors/';
+		let motors = this.toMotorsListApiFormat(args.MOTOR);
+		url += motors + '/get/' + args.REG;
+		const resultat = axios.get(url)
+		.then(resp=>{
+			let value = resp.data;
+			let res = this.toArray(value);
+			return res;
+		})
+		.catch(err=>{console.log(err); alert('Error with parameters or connection. See <variable> in the register and infos list or <motor_name> does not exist')});
+		return resultat;
+	}
+
+	createRecordMove(args){
+		let urlMotors = this._robotUrl + '/motors/motors';
+		if(args.MOTOR == ' ' || args.MOTOR == ''){
+			axios.get(urlMotors)
+			.then(resp=>{
+				let value = resp.data;
+				let motorList = this.toMotorsListApiFormat(value);
+				let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motorList,'compliant','1');
+				axios.get(urlCompliant)
+				.catch(err=>{console.log(err); alert('Error with the connection')});
+				let url = this._robotUrl + '/primitive/MoveRecorder/' + args.MOVE + '/start/' + motorList;
+				axios.get(url)
+				.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			})
+			.catch(err=>{console.log(err); alert('Error with the connection')});
+		}
+		else{
+			let motors = this.toMotorsListApiFormat(args.MOTOR);
+			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors,'compliant','1');
+			axios.get(urlCompliant)
+			.catch(err=>{console.log(err); alert('Error with the connection')});
+			let url = this._robotUrl + '/primitive/MoveRecorder/' + args.MOVE + '/start/' + motors;
+			axios.get(url)
+			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+		}	
+	}
+
+	stopSaveMove(args){
+		let urlMotorsUsed = this._robotUrl + '/primitive/MoveRecorder/' + args.MOVE + '/get_motors';
+		axios.get(urlMotorsUsed)
+		.then(resp=>{
+			let motors = resp.data;
+			console.log(motors);
+			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors,'compliant','0');
+			console.log(urlCompliant);
+			axios.get(urlCompliant)
+			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+		})
+		.catch(err=>{console.log(err); alert('Error with the connection')});
+		let url = this._robotUrl + '/primitive/MoveRecorder/' + args.MOVE + '/stop';
+		axios.get(url)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
 	}
 
 	/*--------------------------------------------------*/
@@ -663,16 +792,7 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
-
-	// Problem with wait function
-	setMotorsGoto(args){
-		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(args.MOTORS,args.POS,args.TIME);
-		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
-		if(args.WAIT == 'true'){
-			sleep(args.TIME * 1000);
-		}
-	}
+	
 	
 }
 
