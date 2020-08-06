@@ -20,9 +20,12 @@ First, you will have to clone **scratch-vm** and **scratch-gui** and to link bot
 
 ### Scratch Poppy installation
 
-Now, you can clone this repository. In the `scratch_vm_files` folder, copy `scratch3_poppy` and paste it in `scratch-vm/src/extensions`. Now you can copy and replace `extension-manager.js` from `scratch_vm_files` into `scratch-vm/src/extension-support`.
+Now, you can clone this repository in the same development environment. For the installation you just have to execute the following lines to copy folders and some extension's additions at the right place:
 
-For files in `scratch_gui_files`, copy them and paste them in `scratch-gui/src/lib/libraries/extensions`. The `index.jsx` poppy file should replace the previous one in `scratch-gui`.
+    git clone https://github.com/poppy-project/scratch-poppy
+    cd scratch-poppy
+    bash install.sh
+
 
 To finish, in a Terminal, go to `scratch-vm` and install `axios`
 
