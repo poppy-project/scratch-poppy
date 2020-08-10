@@ -440,6 +440,18 @@ class Scratch3Poppy {
 				},
 
 				{
+					opcode: 'dataToString',
+					blockType: BlockType.REPORTER,
+					text: 'transform [TEXT] to string',
+					arguments:{
+						TEXT:{
+							type: ArgumentType.STRING,
+							defaultValue: 'get_button_data'
+						}
+					}
+				},
+
+				{
 					opcode: 'detectMarker',
 					blockType: BlockType.BOOLEAN,
 					text: 'card [TEXT] is detected ?',
@@ -709,9 +721,23 @@ class Scratch3Poppy {
 
 	remove(args){
 		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/primitive/MoveRecorder/' + argtext + '/remove';
-		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+		let listMove = [];
+		let move = '';
+		for(let i = 0;i<argtext.length;i++){
+			if(argtext.substring(i,i+1) == ' ' || argtext.substring(i,i+1) == ','){
+				listMove.push(move);
+				move = '';
+			}
+			else{
+				move += argtext.substring(i,i+1);
+			}
+		}
+		listMove.push(move);
+		for(let i = 0; i<listMove.length;i++){
+			let url = this._robotUrl + '/primitive/MoveRecorder/' + listMove[i] + '/remove';
+			axios.get(url)
+			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+		}
 	}
 
 	indexMotor(args){
@@ -847,6 +873,10 @@ class Scratch3Poppy {
 		}
 		
 	}	
+
+	dataToString(args){
+		return Cast.toString(args.TEXT);
+	}
 	
 }
 
