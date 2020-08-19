@@ -27,11 +27,6 @@ Now, you can clone this repository in the same development environment. For the 
     bash install.sh
 
 
-To finish, in a Terminal, go to `scratch-vm` and install `axios`
-
-    cd scratch-vm
-    npm install axios
-
 
 ### Launching and editing
 

@@ -20,9 +20,10 @@ class Scratch3Poppy {
 		return url;	
 	}
 
-	toArray(text){
+	toArray(val){
 		let res = [];
 		let result = '';
+		let text = Cast.toString(val);
 		for(let i= 0; i < text.length; i++){
 			if(text.substring(i,i+1) == ' ' || text.substring(i,i+1) == '/' || text.substring(i,i+1) == ',' || text.substring(i,i+1) == ';'){
 				res.push(result);
@@ -60,7 +61,7 @@ class Scratch3Poppy {
     getInfo () {
 		return {
 			id: 'poppy',
-			name: 'Poppy blocks',
+			name: 'Poppy',
 			blocks: [
 				{
 					opcode: 'setHost',
