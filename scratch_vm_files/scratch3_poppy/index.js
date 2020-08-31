@@ -2,9 +2,15 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const Cast = require('../../util/cast');
 const axios = require('axios').default;
+const formatMessage = require('format-message');
+
 
 
 class Scratch3Poppy {
+
+	static get DEFAULT_LANG(){
+		return 'en';
+	}
 
 	motorsStatusUrl(motors,status,value){
 		let url = '';
@@ -34,7 +40,6 @@ class Scratch3Poppy {
 			}
 				
 		}
-		res.push(result);
 		return res;
 	}
 
@@ -51,6 +56,7 @@ class Scratch3Poppy {
 		return motorApiFormat;
 	}
 
+
     constructor (runtime) {
 		this.runtime = runtime;
 		this._robotUrl = '';
@@ -59,6 +65,8 @@ class Scratch3Poppy {
     }
 
     getInfo () {
+		const messages = this.getMessagesForLocale();
+
 		return {
 			id: 'poppy',
 			name: 'Poppy',
@@ -66,7 +74,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'setHost',
 					blockType: BlockType.COMMAND,
-					text: 'set host to [URL]',
+					text: messages.blocks.setHost,
 					arguments:{
 						URL: {
 							type: ArgumentType.STRING,
@@ -78,43 +86,43 @@ class Scratch3Poppy {
 				{
 					opcode: 'poppyUrl',
 					blockType: BlockType.REPORTER,
-					text: 'robot URL'
+					text: messages.blocks.poppyUrl
 				},
 
 				{
 					opcode: 'testConnection',
 					blockType: BlockType.REPORTER,
-					text: 'test connection'
+					text: messages.blocks.testConnection
 				},
 
 				{
 					opcode: 'getMotorsPositions',
 					blockType: BlockType.REPORTER,
-					text: 'get all motors positions',
+					text: messages.blocks.getMotorsPositions
 				},
 
 				{
 					opcode: 'getMotors',
 					blockType: BlockType.REPORTER,
-					text: 'all motors'
+					text: messages.blocks.getMotors
 				},
 
 				{
 					opcode: 'getRobotAliases',
 					blockType: BlockType.REPORTER,
-					text: 'all motors groups'
+					text: messages.blocks.getRobotAliases
 				},
 
 				{
 					opcode: 'getAvailableRecords',
 					blockType: BlockType.REPORTER,
-					text: 'all recorded moves'
+					text: messages.blocks.getAvailableRecords
 				},
 
 				{
 					opcode: 'actionPrimitives',
 					blockType: BlockType.COMMAND,
-					text: '[ACTION] behaviours [TEXT]',
+					text: messages.blocks.actionPrimitives,
 					arguments:{
 						ACTION:{
 							type: ArgumentType.STRING,
@@ -131,7 +139,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'stopMovePlayer',
 					blockType: BlockType.COMMAND,
-					text: 'stop move [TEXT]',
+					text: messages.blocks.stopMovePlayer,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -143,7 +151,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'setCompliant',
 					blockType: BlockType.COMMAND,
-					text: 'set motor(s) [MOTORS] [STATUS]',
+					text: messages.blocks.setCompliant,
 					arguments:{
 						MOTORS:{
 							type: ArgumentType.STRING,
@@ -160,7 +168,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'setValue',
 					blockType: BlockType.COMMAND,
-					text: 'set [STATUS] motor(s) [MOTORS] to [VALUE]',
+					text: messages.blocks.setValue,
 					arguments:{
 						MOTORS:{
 							type: ArgumentType.STRING,
@@ -181,7 +189,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'setLed',
 					blockType: BlockType.COMMAND,
-					text: 'set color leds of motor(s) [MOTORS] in [STATUS]',
+					text: messages.blocks.setLed,
 					arguments:{
 						MOTORS:{
 							type: ArgumentType.STRING,
@@ -198,7 +206,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'popup',
 					blockType: BlockType.COMMAND,
-					text: 'popup [TEXT]',
+					text: messages.blocks.popup,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -210,7 +218,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'startMovePlayerWithSpeed',
 					blockType: BlockType.COMMAND,
-					text: 'play move [MOVE] | speed x [SPEED]',
+					text: messages.blocks.startMovePlayerWithSpeed,
 					arguments:{
 						MOVE:{
 							type: ArgumentType.STRING,
@@ -226,7 +234,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'startMovePlayerBackwardsWithSpeed',
 					blockType: BlockType.COMMAND,
-					text: 'play move [MOVE] in reverse | speed x [SPEED]',
+					text: messages.blocks.startMovePlayerBackwardsWithSpeed,
 					arguments:{
 						MOVE:{
 							type: ArgumentType.STRING,
@@ -242,7 +250,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'setMotorsGoto',
 					blockType: BlockType.COMMAND,
-					text: 'set position [POS] of motor(s) [MOTORS] in [TIME] seconds | wait ? [WAIT]',
+					text: messages.blocks.setMotorsGoto,
 					arguments:{
 						MOTORS:{
 							type: ArgumentType.STRING,
@@ -267,7 +275,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'initRobot',
 					blockType: BlockType.COMMAND,
-					text: 'robot [TEXT]',
+					text: messages.blocks.initRobot,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -280,7 +288,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'remove',
 					blockType: BlockType.COMMAND,
-					text: 'remove [TEXT]',
+					text: messages.blocks.remove,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -292,7 +300,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'createRecordMove',
 					BlockType: BlockType.COMMAND,
-					text: 'create & start record move [MOVE] with motor(s) [MOTOR]',
+					text: messages.blocks.createRecordMove,
 					arguments:{
 						MOVE:{
 							type: ArgumentType.STRING,
@@ -308,7 +316,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'stopSaveMove',
 					BlockType: BlockType.COMMAND,
-					text: 'stop record & save move [MOVE]',
+					text: messages.blocks.stopSaveMove,
 					arguments:{
 						MOVE:{
 							type: ArgumentType.STRING,
@@ -320,7 +328,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'playConcurrent',
 					blockType: BlockType.COMMAND,
-					text: 'play concurrently moves [MOVE]',
+					text: messages.blocks.playConcurrent,
 					arguments:{
 						MOVE:{
 							type: ArgumentType.STRING,
@@ -329,10 +337,27 @@ class Scratch3Poppy {
 					}
 				},
 
+				//TODO: implement the "play sequentially" button
+				/*
+				{
+					opcode: 'playSequentially',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.playSequentially,
+					arguments:{
+						MOVE:{
+							type: ArgumentType.STRING,
+							defaultValue: 'move_1 move_2'
+						}
+					},
+					//hide the button on Scratch
+					hideFromPalette: true
+				},
+				*/
+
 				{
 					opcode: 'indexMotor',
 					blockType: BlockType.REPORTER,
-					text: 'Index of motor [TEXT]',
+					text: messages.blocks.indexMotor,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -344,7 +369,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'getMotorRegister',
 					blockType: BlockType.REPORTER,
-					text: 'get [REG] of motor(s) [MOTOR]',
+					text: messages.blocks.getMotorRegister,
 					arguments:{
 						REG:{
 							type: ArgumentType.STRING,
@@ -361,7 +386,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'getMotorsInGroup',
 					blockType: BlockType.REPORTER,
-					text:  'motors in group [TEXT]',
+					text: messages.blocks.getMotorsInGroup,
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
@@ -373,7 +398,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'getPrimitives',
 					blockType: BlockType.REPORTER,
-					text: 'get [TEXT] behaviours',
+					text: messages.blocks.getPrimitives,
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
@@ -386,7 +411,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'getPropertiesMethodes',
 					blockType: BlockType.REPORTER,
-					text: 'get [PROP] of behaviour [TEXT]',
+					text: messages.blocks.getPropertiesMethodes,
 					arguments:{
 						PROP: {
 							type: ArgumentType.STRING,
@@ -403,7 +428,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'concurrent',
 					blockType: BlockType.REPORTER,
-					text: 'concurrent [INFO1] [INFO2]',
+					text: messages.blocks.concurrent,
 					arguments:{
 						INFO1:{
 							type: ArgumentType.STRING,
@@ -419,7 +444,7 @@ class Scratch3Poppy {
 				{
 					opcode: 'getSitemap',
 					blockType: BlockType.REPORTER,
-					text: 'http:// [URL]',
+					text: messages.blocks.getSitemap,
 					arguments:{
 						URL:{
 							type: ArgumentType.STRING,
@@ -429,21 +454,9 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'callAPI',
-					blockType: BlockType.REPORTER,
-					text: 'call the API [TEXT]',
-					arguments:{
-						TEXT:{
-							type: ArgumentType.STRING,
-							defaultValue: '/motors/motors'
-						}
-					}
-				},
-
-				{
 					opcode: 'dataToString',
 					blockType: BlockType.REPORTER,
-					text: 'transform [TEXT] to string',
+					text: messages.blocks.dataToString,
 					arguments:{
 						TEXT:{
 							type: ArgumentType.STRING,
@@ -453,9 +466,21 @@ class Scratch3Poppy {
 				},
 
 				{
+					opcode: 'callAPI',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.callAPI,
+					arguments:{
+						TEXT:{
+							type: ArgumentType.STRING,
+							defaultValue: '/motors/motors'
+						}
+					}
+				},
+
+				{
 					opcode: 'detectMarker',
 					blockType: BlockType.BOOLEAN,
-					text: 'card [TEXT] is detected ?',
+					text: messages.blocks.detectMarker,
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
@@ -470,43 +495,92 @@ class Scratch3Poppy {
 			menus:{
 				marker:{
 					acceptReporters: true,
-					items:['caribou', 'tetris', 'lapin']
+					items:[
+						{text: messages.menus.marker.caribou, value: 'caribou'},
+						{text: messages.menus.marker.tetris, value: 'tetris'},
+						{text: messages.menus.marker.lapin, value: 'lapin'}
+					]
 				},
 				getBehaviours:{
 					acceptReporters: true,
-					items:['all', 'running']
+					items:[
+						{text: messages.menus.getBehaviours.all, value: 'all'},
+						{text: messages.menus.getBehaviours.running, value: 'running'}
+					]
 				},
 				getPropBehaviours:{
 					acceptReporters: true,
-					items:['methodes', 'properties']
+					items:[
+						{text: messages.menus.getPropBehaviours.methodes, value: 'methodes'},
+						{text: messages.menus.getPropBehaviours.properties, value: 'properties'}
+					]
 				},
 				actionBehaviours:{
 					acceptReporters: true,
-					items:['start', 'stop', 'pause', 'resume']
+					items:[
+						{text: messages.menus.actionBehaviours.start, value: 'start'}, 
+						{text: messages.menus.actionBehaviours.stop, value: 'stop'}, 
+						{text: messages.menus.actionBehaviours.pause, value: 'pause'}, 
+						{text: messages.menus.actionBehaviours.resume, value: 'resume'}
+					]
 				},
 				compliant:{
 					acceptReporters: true,
-					items:['compliant', 'stiff']
+					items:[
+						{text: messages.menus.compliant.compliant, value: 'compliant'},
+						{text: messages.menus.compliant.stiff, value: 'stiff'}
+					]
 				},
 				color:{
 					acceptReporters: true,
-					items:['off', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white']
+					items:[
+						{text: messages.menus.color.off, value: 'off'}, 
+						{text: messages.menus.color.red, value: 'red'}, 
+						{text: messages.menus.color.green, value: 'green'}, 
+						{text: messages.menus.color.yellow, value: 'yellow'}, 
+						{text: messages.menus.color.blue, value: 'blue'}, 
+						{text: messages.menus.color.pink, value: 'pink'},
+						{text: messages.menus.color.cyan, value: 'cyan'}, 
+						{text: messages.menus.color.white, value: 'white'}
+					]
 				},
 				wait:{
 					acceptReporters: true,
-					items:['false','true']
+					items:[
+						{text: messages.menus.wait.false, value: 'false'},
+						{text: messages.menus.wait.true, value: 'true'}
+					]
 				},
 				init:{
 					acceptReporters: true,
-					items:['start', 'stop', 'reset']
+					items:[
+						{text: messages.menus.init.start, value: 'start'}, 
+						{text: messages.menus.init.stop, value: 'stop'}, 
+						{text: messages.menus.init.reset, value: 'reset'}
+					]
 				},
 				variable:{
 					acceptReporters: true,
-					items: ['goal_position', 'moving_speed', 'torque_limit', 'compliant']
+					items: [
+						{text: messages.menus.variable.goal_position, value: 'goal_position'}, 
+						{text: messages.menus.variable.moving_speed, value: 'moving_speed'}, 
+						{text: messages.menus.variable.torque_limit, value: 'torque_limit'}, 
+						{text: messages.menus.variable.compliant, value: 'compliant'}
+					]
 				},
 				register:{
 					acceptReporters: true,
-					items:['present_position', 'present_speed', 'present_load', 'present_temperature', 'present_voltage', 'goal_position', 'moving_speed', 'torque_limit', 'compliant']
+					items:[
+						{text: messages.menus.register.present_position, value: 'present_position'}, 
+						{text: messages.menus.register.present_speed, value: 'present_speed'}, 
+						{text: messages.menus.register.present_load, value: 'present_load'}, 
+						{text: messages.menus.register.present_temperature, value: 'present_temperature'}, 
+						{text: messages.menus.register.present_voltage, value: 'present_voltage'}, 
+						{text: messages.menus.register.goal_position, value: 'goal_position'}, 
+						{text: messages.menus.register.moving_speed, value: 'moving_speed'}, 
+						{text: messages.menus.register.torque_limit, value: 'torque_limit'}, 
+						{text: messages.menus.register.compliant, value: 'compliant'}
+					]
 				}
 			}
 		};
@@ -774,6 +848,7 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+	//TODO: Add the "wait" option to wait until the move is finished
 	setMotorsGoto(args){
 		let argmotors = Cast.toString(args.MOTORS);
 		let argpos = Cast.toString(args.POS);
@@ -873,13 +948,55 @@ class Scratch3Poppy {
 			.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
 		}
 		
-	}	
+	}
 
 	dataToString(args){
 		return Cast.toString(args.TEXT);
 	}
-	
+
+	//TODO: implement the button "play sequentially"
+	//one idea which does not work for the moment in the following lines
+	/*
+	playSequentially(args){
+		let argmove = Cast.toString(args.MOVE);
+		let listMove = [];
+		let move = '';
+		for(let i = 0;i<argmove.length;i++){
+			if(argmove.substring(i,i+1) == ' '){
+				listMove.push(move);
+				move = '';
+			}
+			else{
+				move += argmove.substring(i,i+1);
+			}
+		}
+		listMove.push(move);
+		sequentially(listMove)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
+	}
+
+	async function sequentially(move) {
+		for(let i = 0; i<move.length;i++){
+			let url = this._robotUrl + '/primitive/MovePlayer/' + move[i] + '/start/1';
+			await axios.get(url);
+		}
+	}
+	*/
+
+	getMessagesForLocale () {
+        const locale = formatMessage.setup().locale;
+
+        let messages;
+        try {
+            messages = require(`./lang/${locale}`);
+        } catch (ex) {
+            log.warn(`Locale "${locale}" is not supported.`);
+            messages = require(`./lang/${Scratch3Poppy.DEFAULT_LANG}`);
+        }
+        return messages;
+    }
 }
+
 
 module.exports = Scratch3Poppy;
 

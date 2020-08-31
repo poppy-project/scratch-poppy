@@ -11,6 +11,8 @@ First, you will have to clone **scratch-vm** and **scratch-gui** and to link bot
     git clone https://github.com/LLK/scratch-gui
     git clone https://github.com/LLK/scratch-vm
     cd scratch-vm
+    sudo apt-get update
+    sudo apt-get install nodejs npm 
     npm install
     npm link
     cd ../scratch-gui
@@ -39,3 +41,13 @@ Then go to http://localhost:8601/ in your web browser.
 Select the **Poppy extension** in the extension menu (with the button at the bottom left corner).
 
 If you want to edit blocks, the code are now situated  at this path: `scratch-vm/src/extensions/scratch3_poppy/index.js`. You can find more informations to create a block here: https://github.com/LLK/scratch-vm/blob/develop/docs/extensions.md
+
+### TODO:
+
+* To implement the button "sequentially" and "play senquentially". These buttons allow to play different actions, for the first one, and moves, for the second, one after the other.
+
+* To implement the "wait" option in the "setMotorsGoTo" button to wait until a motor reaches its position before moving a second motor.
+
+* To add the different lists ("all motors", "all motors position", "all recorded moves" ...) directly in scratch (in the index.js file or in the scratch project)
+
+See the `Advanced.sb3` scratch project to see the last two points.
