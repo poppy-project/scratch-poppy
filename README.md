@@ -11,8 +11,12 @@ First, you will have to clone **scratch-vm** and **scratch-gui** and to link bot
     git clone https://github.com/LLK/scratch-gui
     git clone https://github.com/LLK/scratch-vm
     cd scratch-vm
-    sudo apt-get update
-    sudo apt-get install nodejs npm 
+    curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh -o install_nvm.sh
+    bash install_nvm.sh
+    source ~/.profile
+    rm install_nvm.sh
+    nvm install 10.21.0
+    nvm use 10.21.0
     npm install
     npm link
     cd ../scratch-gui
