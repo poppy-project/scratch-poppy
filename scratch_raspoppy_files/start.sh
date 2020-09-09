@@ -1,2 +1,4 @@
+#!/bin/bash
+
 cd ~/dev/snap/scratch-gui
-npm start
+nohup npm start &
