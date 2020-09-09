@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd ~/dev/snap/scratch-gui
-nohup npm start &
+node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js 

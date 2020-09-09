@@ -14,6 +14,3 @@ sed -i "s/$search2/$replace2/" ../scratch-gui/src/lib/libraries/extensions/index
 
 cp -r ./scratch_vm_files/scratch3_poppy ../scratch-vm/src/extensions
 cp -r ./scratch_gui_files/poppy ../scratch-gui/src/lib/libraries/extensions
-
-cd ../scratch-vm
-npm install axios
