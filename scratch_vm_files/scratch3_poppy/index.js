@@ -740,7 +740,7 @@ class Scratch3Poppy {
 
 	setLed(args){
 		let argmotors = Cast.toString(args.MOTORS);
-		let argvalue = Cast.toString(args.VALUE);
+		let argvalue = Cast.toString(args.STATUS);
 		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors,'led',argvalue);
 		axios.get(url)
 		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
