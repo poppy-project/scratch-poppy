@@ -327,7 +327,7 @@ class Scratch3Poppy {
 
 				{
 					opcode: 'playConcurrent',
-					blockType: BlockType.COMMAND,
+					blockType: BlockType.REPORTER,
 					text: messages.blocks.playConcurrent,
 					arguments:{
 						MOVE:{
@@ -341,7 +341,7 @@ class Scratch3Poppy {
 				/*
 				{
 					opcode: 'playSequentially',
-					blockType: BlockType.COMMAND,
+					blockType: BlockType.REPORTER,
 					text: messages.blocks.playSequentially,
 					arguments:{
 						MOVE:{
