@@ -232,6 +232,38 @@ class Scratch3Poppy {
 				},
 
 				{
+					opcode: 'startMovePlayer',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.startMovePlayer,
+					arguments:{
+						MOVE:{
+							type: ArgumentType.STRING,
+							defaultValue: 'move_name'
+						},
+						SPEED:{
+							type: ArgumentType.NUMBER,
+							defaultValue: 1
+						}
+					}
+				},
+
+				{
+					opcode: 'startMovePlayerBackwards',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.startMovePlayerBackwards,
+					arguments:{
+						MOVE:{
+							type: ArgumentType.STRING,
+							defaultValue: 'move_name'
+						},
+						SPEED:{
+							type: ArgumentType.NUMBER,
+							defaultValue: 1
+						}
+					}
+				},
+
+				{
 					opcode: 'startMovePlayerBackwardsWithSpeed',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.startMovePlayerBackwardsWithSpeed,
@@ -338,7 +370,6 @@ class Scratch3Poppy {
 				},
 
 				//TODO: implement the "play sequentially" button
-				/*
 				{
 					opcode: 'playSequentially',
 					blockType: BlockType.REPORTER,
@@ -352,7 +383,7 @@ class Scratch3Poppy {
 					//hide the button on Scratch
 					hideFromPalette: true
 				},
-				*/
+				
 
 				{
 					opcode: 'indexMotor',
@@ -439,6 +470,24 @@ class Scratch3Poppy {
 							defaultValue: ' '
 						}
 					}
+				},
+
+				{
+					opcode: 'sequence',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.sequence,
+					arguments:{
+						INFO1:{
+							type: ArgumentType.STRING,
+							defaultValue: ' '
+						},
+						INFO2:{
+							type: ArgumentType.STRING,
+							defaultValue: ' '
+						}
+					},
+					//hide the button on Scratch
+					hideFromPalette: true
 				},
 
 				{
@@ -767,6 +816,22 @@ class Scratch3Poppy {
 		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
 	}
 
+	startMovePlayer(args){
+		let argmove = Cast.toString(args.MOVE);
+		let argspeed = Cast.toString(args.SPEED);
+		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
+		axios.get(url)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+	}
+
+	startMovePlayerBackwards(args){
+		let argmove = Cast.toString(args.MOVE);
+		let argspeed = Cast.toString(args.SPEED);
+		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed + '/backwards';
+		axios.get(url)
+		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+	}
+
 	setHost(args){
 		let argurl = Cast.toString(args.URL);
 		this._robotUrl = 'http://' + argurl + ':' + this._robotPort;
@@ -799,7 +864,7 @@ class Scratch3Poppy {
 		let listMove = [];
 		let move = '';
 		for(let i = 0;i<argtext.length;i++){
-			if(argtext.substring(i,i+1) == ' ' || argtext.substring(i,i+1) == ','){
+			if(argtext.substring(i,i+1) == ' ' || argtext.substring(i,i+1) == '/' || argtext.substring(i,i+1) == ',' || argtext.substring(i,i+1) == ';'){
 				listMove.push(move);
 				move = '';
 			}
@@ -954,7 +1019,7 @@ class Scratch3Poppy {
 		return Cast.toString(args.TEXT);
 	}
 
-	//TODO: implement the button "play sequentially"
+	//TODO: implement the button "play sequentially" & "sequence"
 	//one idea which does not work for the moment in the following lines
 	/*
 	playSequentially(args){
@@ -980,6 +1045,10 @@ class Scratch3Poppy {
 			let url = this._robotUrl + '/primitive/MovePlayer/' + move[i] + '/start/1';
 			await axios.get(url);
 		}
+	}
+
+	sequence(args):{
+
 	}
 	*/
 

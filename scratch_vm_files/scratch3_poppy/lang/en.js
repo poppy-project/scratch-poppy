@@ -15,14 +15,15 @@ module.exports = {
         popup: 'popup [TEXT]',
         startMovePlayerWithSpeed: 'play move [MOVE] | speed x [SPEED]',
         startMovePlayerBackwardsWithSpeed: 'play move [MOVE] in reverse | speed x [SPEED]',
-        setMotorsGoto: 'set position [POS] of motor(s) [MOTORS] in [TIME] seconds | wait ? [WAIT]',
+        startMovePlayerWith: 'play move [MOVE] | speed x [SPEED]',
+        startMovePlayerBackwards: 'play move [MOVE] in reverse | speed x [SPEED]',
+        setMotorsGoto: 'set position [POS] of motor(s) [MOTORS] in [TIME] seconds | wait ? [WAIT]', //TODO:
         initRobot: 'robot [TEXT]',
         remove: 'remove [TEXT]',
         createRecordMove: 'create & start record move [MOVE] with motor(s) [MOTOR]',
         stopSaveMove: 'stop record & save move [MOVE]',
         playConcurrent: 'play concurrently moves [MOVE]',
-        //TODO:
-        //playSequentially: 'play sequentially moves [MOVE]',
+        playSequentially: 'play sequentially moves [MOVE]', //TODO:
         indexMotor: 'index of motor [TEXT]',
         getMotorRegister: 'get [REG] of motor(s) [MOTOR]',
         getMotorsInGroup: 'motors in group [TEXT]',
@@ -32,7 +33,8 @@ module.exports = {
         getSitemap: 'http:// [URL]',
         dataToString: 'transform [TEXT] to string',
         callAPI: 'call the API [TEXT]',
-        detectMarker: 'card [TEXT] is detected ?'
+        detectMarker: 'card [TEXT] is detected ?',
+        sequence: 'sequence [INFO1] [INFO2]' //TODO:
     },
     menus: {
         marker: {

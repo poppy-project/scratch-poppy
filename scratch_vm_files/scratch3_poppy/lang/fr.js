@@ -15,14 +15,15 @@ module.exports = {
         popup: 'popup [TEXT]',
         startMovePlayerWithSpeed: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
         startMovePlayerBackwardsWithSpeed: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
-        setMotorsGoto: 'mettre à la position [POS] le(s) moteur(s) [MOTORS] en [TIME] secondes | attendre ? [WAIT]',
+        startMovePlayer: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
+        startMovePlayerBackwards: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
+        setMotorsGoto: 'mettre à la position [POS] le(s) moteur(s) [MOTORS] en [TIME] secondes | attendre ? [WAIT]', //TODO:
         initRobot: 'robot [TEXT]',
         remove: 'supprimer [TEXT]',
         createRecordMove: 'créer et enregistrer le mouvement [MOVE] avec le(s) moteur(s) [MOTOR]',
         stopSaveMove: 'arrêter l\'enregistrement & sauvegarder le mouvement [MOVE]',
         playConcurrent: 'réaliser en même temps les mouvements [MOVE]',
-        //TODO:
-        //playSequentially: 'réaliser les mouvements les uns à la suite des autres [MOVE]',
+        playSequentially: 'réaliser les mouvements les uns à la suite des autres [MOVE]', //TODO:
         indexMotor: 'index du moteur [TEXT]',
         getMotorRegister: 'récupérer [REG] du moteur(s) [MOTOR]',
         getMotorsInGroup: 'les moteurs dans le groupe [TEXT]',
@@ -32,7 +33,8 @@ module.exports = {
         getSitemap: 'http:// [URL]',
         dataToString: 'transformer [TEXT] en chaîne de caractères',
         callAPI: 'appel de l\'API [TEXT]',
-        detectMarker: 'la carte [TEXT] est détectée ?'
+        detectMarker: 'la carte [TEXT] est détectée ?',
+        sequence: 'sequence [INFO1] [INFO2]' //TODO:
     },
     menus: {
         marker: {
@@ -49,10 +51,10 @@ module.exports = {
             properties: 'propriétés'
         },
         actionBehaviours: {
-            start: 'start',
+            start: 'démarrer',
             stop: 'stop',
             pause: 'pause',
-            resume: 'resume'
+            resume: 'reprendre'
         },
         compliant: {
             compliant: 'flexible',
@@ -73,7 +75,7 @@ module.exports = {
             true: 'vrai'
         },
         init: {
-            start: 'start',
+            start: 'démarrer',
             stop: 'stop',
             reset: 'réinitialisation'
         },
