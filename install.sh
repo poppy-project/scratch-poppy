@@ -1,16 +1,57 @@
 #!/bin/bash
 
-search="boost: () => require('..\/extensions\/scratch3_boost'),"
-replace="boost: () => require('..\/extensions\/scratch3_boost'),\n    poppy: () => require('..\/extensions\/scratch3_poppy'),"
-sed -i "s/$search/$replace/" ../scratch-vm/src/extension-support/extension-manager.js
+ITALIC="\033[3m"
+GREEN="\033[92m"
+YELLOW="\033[93m"
+CLEAR="\033[0m"
 
-search1="import boostConnectionTipIconURL from '.\/boost\/boost-button-illustration.svg';"
-replace1="import boostConnectionTipIconURL from '.\/boost\/boost-button-illustration.svg';\n\nimport poppyIconURL from '.\/poppy\/poppy.png';\nimport poppyInsetIconURL from '.\/poppy\/poppy-small.png';"
-sed -i "s/$search1/$replace1/" ../scratch-gui/src/lib/libraries/extensions/index.jsx
+############################################################
+# Adds a require line to a js file,
+# if line does not already exist.
+# 
+# ARGUMENTS:
+#   $1: search = line to add, to check if it already exists
+#   $2: where = where to put it ?
+#   $3: replace = where "+" search
+#   $4: file
+# 
+# OUTPUTS:
+#   Some echos of the progress of the script
+############################################################
 
-search2="helpLink: 'https:\/\/scratch.mit.edu\/wedo'"
-replace2="helpLink: 'https:\/\/scratch.mit.edu\/wedo'\n    },\n    {\n        name: 'Poppy',\n        extensionId: 'poppy',\n        collaborator: 'rrandriamana',\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage='Control your Poppy robot'\n                description='Poppy controller extension'\n                id='gui.extension.poppy.description'\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,"
-sed -i "s/$search2/$replace2/" ../scratch-gui/src/lib/libraries/extensions/index.jsx
+add_require () {
+    echo -e "Adding a require to ${ITALIC}$4${CLEAR}"
+    if grep -q "$1" $4
+    then
+        # code if found
+        echo -e "${GREEN}Require already satisfied!${CLEAR}"
+    else
+        # code if not found
+        echo -e "${YELLOW}Require not satisfied!${CLEAR}"
+        sed -i "s/$2/$3/" $4
+        echo -e "${GREEN}Require has been added!${CLEAR}"
+    fi
+}
+
+
+find="poppy: () => require('..\/extensions\/scratch3_poppy'),"
+where="boost: () => require('..\/extensions\/scratch3_boost'),"
+replace="$where\n    $find"
+file="../scratch-vm/src/extension-support/extension-manager.js"
+add_require "$find" "$where" "$replace" "$file"
+
+
+find="import poppyInsetIconURL from '.\/poppy\/poppy-small.png';"
+where="import boostConnectionTipIconURL from '.\/boost\/boost-button-illustration.svg';"
+replace="$where\n\nimport poppyIconURL from '.\/poppy\/poppy.png';\n$find"
+file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
+add_require "$find" "$where" "$replace" "$file"
+
+find="extensionId: 'poppy',"
+where="helpLink: 'https:\/\/scratch.mit.edu\/wedo'"
+replace="$where\n    },\n    {\n        name: 'Poppy',\n        extensionId: 'poppy',\n        collaborator: 'rrandriamana',\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage='Control your Poppy robot'\n                description='Poppy controller extension'\n                id='gui.extension.poppy.description'\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,"
+file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
+add_require "$find" "$where" "$replace" "$file"
 
 cp -r ./scratch_vm_files/scratch3_poppy ../scratch-vm/src/extensions
 cp -r ./scratch_gui_files/poppy ../scratch-gui/src/lib/libraries/extensions
