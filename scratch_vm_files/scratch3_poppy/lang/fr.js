@@ -34,6 +34,7 @@ module.exports = {
         dataToString: 'transformer [TEXT] en chaîne de caractères',
         callAPI: 'appel de l\'API [TEXT]',
         getRESTAPI: 'appel de l\'API REST [REQUEST]',
+        postRESTAPI: 'post [DATA] vers l\'API REST [URL]',
         detectMarker: 'la carte [TEXT] est détectée ?',
         sequence: 'sequence [INFO1] [INFO2]' //TODO:
     },

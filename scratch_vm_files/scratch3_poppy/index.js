@@ -519,6 +519,22 @@ class Scratch3Poppy {
 				},
 
 				{
+					opcode: 'postRESTAPI',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.postRESTAPI,
+					arguments: {
+						DATA: {
+							type: ArgumentType.STRING,
+							defaultValue: 'true'
+						},
+						URL: {
+							type: ArgumentType.STRING,
+							defaultValue: '/motor/m1/register/compliant/value.json'
+						}
+					}
+				},
+
+				{
 					opcode: 'detectMarker',
 					blockType: BlockType.BOOLEAN,
 					text: messages.blocks.detectMarker,
@@ -977,6 +993,29 @@ class Scratch3Poppy {
 			});
 		de&&bug("GET API-REST:", answer);
 		return answer;
+	}
+
+	postRESTAPI(args) {
+		let apiPort = '8080';
+		de&&bug("POST API-REST args: ", args);
+		let urlString = decodeURI(args.URL);  // url given in the block
+		let dataString = decodeURIComponent(args.DATA);  // data given in the block
+		let url = this._robotUrl.slice(0, -4) + apiPort + urlString;
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}
+
+		return axios.post(url, dataString, config)
+			.then(resp => {
+				return JSON.stringify(resp.data)
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
 	//TODO: Add the "wait" option to wait until the move is finished
