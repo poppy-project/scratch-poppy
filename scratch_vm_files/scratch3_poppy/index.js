@@ -5,25 +5,23 @@ const axios = require('axios').default;
 const formatMessage = require('format-message');
 
 
-
 class Scratch3Poppy {
 
-	static get DEFAULT_LANG(){
+	static get DEFAULT_LANG() {
 		return 'en';
 	}
 
-	motorsStatusUrl(motors,status,value){
+	motorsStatusUrl(motors, status, value) {
 		let url = '';
-		for(let i=0;i<motors.length;i++){
-			if(motors.substring(i,i+1) == ' ' || motors.substring(i,i+1) == '/' || motors.substring(i,i+1) == ',' || motors.substring(i,i+1) == ';'){
+		for (let i = 0; i < motors.length; i++) {
+			if (motors.substring(i, i + 1) === ' ' || motors.substring(i, i + 1) === '/' || motors.substring(i, i + 1) === ',' || motors.substring(i, i + 1) === ';' || motors.substring(i, i + 1) === '\n') {
 				url += ':' + status + ':' + value + ';';
-			}
-			else{
-				url += motors.substring(i,i+1);
+			} else {
+				url += motors.substring(i, i + 1);
 			}
 		}
 		url += ':' + status + ':' + value;
-		return url;	
+		return url;
 	}
 
 	toArray(val){
@@ -57,14 +55,14 @@ class Scratch3Poppy {
 	}
 
 
-    constructor (runtime) {
+	constructor(runtime) {
 		this.runtime = runtime;
 		this._robotUrl = '';
 		this._robotIp = '';
 		this._robotPort = '6969';
-    }
+	}
 
-    getInfo () {
+	getInfo() {
 		const messages = this.getMessagesForLocale();
 
 		return {
@@ -75,7 +73,7 @@ class Scratch3Poppy {
 					opcode: 'setHost',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.setHost,
-					arguments:{
+					arguments: {
 						URL: {
 							type: ArgumentType.STRING,
 							defaultValue: "poppy.local"
@@ -123,13 +121,13 @@ class Scratch3Poppy {
 					opcode: 'actionPrimitives',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.actionPrimitives,
-					arguments:{
-						ACTION:{
+					arguments: {
+						ACTION: {
 							type: ArgumentType.STRING,
 							defaultValue: 'start',
 							menu: 'actionBehaviours'
 						},
-						TEXT:{
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'behaviour_name'
 						}
@@ -140,8 +138,8 @@ class Scratch3Poppy {
 					opcode: 'stopMovePlayer',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.stopMovePlayer,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						}
@@ -152,12 +150,12 @@ class Scratch3Poppy {
 					opcode: 'setCompliant',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.setCompliant,
-					arguments:{
-						MOTORS:{
+					arguments: {
+						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						},
-						STATUS:{
+						STATUS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'compliant',
 							menu: 'compliant'
@@ -169,17 +167,17 @@ class Scratch3Poppy {
 					opcode: 'setValue',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.setValue,
-					arguments:{
-						MOTORS:{
+					arguments: {
+						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						},
-						STATUS:{
+						STATUS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'my_variable',
 							menu: 'variable'
 						},
-						VALUE:{
+						VALUE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'value'
 						}
@@ -190,12 +188,12 @@ class Scratch3Poppy {
 					opcode: 'setLed',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.setLed,
-					arguments:{
-						MOTORS:{
+					arguments: {
+						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						},
-						STATUS:{
+						STATUS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'off',
 							menu: 'color'
@@ -207,8 +205,8 @@ class Scratch3Poppy {
 					opcode: 'popup',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.popup,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						}
@@ -219,12 +217,12 @@ class Scratch3Poppy {
 					opcode: 'startMovePlayerWithSpeed',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.startMovePlayerWithSpeed,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						SPEED:{
+						SPEED: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 1
 						}
@@ -235,12 +233,12 @@ class Scratch3Poppy {
 					opcode: 'startMovePlayer',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.startMovePlayer,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						SPEED:{
+						SPEED: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 1
 						}
@@ -251,12 +249,12 @@ class Scratch3Poppy {
 					opcode: 'startMovePlayerBackwards',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.startMovePlayerBackwards,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						SPEED:{
+						SPEED: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 1
 						}
@@ -267,12 +265,12 @@ class Scratch3Poppy {
 					opcode: 'startMovePlayerBackwardsWithSpeed',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.startMovePlayerBackwardsWithSpeed,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						SPEED:{
+						SPEED: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 1
 						}
@@ -283,20 +281,20 @@ class Scratch3Poppy {
 					opcode: 'setMotorsGoto',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.setMotorsGoto,
-					arguments:{
-						MOTORS:{
+					arguments: {
+						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						},
-						POS:{
+						POS: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 0
 						},
-						TIME:{
+						TIME: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 2
 						},
-						WAIT:{
+						WAIT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'false',
 							menu: 'wait'
@@ -308,8 +306,8 @@ class Scratch3Poppy {
 					opcode: 'initRobot',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.initRobot,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'start',
 							menu: 'init'
@@ -321,8 +319,8 @@ class Scratch3Poppy {
 					opcode: 'remove',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.remove,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						}
@@ -333,12 +331,12 @@ class Scratch3Poppy {
 					opcode: 'createRecordMove',
 					BlockType: BlockType.COMMAND,
 					text: messages.blocks.createRecordMove,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						MOTOR:{
+						MOTOR: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						}
@@ -349,8 +347,8 @@ class Scratch3Poppy {
 					opcode: 'stopSaveMove',
 					BlockType: BlockType.COMMAND,
 					text: messages.blocks.stopSaveMove,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						}
@@ -361,8 +359,8 @@ class Scratch3Poppy {
 					opcode: 'playConcurrent',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.playConcurrent,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_1 move_2'
 						}
@@ -374,8 +372,8 @@ class Scratch3Poppy {
 					opcode: 'playSequentially',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.playSequentially,
-					arguments:{
-						MOVE:{
+					arguments: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_1 move_2'
 						}
@@ -383,14 +381,14 @@ class Scratch3Poppy {
 					//hide the button on Scratch
 					hideFromPalette: true
 				},
-				
+
 
 				{
 					opcode: 'indexMotor',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.indexMotor,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						}
@@ -401,13 +399,13 @@ class Scratch3Poppy {
 					opcode: 'getMotorRegister',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getMotorRegister,
-					arguments:{
-						REG:{
+					arguments: {
+						REG: {
 							type: ArgumentType.STRING,
 							defaultValue: 'my_variable_set',
 							menu: 'register'
 						},
-						MOTOR:{
+						MOTOR: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						}
@@ -443,7 +441,7 @@ class Scratch3Poppy {
 					opcode: 'getPropertiesMethodes',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getPropertiesMethodes,
-					arguments:{
+					arguments: {
 						PROP: {
 							type: ArgumentType.STRING,
 							defaultValue: 'methodes',
@@ -460,12 +458,12 @@ class Scratch3Poppy {
 					opcode: 'concurrent',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.concurrent,
-					arguments:{
-						INFO1:{
+					arguments: {
+						INFO1: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						},
-						INFO2:{
+						INFO2: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						}
@@ -476,12 +474,12 @@ class Scratch3Poppy {
 					opcode: 'sequence',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.sequence,
-					arguments:{
-						INFO1:{
+					arguments: {
+						INFO1: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						},
-						INFO2:{
+						INFO2: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						}
@@ -494,8 +492,8 @@ class Scratch3Poppy {
 					opcode: 'getSitemap',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getSitemap,
-					arguments:{
-						URL:{
+					arguments: {
+						URL: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
 						}
@@ -506,8 +504,8 @@ class Scratch3Poppy {
 					opcode: 'dataToString',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.dataToString,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: 'get_button_data'
 						}
@@ -518,8 +516,8 @@ class Scratch3Poppy {
 					opcode: 'callAPI',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.callAPI,
-					arguments:{
-						TEXT:{
+					arguments: {
+						TEXT: {
 							type: ArgumentType.STRING,
 							defaultValue: '/motors/motors'
 						}
@@ -537,485 +535,570 @@ class Scratch3Poppy {
 							menu: "marker"
 						}
 					}
-				}			
+				}
 
 			],
 
-			menus:{
-				marker:{
+			menus: {
+				marker: {
 					acceptReporters: true,
-					items:[
+					items: [
 						{text: messages.menus.marker.caribou, value: 'caribou'},
 						{text: messages.menus.marker.tetris, value: 'tetris'},
 						{text: messages.menus.marker.lapin, value: 'lapin'}
 					]
 				},
-				getBehaviours:{
+				getBehaviours: {
 					acceptReporters: true,
-					items:[
+					items: [
 						{text: messages.menus.getBehaviours.all, value: 'all'},
 						{text: messages.menus.getBehaviours.running, value: 'running'}
 					]
 				},
-				getPropBehaviours:{
+				getPropBehaviours: {
 					acceptReporters: true,
-					items:[
+					items: [
 						{text: messages.menus.getPropBehaviours.methodes, value: 'methodes'},
 						{text: messages.menus.getPropBehaviours.properties, value: 'properties'}
 					]
 				},
-				actionBehaviours:{
+				actionBehaviours: {
 					acceptReporters: true,
-					items:[
-						{text: messages.menus.actionBehaviours.start, value: 'start'}, 
-						{text: messages.menus.actionBehaviours.stop, value: 'stop'}, 
-						{text: messages.menus.actionBehaviours.pause, value: 'pause'}, 
+					items: [
+						{text: messages.menus.actionBehaviours.start, value: 'start'},
+						{text: messages.menus.actionBehaviours.stop, value: 'stop'},
+						{text: messages.menus.actionBehaviours.pause, value: 'pause'},
 						{text: messages.menus.actionBehaviours.resume, value: 'resume'}
 					]
 				},
-				compliant:{
+				compliant: {
 					acceptReporters: true,
-					items:[
+					items: [
 						{text: messages.menus.compliant.compliant, value: 'compliant'},
 						{text: messages.menus.compliant.stiff, value: 'stiff'}
 					]
 				},
-				color:{
+				color: {
 					acceptReporters: true,
-					items:[
-						{text: messages.menus.color.off, value: 'off'}, 
-						{text: messages.menus.color.red, value: 'red'}, 
-						{text: messages.menus.color.green, value: 'green'}, 
-						{text: messages.menus.color.yellow, value: 'yellow'}, 
-						{text: messages.menus.color.blue, value: 'blue'}, 
+					items: [
+						{text: messages.menus.color.off, value: 'off'},
+						{text: messages.menus.color.red, value: 'red'},
+						{text: messages.menus.color.green, value: 'green'},
+						{text: messages.menus.color.yellow, value: 'yellow'},
+						{text: messages.menus.color.blue, value: 'blue'},
 						{text: messages.menus.color.pink, value: 'pink'},
-						{text: messages.menus.color.cyan, value: 'cyan'}, 
+						{text: messages.menus.color.cyan, value: 'cyan'},
 						{text: messages.menus.color.white, value: 'white'}
 					]
 				},
-				wait:{
+				wait: {
 					acceptReporters: true,
-					items:[
+					items: [
 						{text: messages.menus.wait.false, value: 'false'},
 						{text: messages.menus.wait.true, value: 'true'}
 					]
 				},
-				init:{
+				init: {
 					acceptReporters: true,
-					items:[
-						{text: messages.menus.init.start, value: 'start'}, 
-						{text: messages.menus.init.stop, value: 'stop'}, 
+					items: [
+						{text: messages.menus.init.start, value: 'start'},
+						{text: messages.menus.init.stop, value: 'stop'},
 						{text: messages.menus.init.reset, value: 'reset'}
 					]
 				},
-				variable:{
+				variable: {
 					acceptReporters: true,
 					items: [
-						{text: messages.menus.variable.goal_position, value: 'goal_position'}, 
-						{text: messages.menus.variable.moving_speed, value: 'moving_speed'}, 
-						{text: messages.menus.variable.torque_limit, value: 'torque_limit'}, 
+						{text: messages.menus.variable.goal_position, value: 'goal_position'},
+						{text: messages.menus.variable.moving_speed, value: 'moving_speed'},
+						{text: messages.menus.variable.torque_limit, value: 'torque_limit'},
 						{text: messages.menus.variable.compliant, value: 'compliant'}
 					]
 				},
-				register:{
+				register: {
 					acceptReporters: true,
-					items:[
-						{text: messages.menus.register.present_position, value: 'present_position'}, 
-						{text: messages.menus.register.present_speed, value: 'present_speed'}, 
-						{text: messages.menus.register.present_load, value: 'present_load'}, 
-						{text: messages.menus.register.present_temperature, value: 'present_temperature'}, 
-						{text: messages.menus.register.present_voltage, value: 'present_voltage'}, 
-						{text: messages.menus.register.goal_position, value: 'goal_position'}, 
-						{text: messages.menus.register.moving_speed, value: 'moving_speed'}, 
-						{text: messages.menus.register.torque_limit, value: 'torque_limit'}, 
+					items: [
+						{text: messages.menus.register.present_position, value: 'present_position'},
+						{text: messages.menus.register.present_speed, value: 'present_speed'},
+						{text: messages.menus.register.present_load, value: 'present_load'},
+						{text: messages.menus.register.present_temperature, value: 'present_temperature'},
+						{text: messages.menus.register.present_voltage, value: 'present_voltage'},
+						{text: messages.menus.register.goal_position, value: 'goal_position'},
+						{text: messages.menus.register.moving_speed, value: 'moving_speed'},
+						{text: messages.menus.register.torque_limit, value: 'torque_limit'},
 						{text: messages.menus.register.compliant, value: 'compliant'}
 					]
 				}
 			}
 		};
 	}
-	
-	
-	getMotorsPositions(){
+
+
+	getMotorsPositions() {
 		let url = this._robotUrl + '/motors/get/positions';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let pos = resp.data;
-			let motorsPos = this.toArray(pos);
-			return motorsPos;
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+			.then(resp => {
+				let pos = resp.data;
+				let motorsPos = this.toArray(pos);
+				return motorsPos;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		return resultat;
 	}
 
-	getRobotAliases(){
+	getRobotAliases() {
 		let url = this._robotUrl + '/motors/alias';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let name = resp.data;
-			let groupMotorsName = this.toArray(name);
-			return groupMotorsName;
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+			.then(resp => {
+				let name = resp.data;
+				let groupMotorsName = this.toArray(name);
+				return groupMotorsName;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		return resultat;
 	}
 
-	detectMarker(args){
+	detectMarker(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/detect/' + argtext;
 		axios.get(url)
-		.then(resp=>resp.data)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.then(resp => resp.data)
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	getMotorsInGroup(args){
+	getMotorsInGroup(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/motors/' + argtext;
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let group = resp.data;
-			let motorsInGroup = this.toArray(group);
-			return motorsInGroup;
-		})
-		.catch(()=>alert('Group <' + argtext + '> is not in the available groups of your robot. See "all motors groups" button for the available groups'));
+			.then(resp => {
+				let group = resp.data;
+				let motorsInGroup = this.toArray(group);
+				return motorsInGroup;
+			})
+			.catch(() => alert('Group <' + argtext + '> is not in the available groups of your robot. See "all motors groups" button for the available groups'));
 		return resultat;
 	}
 
-	getMotors(){
+	getMotors() {
 		let url = this._robotUrl + '/motors/motors';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let name = resp.data;
-			let motorsName = this.toArray(name);
-			return motorsName;
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+			.then(resp => {
+				let name = resp.data;
+				console.log(name);
+				let motorsName = this.toArray(name);
+				return motorsName;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		return resultat;
 	}
 
-	getPrimitives(args){
+	getPrimitives(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/primitives';
-		if(argtext == 'running')
+		if (argtext === 'running')
 			url += '/running';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let name = resp.data;
-			let behaviorsName = this.toArray(name);
-			return behaviorsName;
-		})
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.then(resp => {
+				let name = resp.data;
+				let behaviorsName = this.toArray(name);
+				return behaviorsName;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 		return resultat;
 	}
 
-	getPropertiesMethodes(args){
+	getPropertiesMethodes(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let argprop = Cast.toString(args.PROP);
 		let url = this._robotUrl + '/primitive/' + argtext + '/' + argprop;
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let prop = resp.data;
-			let methodesName = this.toArray(prop);
-			return methodesName;
-		})
-		.catch(()=>alert('Primitive <' + argtext + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
+			.then(resp => {
+				let prop = resp.data;
+				let methodesName = this.toArray(prop);
+				return methodesName;
+			})
+			.catch(() => alert('Primitive <' + argtext + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
 		return resultat;
 	}
 
-	actionPrimitives(args){
+	actionPrimitives(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let argaction = Cast.toString(args.ACTION);
 		let url = this._robotUrl + '/primitive/' + argtext + '/' + argaction;
 		axios.get(url)
-		.catch(()=>alert('Primitive <' + args.TEXT + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
+			.catch(() => alert('Primitive <' + args.TEXT + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
 	}
 
-	testConnection(){
+	testConnection() {
 		let url = this._robotUrl + '/';
 		const resultat = axios.get(url)
-		.then(()=>{ return 'Connection ok !' })
-		.catch(()=>alert('You may have connection troubles. Check the host variable'));
+			.then(() => {
+				return 'Connection ok !'
+			})
+			.catch(() => alert('You may have connection troubles. Check the host variable'));
 		return resultat;
 	}
 
-	getAvailableRecords(){
+	getAvailableRecords() {
 		let url = this._robotUrl + '/primitive/MovePlayer';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let record = resp.data;
-			let recordsName = this.toArray(record);
-			return recordsName;
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+			.then(resp => {
+				let record = resp.data;
+				let recordsName = this.toArray(record);
+				return recordsName;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		return resultat;
 	}
 
-	stopMovePlayer(args){
+	stopMovePlayer(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argtext + '/stop';
 		axios.get(url)
-		.catch(()=>alert('Move <' + args.TEXT + '> is not available.'));
+			.catch(() => alert('Move <' + args.TEXT + '> is not available.'));
 	}
-	
-	getSitemap(args){
+
+	getSitemap(args) {
 		let argurl = Cast.toString(args.URL);
 		let url = 'http://' + argurl + '/';
 		const resultat = axios.get(url)
-		.then(resp=>resp.data)
-		.catch(()=>alert('Robot is not connected to ' + url));
+			.then(resp => resp.data)
+			.catch(() => alert('Robot is not connected to ' + url));
 		return resultat;
 	}
 
-	setCompliant(args){
+	setCompliant(args) {
 		let argmotors = Cast.toString(args.MOTORS);
 		let compliant;
-		if(args.STATUS == 'compliant')
+		if (args.STATUS === 'compliant')
 			compliant = 1;
 		else
 			compliant = 0;
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors,'compliant',compliant);
+		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, 'compliant', compliant);
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	setValue(args){
+	setValue(args) {
 		let argmotors = Cast.toString(args.MOTORS);
 		let argvalue = Cast.toString(args.VALUE);
 		let argstatus = Cast.toString(args.STATUS);
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors,argstatus,argvalue);
+		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, argstatus, argvalue);
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	setLed(args){
+	setLed(args) {
 		let argmotors = Cast.toString(args.MOTORS);
 		let argvalue = Cast.toString(args.STATUS);
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors,'led',argvalue);
+		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, 'led', argvalue);
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	popup(args){
+	popup(args) {
 		let argtext = Cast.toString(args.TEXT);
 		return alert(argtext);
 	}
 
-	startMovePlayerWithSpeed(args){
+	startMovePlayerWithSpeed(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	startMovePlayerBackwardsWithSpeed(args){
+	startMovePlayerBackwardsWithSpeed(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed + '/backwards';
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	startMovePlayer(args){
+	startMovePlayer(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	startMovePlayerBackwards(args){
+	startMovePlayerBackwards(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed + '/backwards';
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	setHost(args){
+	setHost(args) {
 		let argurl = Cast.toString(args.URL);
 		this._robotUrl = 'http://' + argurl + ':' + this._robotPort;
 		let url = this._robotUrl + '/ip/';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			this._robotIp = resp.data;
-			this._robotUrl = 'http://' + this._robotIp + ':' + this._robotPort;
-			console.log(this._robotIp);
-			console.log(this._robotUrl);
-			return 'Connection ok !';
-		})
-		.catch(()=>alert('Your robot host is unreachable'));
+			.then(resp => {
+				this._robotIp = resp.data;
+				this._robotUrl = 'http://' + this._robotIp + ':' + this._robotPort;
+				console.log(this._robotIp);
+				console.log(this._robotUrl);
+				return 'Connection ok !';
+			})
+			.catch(() => alert('Your robot host is unreachable'));
 		return resultat;
 	}
 
-	poppyUrl(){
+	poppyUrl() {
 		return this._robotIp + ':' + this._robotPort;
 	}
 
-	initRobot(args){
+	initRobot(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = 'http://poppy.local/api/' + argtext;
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	remove(args){
+	remove(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let listMove = [];
 		let move = '';
-		for(let i = 0;i<argtext.length;i++){
-			if(argtext.substring(i,i+1) == ' ' || argtext.substring(i,i+1) == '/' || argtext.substring(i,i+1) == ',' || argtext.substring(i,i+1) == ';'){
+		for (let i = 0; i < argtext.length; i++) {
+			if (argtext.substring(i, i + 1) === ' ' || argtext.substring(i, i + 1) === '/' || argtext.substring(i, i + 1) === ',' || argtext.substring(i, i + 1) === ';') {
 				listMove.push(move);
 				move = '';
-			}
-			else{
-				move += argtext.substring(i,i+1);
+			} else {
+				move += argtext.substring(i, i + 1);
 			}
 		}
 		listMove.push(move);
-		for(let i = 0; i<listMove.length;i++){
+		for (let i = 0; i < listMove.length; i++) {
 			let url = this._robotUrl + '/primitive/MoveRecorder/' + listMove[i] + '/remove';
 			axios.get(url)
-			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+				.catch(err => {
+					console.log(err);
+					alert('Error with parameters or connection')
+				});
 		}
 	}
 
-	indexMotor(args){
+	indexMotor(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/motors/motors';
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let index = -1;
-			let motors = resp.data;
-			let motorsName = this.toArray(motors);
-			for(let i =0;i<motorsName.length;i++){
-				if(argtext == motorsName[i]){
-					index = i+1;
+			.then(resp => {
+				let index = -1;
+				let motors = resp.data;
+				let motorsName = this.toArray(motors);
+				for (let i = 0; i < motorsName.length; i++) {
+					if (argtext === motorsName[i]) {
+						index = i + 1;
+					}
 				}
-			}
-			if(index == -1){
-				return alert('This motor does not exist');
-			}
-			else{
-				return index;
-			}
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+				if (index === -1) {
+					return alert('This motor does not exist');
+				} else {
+					return index;
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		return resultat;
 	}
 
-	callAPI(args){
+	callAPI(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + argtext;
+		console.log(url);
 		const resultat = axios.get(url)
-		.then(resp=>resp.data)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.then(resp => resp.data)
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
+		console.log("API:", resultat);
 		return resultat;
 	}
 
 	//TODO: Add the "wait" option to wait until the move is finished
-	setMotorsGoto(args){
+	setMotorsGoto(args) {
 		let argmotors = Cast.toString(args.MOTORS);
 		let argpos = Cast.toString(args.POS);
 		let argtime = Cast.toString(args.TIME);
-		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argmotors,argpos,argtime);
+		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argmotors, argpos, argtime);
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	getMotorRegister(args){
+	getMotorRegister(args) {
 		let argmotor = Cast.toString(args.MOTOR);
 		let argreg = Cast.toString(args.REG);
 		let url = this._robotUrl + '/motors/';
 		let motors = this.toMotorsListApiFormat(argmotor);
 		url += motors + '/get/' + argreg;
 		const resultat = axios.get(url)
-		.then(resp=>{
-			let value = resp.data;
-			let res = this.toArray(value);
-			return res;
-		})
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.then(resp => {
+				let value = resp.data;
+				let res = this.toArray(value);
+				return res;
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 		return resultat;
 	}
 
-	createRecordMove(args){
+	createRecordMove(args) {
 		let argmotor = Cast.toString(args.MOTOR);
 		let argmove = Cast.toString(args.MOVE);
 		let urlMotors = this._robotUrl + '/motors/motors';
-		if(argmotor == ' ' || argmotor == ''){
+		if (argmotor === ' ' || argmotor === '') {
 			axios.get(urlMotors)
-			.then(resp=>{
-				let value = resp.data;
-				let motorList = this.toMotorsListApiFormat(value);
-				let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motorList,'compliant','1');
-				axios.get(urlCompliant)
-				.catch(err=>{console.log(err); alert('Error with the connection')});
-				let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/start/' + motorList;
-				axios.get(url)
-				.catch(err=>{console.log(err); alert('Error with parameters or connection')});
-			})
-			.catch(err=>{console.log(err); alert('Error with the connection')});
-		}
-		else{
+				.then(resp => {
+					let value = resp.data;
+					let motorList = this.toMotorsListApiFormat(value);
+					let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motorList, 'compliant', '1');
+					axios.get(urlCompliant)
+						.catch(err => {
+							console.log(err);
+							alert('Error with the connection')
+						});
+					let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/start/' + motorList;
+					axios.get(url)
+						.catch(err => {
+							console.log(err);
+							alert('Error with parameters or connection')
+						});
+				})
+				.catch(err => {
+					console.log(err);
+					alert('Error with the connection')
+				});
+		} else {
 			let motors = this.toMotorsListApiFormat(argmotor);
-			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors,'compliant','1');
+			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors, 'compliant', '1');
 			axios.get(urlCompliant)
-			.catch(err=>{console.log(err); alert('Error with the connection')});
+				.catch(err => {
+					console.log(err);
+					alert('Error with the connection')
+				});
 			let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/start/' + motors;
 			axios.get(url)
-			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
-		}	
+				.catch(err => {
+					console.log(err);
+					alert('Error with parameters or connection')
+				});
+		}
 	}
 
-	stopSaveMove(args){
+	stopSaveMove(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let urlMotorsUsed = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/get_motors';
 		axios.get(urlMotorsUsed)
-		.then(resp=>{
-			let motors = resp.data;
-			console.log(motors);
-			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors,'compliant','0');
-			console.log(urlCompliant);
-			axios.get(urlCompliant)
-			.catch(err=>{console.log(err); alert('Error with parameters or connection')});
-		})
-		.catch(err=>{console.log(err); alert('Error with the connection')});
+			.then(resp => {
+				let motors = resp.data;
+				console.log(motors);
+				let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors, 'compliant', '0');
+				console.log(urlCompliant);
+				axios.get(urlCompliant)
+					.catch(err => {
+						console.log(err);
+						alert('Error with parameters or connection')
+					});
+			})
+			.catch(err => {
+				console.log(err);
+				alert('Error with the connection')
+			});
 		let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/stop';
 		axios.get(url)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection')});
+			.catch(err => {
+				console.log(err);
+				alert('Error with parameters or connection')
+			});
 	}
 
-	concurrent(args){
+	concurrent(args) {
 		let arginfo1 = Cast.toString(args.INFO1);
 		let arginfo2 = Cast.toString(args.INFO2);
 		let resultat = arginfo1 + '/' + arginfo2;
 		return resultat;
 	}
 
-	playConcurrent(args){
+	playConcurrent(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let listMove = [];
 		let move = '';
-		for(let i = 0;i<argmove.length;i++){
-			if(argmove.substring(i,i+1) == ' '){
+		for (let i = 0; i < argmove.length; i++) {
+			if (argmove.substring(i, i + 1) === ' ') {
 				listMove.push(move);
 				move = '';
-			}
-			else{
-				move += argmove.substring(i,i+1);
+			} else {
+				move += argmove.substring(i, i + 1);
 			}
 		}
 		listMove.push(move);
-		for(let i = 0; i<listMove.length;i++){
+		for (let i = 0; i < listMove.length; i++) {
 			let url = this._robotUrl + '/primitive/MovePlayer/' + listMove[i] + '/start/1';
 			axios.get(url)
-			.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
+				.catch(err => {
+					console.log(err);
+					alert('Error with parameters or connection. See <move> in all recorded moves')
+				});
 		}
-		
+
 	}
 
-	dataToString(args){
+	dataToString(args) {
 		return Cast.toString(args.TEXT);
 	}
 
@@ -1023,28 +1106,28 @@ class Scratch3Poppy {
 	//one idea which does not work for the moment in the following lines
 	/*
 	playSequentially(args){
-		let argmove = Cast.toString(args.MOVE);
-		let listMove = [];
-		let move = '';
-		for(let i = 0;i<argmove.length;i++){
-			if(argmove.substring(i,i+1) == ' '){
-				listMove.push(move);
-				move = '';
+			let argmove = Cast.toString(args.MOVE);
+			let listMove = [];
+			let move = '';
+			for(let i = 0;i<argmove.length;i++){
+					if(argmove.substring(i,i+1) == ' '){
+							listMove.push(move);
+							move = '';
+					}
+					else{
+							move += argmove.substring(i,i+1);
+					}
 			}
-			else{
-				move += argmove.substring(i,i+1);
-			}
-		}
-		listMove.push(move);
-		sequentially(listMove)
-		.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
+			listMove.push(move);
+			sequentially(listMove)
+			.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
 	}
 
 	async function sequentially(move) {
-		for(let i = 0; i<move.length;i++){
-			let url = this._robotUrl + '/primitive/MovePlayer/' + move[i] + '/start/1';
-			await axios.get(url);
-		}
+			for(let i = 0; i<move.length;i++){
+					let url = this._robotUrl + '/primitive/MovePlayer/' + move[i] + '/start/1';
+					await axios.get(url);
+			}
 	}
 
 	sequence(args):{
@@ -1052,21 +1135,21 @@ class Scratch3Poppy {
 	}
 	*/
 
-	getMessagesForLocale () {
-        const locale = formatMessage.setup().locale;
+	getMessagesForLocale() {
+		const locale = formatMessage.setup().locale;
 
-        let messages;
-        try {
-            messages = require(`./lang/${locale}`);
-        } catch (ex) {
-            log.warn(`Locale "${locale}" is not supported.`);
-            messages = require(`./lang/${Scratch3Poppy.DEFAULT_LANG}`);
-        }
-        return messages;
-    }
+		let messages;
+		try {
+			messages = require(`./lang/${locale}`);
+		} catch (ex) {
+			log.warn(`Locale "${locale}" is not supported.`);
+			messages = require(`./lang/${Scratch3Poppy.DEFAULT_LANG}`);
+		}
+		return messages;
+	}
 }
 
 
 module.exports = Scratch3Poppy;
 
-	  
+
