@@ -33,6 +33,7 @@ module.exports = {
         getSitemap: 'http:// [URL]',
         dataToString: 'transformer [TEXT] en chaîne de caractères',
         callAPI: 'appel de l\'API [TEXT]',
+        getRESTAPI: 'appel de l\'API REST [REQUEST]',
         detectMarker: 'la carte [TEXT] est détectée ?',
         sequence: 'sequence [INFO1] [INFO2]' //TODO:
     },
