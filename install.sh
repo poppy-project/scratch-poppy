@@ -8,13 +8,13 @@ CLEAR="\033[0m"
 ############################################################
 # Adds a require line to a js file,
 # if line does not already exist.
-# 
+#
 # ARGUMENTS:
 #   $1: search = line to add, to check if it already exists
 #   $2: where = where to put it ?
 #   $3: replace = where "+" search
 #   $4: file
-# 
+#
 # OUTPUTS:
 #   Some echos of the progress of the script
 ############################################################
@@ -49,7 +49,7 @@ add_require "$find" "$where" "$replace" "$file"
 
 find="extensionId: 'poppy',"
 where="helpLink: 'https:\/\/scratch.mit.edu\/wedo'"
-replace="$where\n    },\n    {\n        name: 'Poppy',\n        extensionId: 'poppy',\n        collaborator: 'rrandriamana',\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage='Control your Poppy robot'\n                description='Poppy controller extension'\n                id='gui.extension.poppy.description'\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,"
+replace='$where\n    },\n    {\n        name: "Poppy",\n        extensionId: "poppy",\n        collaborator: "rrandriamana",\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage="Control your Poppy robot"\n                description="Poppy controller extension"\n                id="gui.extension.poppy.description"\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,'
 file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
