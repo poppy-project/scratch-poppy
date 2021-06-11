@@ -24,36 +24,13 @@ class Scratch3Poppy {
 		return url;
 	}
 
-	toArray(val){
-		let res = [];
-		let result = '';
-		let text = Cast.toString(val);
-		for(let i= 0; i < text.length; i++){
-			if(text.substring(i,i+1) == ' ' || text.substring(i,i+1) == '/' || text.substring(i,i+1) == ',' || text.substring(i,i+1) == ';'){
-				res.push(result);
-				result = '';
-			}
-			else{
-				result += text.substring(i,i+1);
-			}
-				
-		}
-		return res;
+	toArray(val) {
+		return val.toString().split("/");
 	}
 
-	toMotorsListApiFormat(motors){
-		let motorApiFormat = '';
-		for(let i=0;i<motors.length;i++){
-			if(motors.substring(i,i+1) == ' ' || motors.substring(i,i+1) == '/' || motors.substring(i,i+1) == ',' || motors.substring(i,i+1) == ';'){
-				motorApiFormat += ';';
-			}
-			else{
-				motorApiFormat += motors.substring(i,i+1);
-			}
-		}
-		return motorApiFormat;
+	toMotorsListApiFormat(motors) {
+		return motors.replaceAll(/[\/, ]/gm, ";")
 	}
-
 
 	constructor(runtime) {
 		this.runtime = runtime;
