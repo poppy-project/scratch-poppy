@@ -4,6 +4,11 @@ const Cast = require('../../util/cast');
 const axios = require('axios').default;
 const formatMessage = require('format-message');
 
+const de = false;  // true when debugging
+
+function bug(msg) {
+	console.log(msg);
+}
 
 class Scratch3Poppy {
 
@@ -970,7 +975,7 @@ class Scratch3Poppy {
 				console.log(err);
 				alert('Error with parameters or connection')
 			});
-		console.log("GET API-REST:", answer);
+		de&&bug("GET API-REST:", answer);
 		return answer;
 	}
 
