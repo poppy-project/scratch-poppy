@@ -25,7 +25,7 @@ module.exports = {
         playConcurrent: 'play concurrently moves [MOVE]',
         playSequentially: 'play sequentially moves [MOVE]',
         indexMotor: 'index of motor [MOTOR]',
-        getMotorRegister: 'get [REG] of motor(s) [MOTOR]',
+        getMotorRegister: 'get [REGISTER] of motor [MOTOR]',
         getMotorsInGroup: 'motors in group [GROUP]',
         getPrimitives: 'get [TEXT] behaviours',
         getPropertiesMethodes: 'get [PROP] of behaviour [TEXT]',

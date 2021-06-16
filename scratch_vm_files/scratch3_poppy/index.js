@@ -368,7 +368,7 @@ class Scratch3Poppy {
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getMotorRegister,
 					arguments: {
-						REG: {
+						REGISTER: {
 							type: ArgumentType.STRING,
 							defaultValue: 'my_variable_set',
 							menu: 'register'
@@ -1058,23 +1058,23 @@ class Scratch3Poppy {
 			});
 	}
 
+
+	/**
+	 * Get the register value of a motor.
+	 * @param args the motor is stored in args.MOTOR
+	 * and the register requested is in args.REGISTER
+	 * @returns {Promise<AxiosResponse<any>>} the value of the register
+	 */
 	getMotorRegister(args) {
-		let argmotor = Cast.toString(args.MOTOR);
-		let argreg = Cast.toString(args.REG);
-		let url = this._robotUrl + '/motors/';
-		let motors = this.toMotorsListApiFormat(argmotor);
-		url += motors + '/get/' + argreg;
-		const resultat = axios.get(url)
-			.then(resp => {
-				let value = resp.data;
-				let res = this.toArray(value);
-				return res;
-			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+		let motor = args.MOTOR.toString();
+		let register = args.REGISTER.toString();
+		let url = '/motor/' + motor + '/register/' + register;
+
+		return this.getRESTAPI({REQUEST: url})
+			.then(value => JSON.parse(value)[register].toString())
+			.catch(() => {
+				return 'Register not found.'
 			});
-		return resultat;
 	}
 
 	createRecordMove(args) {
