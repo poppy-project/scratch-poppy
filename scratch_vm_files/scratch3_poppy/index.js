@@ -6,12 +6,15 @@ const formatMessage = require('format-message');
 
 const de = false;  // true when debugging
 
-function bug(/* infinite arguments */) {
-	/**
-	 * write de&&bug(*your arguments*) in your code to make debug logging.
-	 * bug() will only be called if `de` is set to true.
-	 */
-	console.log(arguments);
+/**
+ * write de&&bug(*your arguments*) in your code to make debug logging.
+ * this function will only be called if `de` is set to true.
+ * @param args an infinite number of arguments
+ */
+function bug(...args) {
+	args.forEach(arg => {
+		console.log(arg);
+	});
 }
 
 class Scratch3Poppy {
