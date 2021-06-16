@@ -977,22 +977,6 @@ class Scratch3Poppy {
 	}
 
 
-	callAPI(args) {
-		// TODO: remove this old function
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + argtext;
-		console.log(url);
-		const resultat = axios.get(url)
-			.then(resp => resp.data)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
-		console.log("API:", resultat);
-		return resultat;
-	}
-
-
 	/**
 	 * Performs a GET method to poppyUrl + URL given. It then returns the promise received.
 	 * @param args the url of the request is stored in args.REQUEST
