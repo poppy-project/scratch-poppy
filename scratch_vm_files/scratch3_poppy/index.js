@@ -631,6 +631,7 @@ class Scratch3Poppy {
 
 
 	getMotorsPositions() {
+		// TODO: add an api request to get all motors positions
 		let url = this._robotUrl + '/motors/get/positions';
 		const resultat = axios.get(url)
 			.then(resp => {
@@ -659,6 +660,7 @@ class Scratch3Poppy {
 
 
 	detectMarker(args) {
+		// TODO: try on snap how QR code reader works
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/detect/' + argtext;
 		axios.get(url)
@@ -767,6 +769,7 @@ class Scratch3Poppy {
 
 
 	getAvailableRecords() {
+		// TODO: add an api request to get all recorded moves
 		let url = this._robotUrl + '/primitive/MovePlayer';
 		const resultat = axios.get(url)
 			.then(resp => {
@@ -781,12 +784,14 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+
 	stopMovePlayer(args) {
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argtext + '/stop';
 		axios.get(url)
 			.catch(() => alert('Move <' + args.TEXT + '> is not available.'));
 	}
+
 
 	getSitemap(args) {
 		let argurl = Cast.toString(args.URL);
@@ -889,7 +894,7 @@ class Scratch3Poppy {
 	}
 
 	setHost(args) {
-		// todo: add an api request to get the ip of the robot
+		// TODO: add an api request to get the ip of the robot
 		let argUrl = args.URL.toString();
 		this._robotUrl = 'http://' + argUrl + ':' + this._robotPort;
 		let url = this._robotUrl; // + '/ip/';
@@ -971,7 +976,9 @@ class Scratch3Poppy {
 			.catch(err => console.log(err));
 	}
 
+
 	callAPI(args) {
+		// TODO: remove this old function
 		let argtext = Cast.toString(args.TEXT);
 		let url = this._robotUrl + argtext;
 		console.log(url);
@@ -1021,7 +1028,7 @@ class Scratch3Poppy {
 			});
 	}
 
-	//TODO: Add the "wait" option to wait until the move is finished
+	// TODO: Add the "wait" option to wait until the move is finished
 	setMotorsGoto(args) {
 		let argmotors = Cast.toString(args.MOTORS);
 		let argpos = Cast.toString(args.POS);

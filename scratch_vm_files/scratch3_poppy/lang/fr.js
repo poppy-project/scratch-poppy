@@ -17,7 +17,7 @@ module.exports = {
         startMovePlayerBackwardsWithSpeed: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
         startMovePlayer: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
         startMovePlayerBackwards: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
-        setMotorsGoto: 'mettre à la position [POS] le(s) moteur(s) [MOTORS] en [TIME] secondes | attendre ? [WAIT]', //TODO:
+        setMotorsGoto: 'mettre à la position [POS] le(s) moteur(s) [MOTORS] en [TIME] secondes | attendre ? [WAIT]',
         initRobot: 'robot [TEXT]',
         remove: 'supprimer [TEXT]',
         createRecordMove: 'créer et enregistrer le mouvement [MOVE] avec le(s) moteur(s) [MOTOR]',
@@ -36,7 +36,7 @@ module.exports = {
         getRESTAPI: 'appel de l\'API REST [REQUEST]',
         postRESTAPI: 'post [DATA] vers l\'API REST [URL]',
         detectMarker: 'la carte [TEXT] est détectée ?',
-        sequence: 'sequence [INFO1] [INFO2]' //TODO:
+        sequence: 'sequence [INFO1] [INFO2]'
     },
     menus: {
         marker: {
