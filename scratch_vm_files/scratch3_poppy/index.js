@@ -27,7 +27,7 @@ class Scratch3Poppy {
 		this.runtime = runtime;
 		this._robotUrl = '';
 		this._robotIp = '';
-		this._robotPort = '6969';
+		this._robotPort = '8080';
 	}
 
 	getInfo() {
@@ -864,24 +864,29 @@ class Scratch3Poppy {
 	}
 
 	setHost(args) {
-		let argurl = Cast.toString(args.URL);
-		this._robotUrl = 'http://' + argurl + ':' + this._robotPort;
-		let url = this._robotUrl + '/ip/';
-		const resultat = axios.get(url)
+		// todo: add an api request to get the ip of the robot
+		let argUrl = args.URL.toString();
+		this._robotUrl = 'http://' + argUrl + ':' + this._robotPort;
+		let url = this._robotUrl; // + '/ip/';
+		return axios.get(url)
 			.then(resp => {
-				this._robotIp = resp.data;
+				this._robotIp = "10.2.11.40"; //resp.data;
 				this._robotUrl = 'http://' + this._robotIp + ':' + this._robotPort;
 				console.log(this._robotIp);
 				console.log(this._robotUrl);
 				return 'Connection ok !';
 			})
 			.catch(() => alert('Your robot host is unreachable'));
-		return resultat;
 	}
 
+	/**
+	 * Concatenates the ip of the robot and the IP of the REST API
+	 * @returns {string} url of Poppy Robot
+	 */
 	poppyUrl() {
 		return this._robotIp + ':' + this._robotPort;
 	}
+
 
 	initRobot(args) {
 		let argtext = Cast.toString(args.TEXT);
@@ -957,14 +962,9 @@ class Scratch3Poppy {
 	}
 
 	getRESTAPI(args) {
-
-		de&&bug("GET API-REST args: ", args);
-
-		let apiPort = '8080';
-		let argsString = args.REQUEST.toString();
-		let url = this._robotUrl.slice(0, -4) + apiPort + argsString;
-
-		const answer = axios.get(url)
+		de && bug("GET API-REST args: ", args);
+		let url = this._robotUrl + args.REQUEST.toString();
+		return axios.get(url)
 			.then(resp => {
 				return JSON.stringify(resp.data)
 			})
@@ -977,11 +977,9 @@ class Scratch3Poppy {
 	}
 
 	postRESTAPI(args) {
-		let apiPort = '8080';
-		de&&bug("POST API-REST args: ", args);
-		let urlString = decodeURI(args.URL);  // url given in the block
+		de && bug("POST API-REST args: ", args);
+		let url = this._robotUrl + decodeURI(args.URL);  // url given in the block
 		let dataString = decodeURIComponent(args.DATA);  // data given in the block
-		let url = this._robotUrl.slice(0, -4) + apiPort + urlString;
 
 		const config = {
 			headers: {
