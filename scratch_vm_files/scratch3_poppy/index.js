@@ -735,15 +735,21 @@ class Scratch3Poppy {
 			.catch(() => alert('Primitive <' + args.TEXT + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
 	}
 
+	/**
+	 * Gives the state of the connection with a get request
+	 * @returns {Promise<string>} OK on success, else an error message
+	 */
 	testConnection() {
 		let url = this._robotUrl + '/';
-		const resultat = axios.get(url)
+		return axios.get(url)
 			.then(() => {
-				return 'Connection ok !'
+				return 'Connection ok!'
 			})
-			.catch(() => alert('You may have connection troubles. Check the host variable'));
-		return resultat;
+			.catch(() => {
+				return 'Error on connection!'
+			});
 	}
+
 
 	getAvailableRecords() {
 		let url = this._robotUrl + '/primitive/MovePlayer';
