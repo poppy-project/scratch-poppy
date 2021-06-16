@@ -787,19 +787,23 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+	/**
+	 * Sets a motor (or motors) either compliant or stiff
+	 * @param args the motors
+	 */
 	setCompliant(args) {
-		let argmotors = Cast.toString(args.MOTORS);
-		let compliant;
-		if (args.STATUS === 'compliant')
-			compliant = 1;
-		else
-			compliant = 0;
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, 'compliant', compliant);
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
+		let motors = args.MOTORS.toString().split(',');
+		let compliant = (args.STATUS.toString() === 'compliant') ? 'true' : 'false';
+
+		for (let m = 0; m < motors.length; m++) {
+			let url = '/motor/' + motors[m] + '/register/compliant/value.json';
+			let postArgs = {
+				URL: url,
+				DATA: compliant
+			};
+			this.postRESTAPI(postArgs)
+				.catch(err => console.log(err));
+		}
 	}
 
 	setValue(args) {
