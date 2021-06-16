@@ -7,7 +7,7 @@ module.exports = {
         getMotors: 'all motors',
         getRobotAliases: 'all motors groups',
         getAvailableRecords: 'all recorded moves',
-        actionPrimitives: '[ACTION] behaviours [TEXT]',
+        actionPrimitives: '[ACTION] behaviour [PRIMITIVE]',
         stopMovePlayer: 'stop move [TEXT]',
         setCompliant: 'set motor(s) [MOTORS] [STATUS]',
         setValue: 'set [STATUS] motor(s) [MOTORS] to [VALUE]',

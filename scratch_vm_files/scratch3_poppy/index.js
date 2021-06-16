@@ -95,7 +95,7 @@ class Scratch3Poppy {
 							defaultValue: 'start',
 							menu: 'actionBehaviours'
 						},
-						TEXT: {
+						PRIMITIVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'behaviour_name'
 						}
@@ -732,12 +732,22 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+	/**
+	 * Starts / Stops / Pauses / Resumes a primitive
+	 * @param args the action of the primitive to launch
+	 * @returns {Promise<string | string>} Done! on success, else an error message
+	 */
 	actionPrimitives(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let argaction = Cast.toString(args.ACTION);
-		let url = this._robotUrl + '/primitive/' + argtext + '/' + argaction;
-		axios.get(url)
-			.catch(() => alert('Primitive <' + args.TEXT + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
+		let primitive = args.PRIMITIVE.toString();
+		let action = args.ACTION.toString();
+
+		return this.getRESTAPI({REQUEST: "/primitive/" + primitive + "/" + action + ".json"})
+			.then(() => {
+				return "Done!"
+			})
+			.catch(() => {
+				return 'Primitive <' + primitive + '> is not available.'
+			});
 	}
 
 	/**
