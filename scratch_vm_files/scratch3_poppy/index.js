@@ -645,20 +645,18 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+	/**
+	 * Makes a GET request to the REST API using getRESTAPI() to have
+	 * a list of all motor groups available.
+	 * The answer is then formatted for the user.
+	 * @returns {Promise<*>} the motor aliases separated by a colon.
+	 */
 	getRobotAliases() {
-		let url = this._robotUrl + '/motors/alias';
-		const resultat = axios.get(url)
-			.then(resp => {
-				let name = resp.data;
-				let groupMotorsName = this.toArray(name);
-				return groupMotorsName;
-			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with the connection')
-			});
-		return resultat;
+		return this.getRESTAPI({REQUEST: "/motor/alias/list.json"})
+			.then(motors => JSON.parse(motors).alias.toString())
+			.catch();
 	}
+
 
 	detectMarker(args) {
 		let argtext = Cast.toString(args.TEXT);
