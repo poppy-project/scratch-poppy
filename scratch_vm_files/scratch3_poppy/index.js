@@ -406,16 +406,16 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'getPropertiesMethodes',
+					opcode: 'getPropertiesMethods',
 					blockType: BlockType.REPORTER,
-					text: messages.blocks.getPropertiesMethodes,
+					text: messages.blocks.getPropertiesMethods,
 					arguments: {
-						PROP: {
+						ATTRIBUTE: {
 							type: ArgumentType.STRING,
-							defaultValue: 'methodes',
+							defaultValue: 'method',
 							menu: 'getPropBehaviours'
 						},
-						TEXT: {
+						BEHAVIOUR: {
 							type: ArgumentType.STRING,
 							defaultValue: 'behaviour_name'
 						}
@@ -554,8 +554,8 @@ class Scratch3Poppy {
 				getPropBehaviours: {
 					acceptReporters: true,
 					items: [
-						{text: messages.menus.getPropBehaviours.methodes, value: 'methodes'},
-						{text: messages.menus.getPropBehaviours.properties, value: 'properties'}
+						{text: messages.menus.getPropBehaviours.method, value: 'method'},
+						{text: messages.menus.getPropBehaviours.property, value: 'property'}
 					]
 				},
 				actionBehaviours: {
@@ -720,18 +720,21 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
-	getPropertiesMethodes(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let argprop = Cast.toString(args.PROP);
-		let url = this._robotUrl + '/primitive/' + argtext + '/' + argprop;
-		const resultat = axios.get(url)
-			.then(resp => {
-				let prop = resp.data;
-				let methodesName = this.toArray(prop);
-				return methodesName;
-			})
-			.catch(() => alert('Primitive <' + argtext + '> is not available primitives of your robot. See "get all behaviours" button for the available primitives'));
-		return resultat;
+	/**
+	 * Gives the properties and the methods of a motor
+	 * @param args
+	 * @returns {Promise<* | string>}
+	 */
+	getPropertiesMethods(args) {
+		let attribute = args.ATTRIBUTE.toString();
+		let behaviour = args.BEHAVIOUR.toString();
+		let url = '/primitive/' + behaviour + '/' + attribute + '/list.json';
+
+		return this.getRESTAPI({REQUEST: url})
+			.then(value => JSON.parse(value)[attribute].toString())
+			.catch(() => {
+				return 'Attribute <' + attribute + '> is not available.'
+			});
 	}
 
 	/**

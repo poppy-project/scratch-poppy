@@ -28,7 +28,7 @@ module.exports = {
         getMotorRegister: 'get [REGISTER] of motor [MOTOR]',
         getMotorsInGroup: 'motors in group [GROUP]',
         getPrimitives: 'get [TEXT] behaviours',
-        getPropertiesMethodes: 'get [PROP] of behaviour [TEXT]',
+        getPropertiesMethods: 'get [ATTRIBUTE] of behaviour [BEHAVIOUR]',
         concurrent: 'concurrent [INFO1] [INFO2]',
         getSitemap: 'http:// [URL]',
         dataToString: 'transform [TEXT] to string',
@@ -49,8 +49,8 @@ module.exports = {
             running: 'running'
         },
         getPropBehaviours: {
-            methodes: 'methodes',
-            properties: 'properties'
+            method: 'methods',
+            property: 'properties'
         },
         actionBehaviours: {
             start: 'start',
