@@ -23,27 +23,6 @@ class Scratch3Poppy {
 		return 'en';
 	}
 
-	motorsStatusUrl(motors, status, value) {
-		let url = '';
-		for (let i = 0; i < motors.length; i++) {
-			if (motors.substring(i, i + 1) === ' ' || motors.substring(i, i + 1) === '/' || motors.substring(i, i + 1) === ',' || motors.substring(i, i + 1) === ';' || motors.substring(i, i + 1) === '\n') {
-				url += ':' + status + ':' + value + ';';
-			} else {
-				url += motors.substring(i, i + 1);
-			}
-		}
-		url += ':' + status + ':' + value;
-		return url;
-	}
-
-	toArray(val) {
-		return val.toString().split("/");
-	}
-
-	toMotorsListApiFormat(motors) {
-		return motors.replaceAll(/[\/, ]/gm, ";")
-	}
-
 	constructor(runtime) {
 		this.runtime = runtime;
 		this._robotUrl = '';
@@ -1151,10 +1130,6 @@ class Scratch3Poppy {
 				});
 		}
 
-	}
-
-	dataToString(args) {
-		return Cast.toString(args.TEXT);
 	}
 
 	//TODO: implement the button "play sequentially" & "sequence"
