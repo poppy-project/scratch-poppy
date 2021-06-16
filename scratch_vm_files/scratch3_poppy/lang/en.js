@@ -23,8 +23,8 @@ module.exports = {
         createRecordMove: 'create & start record move [MOVE] with motor(s) [MOTOR]',
         stopSaveMove: 'stop record & save move [MOVE]',
         playConcurrent: 'play concurrently moves [MOVE]',
-        playSequentially: 'play sequentially moves [MOVE]', //TODO:
-        indexMotor: 'index of motor [TEXT]',
+        playSequentially: 'play sequentially moves [MOVE]',
+        indexMotor: 'index of motor [MOTOR]',
         getMotorRegister: 'get [REG] of motor(s) [MOTOR]',
         getMotorsInGroup: 'motors in group [GROUP]',
         getPrimitives: 'get [TEXT] behaviours',

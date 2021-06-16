@@ -356,7 +356,7 @@ class Scratch3Poppy {
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.indexMotor,
 					arguments: {
-						TEXT: {
+						MOTOR: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						}
@@ -932,30 +932,29 @@ class Scratch3Poppy {
 		}
 	}
 
+	/**
+	 * Gives the index of a motor, in the list of all motors.
+	 * @param args the motor, stored in args.MOTOR
+	 * @returns {Promise<*>} index of the motor given
+	 */
 	indexMotor(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/motors/motors';
-		const resultat = axios.get(url)
-			.then(resp => {
-				let index = -1;
-				let motors = resp.data;
-				let motorsName = this.toArray(motors);
-				for (let i = 0; i < motorsName.length; i++) {
-					if (argtext === motorsName[i]) {
-						index = i + 1;
-					}
-				}
-				if (index === -1) {
-					return alert('This motor does not exist');
-				} else {
-					return index;
-				}
+		let motor = args.MOTOR.toString();
+		de && bug("motor:", motor);
+		return this.getMotors()
+			.then(function (motors) {
+				de && bug("motors:", motors);
+				for (const [index, element] of motors.split(",").entries())
+					if (motor === element)
+						return index;
+				return -1;
 			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with the connection')
-			});
-		return resultat;
+			.then(index => {
+				de && bug("index found: ", index);
+				if (index !== -1)
+					return (index + 1).toString();
+				return "This motor does not exists";
+			})
+			.catch(err => console.log(err));
 	}
 
 	callAPI(args) {
