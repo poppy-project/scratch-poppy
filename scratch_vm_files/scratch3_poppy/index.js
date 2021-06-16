@@ -684,15 +684,21 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+
+	/**
+	 * Makes a GET request to the REST API using getRESTAPI() to have
+	 * a list of all motors available.
+	 * The answer is then formatted for the user.
+	 * @returns {Promise<*>} containing the motor names separated by a colon.
+	 */
 	getMotors() {
-		/**
-		 * Makes a GET request to the REST API using getRESTAPI() to have a list of all motors available.
-		 * The answer is then formatted for the user.
-		 */
-		return this.getRESTAPI({REQUEST: "/motor/list.json" })
+		return this.getRESTAPI({REQUEST: "/motor/list.json"})
 			// getRESTAPI answer will look like '{"motors":["m1","m2","m3","m4","m5","m6"]}'
 			// From this example, the process below will return "m1,m2,m3,m4,m5,m6"
-			.then(motors => JSON.parse(motors).motors.toString());
+			.then(motors => JSON.parse(motors).motors.toString())
+			.catch(() => {
+				return 'No motor found.'
+			});
 	}
 
 	getPrimitives(args) {
