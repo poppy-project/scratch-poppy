@@ -999,12 +999,15 @@ class Scratch3Poppy {
 			.then(resp => {
 				return JSON.stringify(resp.data)
 			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+			.catch(function (error) {
+				de && bug('Error on getRESTAPI:', JSON.stringify(error));
+				console.log('Error:', error)
+				if (error.response) {
+					de && bug("status of error:", error.response.status);
+					de && bug(error.response.headers);
+					de && bug(error.response.data);
+				}
 			});
-		de&&bug("GET API-REST:", answer);
-		return answer;
 	}
 
 	postRESTAPI(args) {
@@ -1017,14 +1020,16 @@ class Scratch3Poppy {
 				'Content-Type': 'application/json'
 			}
 		}
-
+		de && bug("URL post API-REST: ", url);
+		de && bug("config post API-REST: ", config);
+		de && bug("data post API-REST: ", dataString);
 		return axios.post(url, dataString, config)
 			.then(resp => {
+				de && bug("POST API-REST answer: ", resp.data);
 				return JSON.stringify(resp.data)
 			})
 			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+				de && bug(err);
 			});
 	}
 
