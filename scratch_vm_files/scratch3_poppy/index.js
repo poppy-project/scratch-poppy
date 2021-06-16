@@ -992,6 +992,12 @@ class Scratch3Poppy {
 		return resultat;
 	}
 
+
+	/**
+	 * Performs a GET method to poppyUrl + URL given. It then returns the promise received.
+	 * @param args the url of the request is stored in args.REQUEST
+	 * @returns {Promise<string>} the answer given by the REST API
+	 */
 	getRESTAPI(args) {
 		de && bug("GET API-REST args: ", args);
 		let url = this._robotUrl + args.REQUEST.toString();
@@ -1010,6 +1016,12 @@ class Scratch3Poppy {
 			});
 	}
 
+
+	/**
+	 * Performs a POST method to poppyUrl + URL, using the data given. It then returns the promise received.
+	 * @param args the url of the request is stored in args.REQUEST, the data is stored in args.DATA
+	 * @returns {Promise<string>} the answer given by the REST API
+	 */
 	postRESTAPI(args) {
 		de && bug("POST API-REST args: ", args);
 		let url = this._robotUrl + decodeURI(args.URL);  // url given in the block
