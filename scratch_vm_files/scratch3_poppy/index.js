@@ -385,7 +385,7 @@ class Scratch3Poppy {
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getMotorsInGroup,
 					arguments: {
-						TEXT: {
+						GROUP: {
 							type: ArgumentType.STRING,
 							defaultValue: 'group_name'
 						}
@@ -669,17 +669,18 @@ class Scratch3Poppy {
 			});
 	}
 
+	/**
+	 * Gives a list of all motors of a group
+	 * @param args the group is stored in args.GROUP
+	 * @returns {Promise<* | string>}
+	 */
 	getMotorsInGroup(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/motors/' + argtext;
-		const resultat = axios.get(url)
-			.then(resp => {
-				let group = resp.data;
-				let motorsInGroup = this.toArray(group);
-				return motorsInGroup;
-			})
-			.catch(() => alert('Group <' + argtext + '> is not in the available groups of your robot. See "all motors groups" button for the available groups'));
-		return resultat;
+		let group = args.GROUP.toString();
+		return this.getRESTAPI({REQUEST: '/motor/' + group + '/list.json'})
+			.then(motors => JSON.parse(motors)[group].toString())
+			.catch(() => {
+				return 'No motor found in group "' + group + '"';
+			});
 	}
 
 
