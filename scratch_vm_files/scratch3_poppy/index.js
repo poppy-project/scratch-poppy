@@ -25,7 +25,7 @@ class Scratch3Poppy {
 
 	constructor(runtime) {
 		this.runtime = runtime;
-		this._robotUrl = '';
+		this._robotUrl = 'Undefined';
 		this._robotIp = '';
 		this._robotPort = '8080';
 	}
