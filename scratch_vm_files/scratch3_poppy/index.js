@@ -653,8 +653,8 @@ class Scratch3Poppy {
 	 * @returns {Promise<*>} the motor aliases separated by a colon.
 	 */
 	getRobotAliases() {
-		return this.getRESTAPI({REQUEST: "/motor/alias/list.json"})
-			.then(motors => JSON.parse(motors).alias.toString())
+		return this.getRESTAPI({REQUEST: "/motors/aliases/list.json"})
+			.then(motors => JSON.parse(motors).aliases.toString())
 			.catch();
 	}
 
@@ -678,7 +678,7 @@ class Scratch3Poppy {
 	 */
 	getMotorsInGroup(args) {
 		let group = args.GROUP.toString();
-		return this.getRESTAPI({REQUEST: '/motor/' + group + '/list.json'})
+		return this.getRESTAPI({REQUEST: '/motors/' + group + '/list.json'})
 			.then(motors => JSON.parse(motors)[group].toString())
 			.catch(() => {
 				return 'No motor found in group "' + group + '"';
@@ -693,7 +693,7 @@ class Scratch3Poppy {
 	 * @returns {Promise<*>} containing the motor names separated by a colon.
 	 */
 	getMotors() {
-		return this.getRESTAPI({REQUEST: "/motor/list.json"})
+		return this.getRESTAPI({REQUEST: "/motors/list.json"})
 			// getRESTAPI answer will look like '{"motors":["m1","m2","m3","m4","m5","m6"]}'
 			// From this example, the process below will return "m1,m2,m3,m4,m5,m6"
 			.then(motors => JSON.parse(motors).motors.toString())
@@ -728,7 +728,7 @@ class Scratch3Poppy {
 	getPropertiesMethods(args) {
 		let attribute = args.ATTRIBUTE.toString();
 		let behaviour = args.BEHAVIOUR.toString();
-		let url = '/primitive/' + behaviour + '/' + attribute + '/list.json';
+		let url = '/primitives/' + behaviour + '/' + attribute + '/list.json';
 
 		return this.getRESTAPI({REQUEST: url})
 			.then(value => JSON.parse(value)[attribute].toString())
@@ -746,7 +746,7 @@ class Scratch3Poppy {
 		let primitive = args.PRIMITIVE.toString();
 		let action = args.ACTION.toString();
 
-		return this.getRESTAPI({REQUEST: "/primitive/" + primitive + "/" + action + ".json"})
+		return this.getRESTAPI({REQUEST: "/primitives/" + primitive + "/" + action + ".json"})
 			.then(() => {
 				return "Done!"
 			})
@@ -814,7 +814,7 @@ class Scratch3Poppy {
 		let compliant = (args.STATUS.toString() === 'compliant') ? 'true' : 'false';
 
 		for (let m = 0; m < motors.length; m++) {
-			let url = '/motor/' + motors[m] + '/register/compliant/value.json';
+			let url = '/motors/' + motors[m] + '/registers/compliant/value.json';
 			let postArgs = {
 				URL: url,
 				DATA: compliant
@@ -1067,7 +1067,7 @@ class Scratch3Poppy {
 	getMotorRegister(args) {
 		let motor = args.MOTOR.toString();
 		let register = args.REGISTER.toString();
-		let url = '/motor/' + motor + '/register/' + register;
+		let url = '/motors/' + motor + '/registers/' + register;
 
 		return this.getRESTAPI({REQUEST: url})
 			.then(value => JSON.parse(value)[register].toString())
