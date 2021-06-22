@@ -27,7 +27,7 @@ module.exports = {
         indexMotor: 'index du moteur [MOTOR]',
         getMotorRegister: 'récupérer [REGISTER] du moteur [MOTOR]',
         getMotorsInGroup: 'les moteurs dans le groupe [GROUP]',
-        getPrimitives: 'récupérer [TEXT] les comportements',
+        getPrimitives: 'récupérer [STATE] les comportements',
         getPropertiesMethods: 'récupérer [ATTRIBUTE] du comportement [BEHAVIOUR]',
         concurrent: 'concurrent [INFO1] [INFO2]',
         getSitemap: 'http:// [URL]',

@@ -395,7 +395,7 @@ class Scratch3Poppy {
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getPrimitives,
 					arguments: {
-						TEXT: {
+						STATE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'all',
 							menu: 'getBehaviours'
@@ -700,22 +700,22 @@ class Scratch3Poppy {
 			});
 	}
 
+	/**
+	 * Gets all or running primitives
+	 * @param args either 'all' or 'running' is stored in args.STATE
+	 * @returns {Promise<* | string>} a list of primitives
+	 */
 	getPrimitives(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/primitives';
-		if (argtext === 'running')
-			url += '/running';
-		const resultat = axios.get(url)
-			.then(resp => {
-				let name = resp.data;
-				let behaviorsName = this.toArray(name);
-				return behaviorsName;
+		let state = args.STATE.toString();
+		let uri = (state === 'all') ? '/primitives/list.json' : '/primitives/running/list.json' + ''
+		return this.getRESTAPI({REQUEST: uri})
+			.then(primitives => {
+				let primitiveId = (state === 'all')? 'primitives' : 'running_primitives';
+				return JSON.parse(primitives)[primitiveId].toString()
 			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+			.catch(() => {
+				return 'Error on connection.'
 			});
-		return resultat;
 	}
 
 	/**
