@@ -896,20 +896,32 @@ class Scratch3Poppy {
 			});
 	}
 
+	/**
+	 * Tries to connect to a robot from the address given by the user.
+	 * It will get the ip of the robot through a GET /ip.
+	 * On success, the ip of the robot is saved for future GET & POST requests.
+	 *
+	 * @param args the ip of the robot the user wants to access is stored in args.URL
+	 * @returns {Promise<string | void>} the ip of the robot on success, else an error message.
+	 */
 	setHost(args) {
-		// TODO: add an api request to get the ip of the robot
-		let argUrl = args.URL.toString();
-		this._robotUrl = 'http://' + argUrl + ':' + this._robotPort;
-		let url = this._robotUrl; // + '/ip/';
-		return axios.get(url)
+		let robotUrl = "http://" + args.URL.toString() + ":" + this._robotPort + "/ip";
+		return axios.get(robotUrl)
 			.then(resp => {
-				this._robotIp = "10.2.11.40"; //resp.data;
-				this._robotUrl = 'http://' + this._robotIp + ':' + this._robotPort;
-				console.log(this._robotIp);
-				console.log(this._robotUrl);
-				return 'Connection ok !';
+				return JSON.stringify(resp.data)
 			})
-			.catch(() => alert('Your robot host is unreachable'));
+			.then(data => {
+				return JSON.parse(data).ip.toString();
+			})
+			.then(ip => {
+				this._robotIp = ip;
+				this._robotUrl = "http://" + this._robotIp + ":" + this._robotPort;
+				de && bug('Robot url:', this._robotUrl);
+				return ip;
+			})
+			.catch(() => {
+				return 'Your robot host is unreachable'
+			});
 	}
 
 	/**
