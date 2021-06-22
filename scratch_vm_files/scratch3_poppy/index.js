@@ -137,16 +137,15 @@ class Scratch3Poppy {
 					arguments: {
 						MOTORS: {
 							type: ArgumentType.STRING,
-							defaultValue: 'motor_name'
+							defaultValue: 'head_z'
 						},
-						STATUS: {
+						REGISTER: {
 							type: ArgumentType.STRING,
-							defaultValue: 'my_variable',
 							menu: 'variable'
 						},
 						VALUE: {
 							type: ArgumentType.STRING,
-							defaultValue: 'value'
+							defaultValue: '0'
 						}
 					}
 				},
@@ -822,16 +821,24 @@ class Scratch3Poppy {
 		}
 	}
 
+	/**
+	 * Changes the value of a register.
+	 * @param args
+	 */
 	setValue(args) {
-		let argmotors = Cast.toString(args.MOTORS);
-		let argvalue = Cast.toString(args.VALUE);
-		let argstatus = Cast.toString(args.STATUS);
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, argstatus, argvalue);
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
+		let motors = args.MOTORS.toString().split(',');
+		let value =  args.VALUE.toString();
+		let register = args.REGISTER.toString();
+
+		for (let m = 0; m < motors.length; m++) {
+			let url = '/motors/' + motors[m] + '/registers/' + register + '/value.json';
+			let postArgs = {
+				URL: url,
+				DATA: value
+			};
+			this.postRESTAPI(postArgs)
+				.catch(err => console.log(err));
+		}
 	}
 
 	setLed(args) {

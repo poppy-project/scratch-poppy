@@ -10,7 +10,7 @@ module.exports = {
         actionPrimitives: '[ACTION] behaviour [PRIMITIVE]',
         stopMovePlayer: 'stop move [TEXT]',
         setCompliant: 'set motor(s) [MOTORS] [STATUS]',
-        setValue: 'set [STATUS] motor(s) [MOTORS] to [VALUE]',
+        setValue: 'set [REGISTER] motor(s) [MOTORS] to [VALUE]',
         setLed: 'set color leds of motor(s) [MOTORS] in [STATUS]',
         popup: 'popup [TEXT]',
         startMovePlayerWithSpeed: 'play move [MOVE] | speed x [SPEED]',
