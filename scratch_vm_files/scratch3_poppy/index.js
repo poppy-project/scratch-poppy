@@ -628,20 +628,20 @@ class Scratch3Poppy {
 	}
 
 
+	/**
+	 * Gets the values all present_positions of the motors.
+	 * @returns {Promise<any[] | string>} an array containing all motor positions.
+	 */
 	getMotorsPositions() {
-		// TODO: add an api request to get all motors positions
-		let url = this._robotUrl + '/motors/get/positions';
-		const resultat = axios.get(url)
+		return this.getRESTAPI({REQUEST: '/motors/registers/present_position/list.json'})
 			.then(resp => {
-				let pos = resp.data;
-				let motorsPos = this.toArray(pos);
-				return motorsPos;
+				let positions = Object.values(JSON.parse(resp).present_position);
+				de && bug(positions); // array containing all motor positions.
+				return positions;
 			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with the connection')
+			.catch(() => {
+				return 'Error with the connection';
 			});
-		return resultat;
 	}
 
 	/**
