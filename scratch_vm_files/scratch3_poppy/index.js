@@ -923,11 +923,12 @@ class Scratch3Poppy {
 	}
 
 	/**
-	 * Concatenates the ip of the robot and the IP of the REST API
 	 * @returns {string} url of Poppy Robot
 	 */
 	poppyUrl() {
-		return this._robotIp + ':' + this._robotPort;
+		if (this._robotUrl !== 'Undefined')
+			return this._robotUrl;
+		return 'Define the address of the robot before requesting its URL'
 	}
 
 
