@@ -125,7 +125,6 @@ class Scratch3Poppy {
 						},
 						STATUS: {
 							type: ArgumentType.STRING,
-							defaultValue: 'compliant',
 							menu: 'compliant'
 						}
 					}
@@ -570,8 +569,8 @@ class Scratch3Poppy {
 				compliant: {
 					acceptReporters: true,
 					items: [
-						{text: messages.menus.compliant.compliant, value: 'compliant'},
-						{text: messages.menus.compliant.stiff, value: 'stiff'}
+						{text: messages.menus.compliant.compliant, value: 'true'},
+						{text: messages.menus.compliant.stiff, value: 'false'}
 					]
 				},
 				color: {
@@ -811,8 +810,7 @@ class Scratch3Poppy {
 	 */
 	setCompliant(args) {
 		let motors = args.MOTORS.toString().split(',');
-		let compliant = (args.STATUS.toString() === 'compliant') ? 'true' : 'false';
-
+		let compliant = args.STATUS.toString();
 		for (let m = 0; m < motors.length; m++) {
 			let url = '/motors/' + motors[m] + '/registers/compliant/value.json';
 			let postArgs = {
