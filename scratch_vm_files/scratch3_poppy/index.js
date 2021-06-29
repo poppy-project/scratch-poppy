@@ -738,31 +738,6 @@ class Scratch3Poppy {
 	}
 
 
-	getAvailableRecords() {
-		// TODO: add an api request to get all recorded moves
-		let url = this._robotUrl + '/primitive/MovePlayer';
-		const resultat = axios.get(url)
-			.then(resp => {
-				let record = resp.data;
-				let recordsName = this.toArray(record);
-				return recordsName;
-			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with the connection')
-			});
-		return resultat;
-	}
-
-
-	stopMovePlayer(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/primitive/MovePlayer/' + argtext + '/stop';
-		axios.get(url)
-			.catch(() => alert('Move <' + args.TEXT + '> is not available.'));
-	}
-
-
 	getSitemap(args) {
 		let argurl = Cast.toString(args.URL);
 		let url = 'http://' + argurl + '/';
@@ -815,7 +790,16 @@ class Scratch3Poppy {
 		return alert(argtext);
 	}
 
-	startMovePlayerWithSpeed(args) {
+	getAvailableRecords() {
+		return this.getRESTAPI({REQUEST: "/records/list.json"})
+			.then(motors => JSON.parse(motors).moves.toString())
+			.catch(() => {
+				return "Error"
+			});
+	}
+
+
+	startMovePlayer(args) {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
