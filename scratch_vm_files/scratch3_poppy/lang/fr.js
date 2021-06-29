@@ -11,7 +11,6 @@ module.exports = {
         stopMovePlayer: 'arrêter le mouvement [TEXT]',
         setCompliant: 'rendre le(s) moteur(s) [MOTORS] [STATUS]',
         setValue: 'mettre [REGISTER] pour le(s) moteur(s) [MOTORS] à [VALUE]',
-        setLed: 'mettre la couleur des leds du moteur(s) [MOTORS] en [STATUS]',
         popup: 'popup [TEXT]',
         startMovePlayerWithSpeed: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
         startMovePlayerBackwardsWithSpeed: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',

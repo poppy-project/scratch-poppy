@@ -151,23 +151,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'setLed',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.setLed,
-					arguments: {
-						MOTORS: {
-							type: ArgumentType.STRING,
-							defaultValue: 'motor_name'
-						},
-						STATUS: {
-							type: ArgumentType.STRING,
-							defaultValue: 'off',
-							menu: 'color'
-						}
-					}
-				},
-
-				{
 					opcode: 'popup',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.popup,
@@ -571,19 +554,6 @@ class Scratch3Poppy {
 						{text: messages.menus.compliant.stiff, value: 'false'}
 					]
 				},
-				color: {
-					acceptReporters: true,
-					items: [
-						{text: messages.menus.color.off, value: 'off'},
-						{text: messages.menus.color.red, value: 'red'},
-						{text: messages.menus.color.green, value: 'green'},
-						{text: messages.menus.color.yellow, value: 'yellow'},
-						{text: messages.menus.color.blue, value: 'blue'},
-						{text: messages.menus.color.pink, value: 'pink'},
-						{text: messages.menus.color.cyan, value: 'cyan'},
-						{text: messages.menus.color.white, value: 'white'}
-					]
-				},
 				wait: {
 					acceptReporters: true,
 					items: [
@@ -838,17 +808,6 @@ class Scratch3Poppy {
 			this.postRESTAPI(postArgs)
 				.catch(err => console.log(err));
 		}
-	}
-
-	setLed(args) {
-		let argmotors = Cast.toString(args.MOTORS);
-		let argvalue = Cast.toString(args.STATUS);
-		let url = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(argmotors, 'led', argvalue);
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
 	}
 
 	popup(args) {
