@@ -410,7 +410,6 @@ class Scratch3Poppy {
 					arguments: {
 						ATTRIBUTE: {
 							type: ArgumentType.STRING,
-							defaultValue: 'method',
 							menu: 'getPropBehaviours'
 						},
 						BEHAVIOUR: {
@@ -552,8 +551,8 @@ class Scratch3Poppy {
 				getPropBehaviours: {
 					acceptReporters: true,
 					items: [
-						{text: messages.menus.getPropBehaviours.method, value: 'method'},
-						{text: messages.menus.getPropBehaviours.property, value: 'property'}
+						{text: messages.menus.getPropBehaviours.method, value: 'methods'},
+						{text: messages.menus.getPropBehaviours.property, value: 'properties'}
 					]
 				},
 				actionBehaviours: {
