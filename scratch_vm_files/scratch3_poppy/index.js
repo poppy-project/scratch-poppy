@@ -729,7 +729,7 @@ class Scratch3Poppy {
 	 * @returns {Promise<string | void>} the ip of the robot on success, else an error message.
 	 */
 	setHost(args) {
-		let robotUrl = "http://" + args.URL.toString() + ":" + this._robotPort + "/ip";
+		let robotUrl = "http://" + args.URL.toString() + ":" + this._robotPort + "/ip.json";
 		return axios.get(robotUrl)
 			.then(resp => {
 				return JSON.stringify(resp.data)
@@ -929,7 +929,7 @@ class Scratch3Poppy {
 	getMotorRegister(args) {
 		let motor = args.MOTOR.toString();
 		let register = args.REGISTER.toString();
-		let url = '/motors/' + motor + '/registers/' + register;
+		let url = '/motors/' + motor + '/registers/' + register + '/value.json';
 
 		return this.getRESTAPI({REQUEST: url})
 			.then(value => JSON.parse(value)[register].toString())
