@@ -226,11 +226,11 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'remove',
+					opcode: 'deleteRecord',
 					blockType: BlockType.COMMAND,
-					text: messages.blocks.remove,
+					text: messages.blocks.deleteRecord,
 					arguments: {
-						TEXT: {
+						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						}
@@ -778,27 +778,18 @@ class Scratch3Poppy {
 			});
 	}
 
-	remove(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let listMove = [];
-		let move = '';
-		for (let i = 0; i < argtext.length; i++) {
-			if (argtext.substring(i, i + 1) === ' ' || argtext.substring(i, i + 1) === '/' || argtext.substring(i, i + 1) === ',' || argtext.substring(i, i + 1) === ';') {
-				listMove.push(move);
-				move = '';
-			} else {
-				move += argtext.substring(i, i + 1);
-			}
-		}
-		listMove.push(move);
-		for (let i = 0; i < listMove.length; i++) {
-			let url = this._robotUrl + '/primitive/MoveRecorder/' + listMove[i] + '/remove';
-			axios.get(url)
-				.catch(err => {
-					console.log(err);
-					alert('Error with parameters or connection')
-				});
-		}
+	deleteRecord(args) {
+		let moveName = args.MOVE.toString()
+		let url = '/records/' + moveName + '/delete.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(status => JSON.parse(status)[moveName].toString())
+			.catch(() => {
+				return 'Error with parameters.';
+			});
 	}
 
 	/**

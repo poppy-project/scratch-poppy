@@ -15,7 +15,7 @@ module.exports = {
         startMovePlayer: 'play move [MOVE] x speed [SPEED]',
         setMotorsGoto: 'set position [POS] of motor(s) [MOTORS] in [TIME] seconds | wait ? [WAIT]',
         initRobot: 'robot [TEXT]',
-        deleteRecord: 'remove [TEXT]',
+        deleteRecord: 'remove [MOVE]',
         recordMove: 'create & start record move [MOVE] with motor(s) [MOTORS]',
         saveMove: 'stop record & save move [MOVE]',
         indexMotor: 'index of motor [MOTOR]',
