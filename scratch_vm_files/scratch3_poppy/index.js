@@ -692,25 +692,21 @@ class Scratch3Poppy {
 			});
 	}
 
-	startMovePlayerBackwardsWithSpeed(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let argspeed = Cast.toString(args.SPEED);
-		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed + '/backwards';
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
-	}
-
-	startMovePlayer(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let argspeed = Cast.toString(args.SPEED);
-		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+	/**
+	 * Stops a played move
+	 * @param args
+	 */
+	stopMovePlayer(args) {
+		let moveName = args.MOVE;
+		let url = '/records/' + moveName + '/stop.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(status => JSON.parse(status)[moveName].toString())
+			.catch(() => {
+				return 'Error with parameters.';
 			});
 	}
 
