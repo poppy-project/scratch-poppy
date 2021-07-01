@@ -266,34 +266,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'playConcurrent',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.playConcurrent,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_1 move_2'
-						}
-					}
-				},
-
-				//TODO: implement the "play sequentially" button
-				{
-					opcode: 'playSequentially',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.playSequentially,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_1 move_2'
-						}
-					},
-					//hide the button on Scratch
-					hideFromPalette: true
-				},
-
-
-				{
 					opcode: 'indexMotor',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.indexMotor,
@@ -364,40 +336,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'concurrent',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.concurrent,
-					arguments: {
-						INFO1: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						},
-						INFO2: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						}
-					}
-				},
-
-				{
-					opcode: 'sequence',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.sequence,
-					arguments: {
-						INFO1: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						},
-						INFO2: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						}
-					},
-					//hide the button on Scratch
-					hideFromPalette: true
-				},
-
-				{
 					opcode: 'getSitemap',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getSitemap,
@@ -405,30 +343,6 @@ class Scratch3Poppy {
 						URL: {
 							type: ArgumentType.STRING,
 							defaultValue: ' '
-						}
-					}
-				},
-
-				{
-					opcode: 'dataToString',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.dataToString,
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: 'get_button_data'
-						}
-					}
-				},
-
-				{
-					opcode: 'callAPI',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.callAPI,
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: '/motors/motors'
 						}
 					}
 				},
@@ -1051,69 +965,7 @@ class Scratch3Poppy {
 			});
 	}
 
-	concurrent(args) {
-		let arginfo1 = Cast.toString(args.INFO1);
-		let arginfo2 = Cast.toString(args.INFO2);
-		let resultat = arginfo1 + '/' + arginfo2;
-		return resultat;
-	}
 
-	playConcurrent(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let listMove = [];
-		let move = '';
-		for (let i = 0; i < argmove.length; i++) {
-			if (argmove.substring(i, i + 1) === ' ') {
-				listMove.push(move);
-				move = '';
-			} else {
-				move += argmove.substring(i, i + 1);
-			}
-		}
-		listMove.push(move);
-		for (let i = 0; i < listMove.length; i++) {
-			let url = this._robotUrl + '/primitive/MovePlayer/' + listMove[i] + '/start/1';
-			axios.get(url)
-				.catch(err => {
-					console.log(err);
-					alert('Error with parameters or connection. See <move> in all recorded moves')
-				});
-		}
-
-	}
-
-	//TODO: implement the button "play sequentially" & "sequence"
-	//one idea which does not work for the moment in the following lines
-	/*
-	playSequentially(args){
-			let argmove = Cast.toString(args.MOVE);
-			let listMove = [];
-			let move = '';
-			for(let i = 0;i<argmove.length;i++){
-					if(argmove.substring(i,i+1) == ' '){
-							listMove.push(move);
-							move = '';
-					}
-					else{
-							move += argmove.substring(i,i+1);
-					}
-			}
-			listMove.push(move);
-			sequentially(listMove)
-			.catch(err=>{console.log(err); alert('Error with parameters or connection. See <move> in all recorded moves')});
-	}
-
-	async function sequentially(move) {
-			for(let i = 0; i<move.length;i++){
-					let url = this._robotUrl + '/primitive/MovePlayer/' + move[i] + '/start/1';
-					await axios.get(url);
-			}
-	}
-
-	sequence(args):{
-
-	}
-	*/
 
 	getMessagesForLocale() {
 		const locale = formatMessage.setup().locale;
