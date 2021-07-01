@@ -497,7 +497,9 @@ class Scratch3Poppy {
 	getRobotAliases() {
 		return this.getRESTAPI({REQUEST: "/motors/aliases/list.json"})
 			.then(motors => JSON.parse(motors).aliases.toString())
-			.catch();
+			.catch(() => {
+				return 'Error with the connection';
+			});
 	}
 
 
@@ -507,9 +509,8 @@ class Scratch3Poppy {
 		let url = this._robotUrl + '/detect/' + argtext;
 		axios.get(url)
 			.then(resp => resp.data)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+			.catch(() => {
+				return 'Error with the connection';
 			});
 	}
 
@@ -589,7 +590,8 @@ class Scratch3Poppy {
 		let action = args.ACTION.toString();
 
 		return this.getRESTAPI({REQUEST: "/primitives/" + primitive + "/" + action + ".json"})
-			.then(() => {
+			.then(state => {
+				de && bug(state);
 				return "Done!"
 			})
 			.catch(() => {
@@ -608,7 +610,7 @@ class Scratch3Poppy {
 				return 'Connection ok!'
 			})
 			.catch(() => {
-				return 'Error on connection!'
+				return 'Error on connection.'
 			});
 	}
 
@@ -636,7 +638,9 @@ class Scratch3Poppy {
 				DATA: compliant
 			};
 			this.postRESTAPI(postArgs)
-				.catch(err => console.log(err));
+				.catch(() => {
+					return 'Error on connection.';
+				});
 		}
 	}
 
@@ -656,7 +660,9 @@ class Scratch3Poppy {
 				DATA: value
 			};
 			this.postRESTAPI(postArgs)
-				.catch(err => console.log(err));
+				.catch(() => {
+					return 'Error on connection.';
+				});
 		}
 	}
 
@@ -667,9 +673,9 @@ class Scratch3Poppy {
 
 	getAvailableRecords() {
 		return this.getRESTAPI({REQUEST: "/records/list.json"})
-			.then(motors => JSON.parse(motors).moves.toString())
+			.then(moves => JSON.parse(moves).moves.toString())
 			.catch(() => {
-				return "Error"
+				return 'Error on connection.';
 			});
 	}
 
@@ -763,9 +769,8 @@ class Scratch3Poppy {
 		let argtext = Cast.toString(args.TEXT);
 		let url = 'http://poppy.local/api/' + argtext;
 		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+			.catch(() => {
+				return 'Error with parameter.';
 			});
 	}
 
@@ -905,9 +910,8 @@ class Scratch3Poppy {
 		let argtime = Cast.toString(args.TIME);
 		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argmotors, argpos, argtime);
 		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+			.catch(() => {
+				return 'Error with parameter.';
 			});
 	}
 
