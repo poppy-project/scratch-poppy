@@ -813,20 +813,31 @@ class Scratch3Poppy {
 	 * @returns {Promise<string>} the answer given by the REST API
 	 */
 	getRESTAPI(args) {
+		if (this._robotUrl === 'Undefined') {
+			// Raises an error if URL is not defined
+			let error = {
+				"error": "Could not find poppy's URL",
+				"tip": "Use Set host to [IP] block to define poppy's URL",
+				"details": "This block wants to perform a get request to the REST Api of Poppy, but Poppy's URL is not defined."
+			}
+			let status = 404
+			try {
+				this.poppyErrorManager(status, error); // Alert thrown to the user
+			} catch	{
+				return Promise.reject(new Error('Error on Rest API!'));
+			}
+		}
+
 		de && bug("GET API-REST args: ", args);
 		let url = this._robotUrl + args.REQUEST.toString();
 		return axios.get(url)
 			.then(resp => {
 				return JSON.stringify(resp.data)
 			})
-			.catch(function (error) {
-				de && bug('Error on getRESTAPI:', JSON.stringify(error));
-				console.log('Error:', error)
-				if (error.response) {
-					de && bug("status of error:", error.response.status);
-					de && bug(error.response.headers);
-					de && bug(error.response.data);
-				}
+			.catch(err => {
+				if (err.response)
+					de && bug(err.response.data)
+				this.poppyErrorManager(err.response.status, err.response.data);
 			});
 	}
 
@@ -837,6 +848,21 @@ class Scratch3Poppy {
 	 * @returns {Promise<string>} the answer given by the REST API
 	 */
 	postRESTAPI(args) {
+		if (this._robotUrl === 'Undefined') {
+			// Raises an error if URL is not defined
+			let error = {
+				"error": "Could not find poppy's URL",
+				"tip": "Use Set host to [IP] block to define poppy's URL",
+				"details": "This block wants to perform a post request to the REST Api of Poppy, but Poppy's URL is not defined."
+			}
+			let status = 404
+			try {
+				this.poppyErrorManager(status, error); // Alert thrown to the user
+			} catch	{
+				return Promise.reject(new Error('Error on Rest API!'));
+			}
+		}
+
 		de && bug("POST API-REST args: ", args);
 		let url = this._robotUrl + decodeURI(args.URL);  // url given in the block
 		let dataString = decodeURIComponent(args.DATA);  // data given in the block
@@ -855,7 +881,9 @@ class Scratch3Poppy {
 				return JSON.stringify(resp.data)
 			})
 			.catch(err => {
-				de && bug(err);
+				if (err.response)
+					de && bug(err.response.data)
+					this.poppyErrorManager(err.response.status, err.response.data);
 			});
 	}
 
