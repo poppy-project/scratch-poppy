@@ -744,7 +744,18 @@ class Scratch3Poppy {
 	poppyUrl() {
 		if (this._robotUrl !== 'Undefined')
 			return this._robotUrl;
-		return 'Define the address of the robot before requesting its URL'
+
+		let error = {
+			"error": "Could not find poppy's URL",
+			"tip": "Use Set host to [IP] block to define poppy's URL",
+			"details": "You never defined poppy's URL, you can't use this block for the moment."
+		}
+		let status = 404
+		try {
+			this.poppyErrorManager(status, error);
+		} catch {
+			return 'No URL found'
+		}
 	}
 
 
