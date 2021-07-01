@@ -172,24 +172,8 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'startMovePlayerWithSpeed',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.startMovePlayerWithSpeed,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
-						},
-						SPEED: {
-							type: ArgumentType.NUMBER,
-							defaultValue: 1
-						}
-					}
-				},
-
-				{
 					opcode: 'startMovePlayer',
-					blockType: BlockType.REPORTER,
+					blockType: BlockType.COMMAND,
 					text: messages.blocks.startMovePlayer,
 					arguments: {
 						MOVE: {
@@ -198,39 +182,7 @@ class Scratch3Poppy {
 						},
 						SPEED: {
 							type: ArgumentType.NUMBER,
-							defaultValue: 1
-						}
-					}
-				},
-
-				{
-					opcode: 'startMovePlayerBackwards',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.startMovePlayerBackwards,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
-						},
-						SPEED: {
-							type: ArgumentType.NUMBER,
-							defaultValue: 1
-						}
-					}
-				},
-
-				{
-					opcode: 'startMovePlayerBackwardsWithSpeed',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.startMovePlayerBackwardsWithSpeed,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
-						},
-						SPEED: {
-							type: ArgumentType.NUMBER,
-							defaultValue: 1
+							defaultValue: -1.0
 						}
 					}
 				},
@@ -807,15 +759,22 @@ class Scratch3Poppy {
 			});
 	}
 
-
+	/**
+	 * Plays a recorded move. You can choose the speed of the replay and you can play the move backwards
+	 * @param args
+	 */
 	startMovePlayer(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let argspeed = Cast.toString(args.SPEED);
-		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+		let moveName = args.MOVE;
+		let speed = args.SPEED;
+		let url = '/records/' + moveName + '/play.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{"speed": "' + speed + '"}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(status => JSON.parse(status)[moveName].toString())
+			.catch(() => {
+				return 'Error with parameters.';
 			});
 	}
 
@@ -834,17 +793,6 @@ class Scratch3Poppy {
 		let argmove = Cast.toString(args.MOVE);
 		let argspeed = Cast.toString(args.SPEED);
 		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed;
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
-			});
-	}
-
-	startMovePlayerBackwards(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let argspeed = Cast.toString(args.SPEED);
-		let url = this._robotUrl + '/primitive/MovePlayer/' + argmove + '/start/' + argspeed + '/backwards';
 		axios.get(url)
 			.catch(err => {
 				console.log(err);
