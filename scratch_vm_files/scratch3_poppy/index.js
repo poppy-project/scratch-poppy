@@ -30,6 +30,15 @@ class Scratch3Poppy {
 		this._robotPort = '8080';
 	}
 
+	poppyErrorManager(status, err) {
+		let error = err.error;
+		let tip = err.tip;
+		let details = err.details;
+		let msg = "Error " + status + " : " + error + "\n\nTip : " + tip + "\n\nDetails : " + details;
+		alert(msg)
+		throw new Error("Error " + status);
+	}
+
 	getInfo() {
 		const messages = this.getMessagesForLocale();
 
