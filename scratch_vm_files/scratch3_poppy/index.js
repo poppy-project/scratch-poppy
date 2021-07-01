@@ -1,8 +1,7 @@
-const ArgumentType = require('../../extension-support/argument-type');
-const BlockType = require('../../extension-support/block-type');
-const Cast = require('../../util/cast');
-const axios = require('axios').default;
-const formatMessage = require('format-message');
+const ArgumentType = require(`../../extension-support/argument-type`);
+const BlockType = require(`../../extension-support/block-type`);
+const axios = require(`axios`).default;
+const formatMessage = require(`format-message`);
 
 const de = false;  // true when debugging
 
@@ -504,9 +503,8 @@ class Scratch3Poppy {
 
 
 	detectMarker(args) {
-		// TODO: try on snap how QR code reader works
-		let argtext = Cast.toString(args.TEXT);
-		let url = this._robotUrl + '/detect/' + argtext;
+		let argText = args.TEXT.toString();
+		let url = this._robotUrl + '/detect/' + argText;
 		axios.get(url)
 			.then(resp => resp.data)
 			.catch(() => {
@@ -616,12 +614,11 @@ class Scratch3Poppy {
 
 
 	getSitemap(args) {
-		let argurl = Cast.toString(args.URL);
-		let url = 'http://' + argurl + '/';
-		const resultat = axios.get(url)
+		let argUrl = args.URL.toString();
+		let url = 'http://' + argUrl + '/';
+		return axios.get(url)
 			.then(resp => resp.data)
 			.catch(() => alert('Robot is not connected to ' + url));
-		return resultat;
 	}
 
 	/**
@@ -667,8 +664,8 @@ class Scratch3Poppy {
 	}
 
 	popup(args) {
-		let argtext = Cast.toString(args.TEXT);
-		return alert(argtext);
+		let argText = args.TEXT.toString();
+		return alert(argText);
 	}
 
 	/**
@@ -770,8 +767,8 @@ class Scratch3Poppy {
 
 
 	initRobot(args) {
-		let argtext = Cast.toString(args.TEXT);
-		let url = 'http://poppy.local/api/' + argtext;
+		let argText = args.TEXT.toString();
+		let url = 'http://poppy.local/api/' + argText;
 		axios.get(url)
 			.catch(() => {
 				return 'Error with parameter.';
@@ -900,10 +897,10 @@ class Scratch3Poppy {
 
 	// TODO: Add the "wait" option to wait until the move is finished
 	setMotorsGoto(args) {
-		let argmotors = Cast.toString(args.MOTORS);
-		let argpos = Cast.toString(args.POS);
-		let argtime = Cast.toString(args.TIME);
-		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argmotors, argpos, argtime);
+		let argMotors = args.MOTORS.toString();
+		let argPos = args.POS.toString();
+		let argTime = args.TIME.toString();
+		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argMotors, argPos, argTime);
 		axios.get(url)
 			.catch(() => {
 				return 'Error with parameter.';
@@ -936,8 +933,8 @@ class Scratch3Poppy {
 	 * @return {Promise<* | string>}
 	 */
 	recordMove(args) {
-		let moveName = Cast.toString(args.MOVE);
-		let motors = Cast.toString(args.MOTORS);
+		let moveName = args.MOVE.toString();
+		let motors = args.MOTORS.toString();
 		let url = '/records/' + moveName + '/record.json';
 		let postArgs = {
 			URL: url,
@@ -951,7 +948,7 @@ class Scratch3Poppy {
 	}
 
 	saveMove(args) {
-		let moveName = Cast.toString(args.MOVE);
+		let moveName = args.MOVE.toString();
 		let url = '/records/' + moveName + '/save.json';
 		let postArgs = {
 			URL: url,
@@ -973,7 +970,7 @@ class Scratch3Poppy {
 		try {
 			messages = require(`./lang/${locale}`);
 		} catch (ex) {
-			log.warn(`Locale "${locale}" is not supported.`);
+			console.log(`Locale "${locale}" is not supported.`);
 			messages = require(`./lang/${Scratch3Poppy.DEFAULT_LANG}`);
 		}
 		return messages;
