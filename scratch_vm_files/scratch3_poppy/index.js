@@ -254,9 +254,9 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'stopSaveMove',
+					opcode: 'saveMove',
 					BlockType: BlockType.COMMAND,
-					text: messages.blocks.stopSaveMove,
+					text: messages.blocks.saveMove,
 					arguments: {
 						MOVE: {
 							type: ArgumentType.STRING,
@@ -916,30 +916,17 @@ class Scratch3Poppy {
 			});
 	}
 
-	stopSaveMove(args) {
-		let argmove = Cast.toString(args.MOVE);
-		let urlMotorsUsed = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/get_motors';
-		axios.get(urlMotorsUsed)
-			.then(resp => {
-				let motors = resp.data;
-				console.log(motors);
-				let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors, 'compliant', '0');
-				console.log(urlCompliant);
-				axios.get(urlCompliant)
-					.catch(err => {
-						console.log(err);
-						alert('Error with parameters or connection')
-					});
-			})
-			.catch(err => {
-				console.log(err);
-				alert('Error with the connection')
-			});
-		let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/stop';
-		axios.get(url)
-			.catch(err => {
-				console.log(err);
-				alert('Error with parameters or connection')
+	saveMove(args) {
+		let moveName = Cast.toString(args.MOVE);
+		let url = '/records/' + moveName + '/save.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(status => JSON.parse(status)[moveName].toString())
+			.catch(() => {
+				return 'Error with parameters.';
 			});
 	}
 
