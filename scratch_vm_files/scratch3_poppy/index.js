@@ -238,15 +238,15 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'createRecordMove',
+					opcode: 'recordMove',
 					BlockType: BlockType.COMMAND,
-					text: messages.blocks.createRecordMove,
+					text: messages.blocks.recordMove,
 					arguments: {
 						MOVE: {
 							type: ArgumentType.STRING,
 							defaultValue: 'move_name'
 						},
-						MOTOR: {
+						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						}
@@ -895,47 +895,25 @@ class Scratch3Poppy {
 			});
 	}
 
-	createRecordMove(args) {
-		let argmotor = Cast.toString(args.MOTOR);
-		let argmove = Cast.toString(args.MOVE);
-		let urlMotors = this._robotUrl + '/motors/motors';
-		if (argmotor === ' ' || argmotor === '') {
-			axios.get(urlMotors)
-				.then(resp => {
-					let value = resp.data;
-					let motorList = this.toMotorsListApiFormat(value);
-					let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motorList, 'compliant', '1');
-					axios.get(urlCompliant)
-						.catch(err => {
-							console.log(err);
-							alert('Error with the connection')
-						});
-					let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/start/' + motorList;
-					axios.get(url)
-						.catch(err => {
-							console.log(err);
-							alert('Error with parameters or connection')
-						});
-				})
-				.catch(err => {
-					console.log(err);
-					alert('Error with the connection')
-				});
-		} else {
-			let motors = this.toMotorsListApiFormat(argmotor);
-			let urlCompliant = this._robotUrl + '/motors/set/registers/' + this.motorsStatusUrl(motors, 'compliant', '1');
-			axios.get(urlCompliant)
-				.catch(err => {
-					console.log(err);
-					alert('Error with the connection')
-				});
-			let url = this._robotUrl + '/primitive/MoveRecorder/' + argmove + '/start/' + motors;
-			axios.get(url)
-				.catch(err => {
-					console.log(err);
-					alert('Error with parameters or connection')
-				});
-		}
+	/**
+	 * Starts to record a move. If the move does not exist yet, it is created. If a move with the same name has already
+	 * been defined, it will be erased.
+	 * @param args
+	 * @return {Promise<* | string>}
+	 */
+	recordMove(args) {
+		let moveName = Cast.toString(args.MOVE);
+		let motors = Cast.toString(args.MOTORS);
+		let url = '/records/' + moveName + '/record.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{"motors": "' + motors + '"}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(status => JSON.parse(status)[moveName].toString())
+			.catch(() => {
+				return 'Error with parameters.';
+			});
 	}
 
 	stopSaveMove(args) {
