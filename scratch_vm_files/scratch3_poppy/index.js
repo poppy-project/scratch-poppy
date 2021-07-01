@@ -671,6 +671,10 @@ class Scratch3Poppy {
 		return alert(argtext);
 	}
 
+	/**
+	 * Gives a list of all available records to play
+	 * @returns {Promise<* | string>} all recorded moves, separated by a comma.
+	 */
 	getAvailableRecords() {
 		return this.getRESTAPI({REQUEST: "/records/list.json"})
 			.then(moves => JSON.parse(moves).moves.toString())
