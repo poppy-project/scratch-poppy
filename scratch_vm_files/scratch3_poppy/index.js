@@ -334,18 +334,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'getSitemap',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.getSitemap,
-					arguments: {
-						URL: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						}
-					}
-				},
-
-				{
 					opcode: 'getRESTAPI',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.getRESTAPI,
@@ -609,15 +597,6 @@ class Scratch3Poppy {
 			.catch(() => {
 				return 'Error on connection.'
 			});
-	}
-
-
-	getSitemap(args) {
-		let argUrl = args.URL.toString();
-		let url = 'http://' + argUrl + '/';
-		return axios.get(url)
-			.then(resp => resp.data)
-			.catch(() => alert('Robot is not connected to ' + url));
 	}
 
 	/**

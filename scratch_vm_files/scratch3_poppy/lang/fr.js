@@ -23,7 +23,6 @@ module.exports = {
         getMotorsInGroup: 'les moteurs dans le groupe [GROUP]',
         getPrimitives: 'récupérer [STATE] les comportements',
         getPropertiesMethods: 'récupérer [ATTRIBUTE] du comportement [BEHAVIOUR]',
-        getSitemap: 'http:// [URL]',
         getRESTAPI: 'appel de l\'API REST [REQUEST]',
         postRESTAPI: 'post [DATA] vers l\'API REST [URL]',
         detectMarker: 'la carte [TEXT] est détectée ?',
