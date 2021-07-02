@@ -187,25 +187,24 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'setMotorsGoto',
+					opcode: 'motorGotoPosition',
 					blockType: BlockType.COMMAND,
-					text: messages.blocks.setMotorsGoto,
+					text: messages.blocks.motorGotoPosition,
 					arguments: {
 						MOTORS: {
 							type: ArgumentType.STRING,
 							defaultValue: 'motor_name'
 						},
-						POS: {
-							type: ArgumentType.NUMBER,
+						POSITIONS: {
+							type: ArgumentType.STRING,
 							defaultValue: 0
 						},
-						TIME: {
+						DURATION: {
 							type: ArgumentType.NUMBER,
 							defaultValue: 2
 						},
 						WAIT: {
 							type: ArgumentType.STRING,
-							defaultValue: 'false',
 							menu: 'wait'
 						}
 					}
@@ -663,6 +662,40 @@ class Scratch3Poppy {
 		}
 	}
 
+	motorGotoPosition(args) {
+		let duration = parseFloat(args.DURATION);
+		let wait = args.WAIT.toString();
+		let motors = args.MOTORS.toString();
+		if (motors.split(',').length > 1) {
+			// Several motors & several positions
+			motors = motors.split(',').join('","');
+
+			let positions = args.POSITIONS.toString().split(',').join('","');
+			let url = '/motors/goto.json';
+			let postArgs = {
+				URL: url,
+				DATA: `{"motors": ["${motors}"], "positions": ["${positions}"], "duration": ${duration}, "wait": ${wait}}`
+			};
+			this.postRESTAPI(postArgs)
+				.catch(() => {
+					return 'Error on connection.';
+				});
+		} else {
+			// Only one motor & one position
+			let positions = args.POSITIONS.toString();
+			let url = '/motors/' + motors + '/goto.json';
+			let postArgs = {
+				URL: url,
+				DATA: `{"position": ${positions}, "duration": ${duration}, "wait": ${wait}}`
+			};
+			this.postRESTAPI(postArgs)
+				.catch(() => {
+					return 'Error on connection.';
+				});
+		}
+	}
+
+	// Todo : popup
 	popup(args) {
 		let argText = args.TEXT.toString();
 		return alert(argText);
