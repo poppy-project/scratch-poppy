@@ -53,5 +53,9 @@ replace='export default [\n    {\n        name: "Poppy",\n        extensionId: "
 file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
+echo -e "\nCopying Poppy extension code to ${ITALIC}scratch-vm${CLEAR}... \c"
 cp -r ./scratch_vm_files/scratch3_poppy ../scratch-vm/src/extensions
+echo -e "${GREEN}DONE!${CLEAR}"
+echo -e "Copying Poppy images to ${ITALIC}scratch-gui${CLEAR}... \c"
 cp -r ./scratch_gui_files/poppy ../scratch-gui/src/lib/libraries/extensions
+echo -e "${GREEN}DONE!${CLEAR}"
