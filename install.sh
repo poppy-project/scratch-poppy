@@ -47,9 +47,9 @@ replace="$where\n\nimport poppyIconURL from '.\/poppy\/poppy.png';\n$find"
 file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
-find="extensionId: 'poppy',"
-where="helpLink: 'https:\/\/scratch.mit.edu\/wedo'"
-replace='$where\n    },\n    {\n        name: "Poppy",\n        extensionId: "poppy",\n        collaborator: "rrandriamana",\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage="Control your Poppy robot"\n                description="Poppy controller extension"\n                id="gui.extension.poppy.description"\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,'
+find='extensionId: "poppy",'
+where="export default \["
+replace='export default [\n    {\n        name: "Poppy",\n        extensionId: "poppy",\n        collaborator: "Poppy-Station",\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage="Control your Poppy robot"\n                description="Poppy controller extension"\n                id="gui.extension.poppy.description"\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,\n    },'
 file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
