@@ -7,34 +7,25 @@ module.exports = {
         getMotors: 'tous les moteurs',
         getRobotAliases: 'tous les groupes de moteurs',
         getAvailableRecords: 'tous les mouvements enregistrés',
-        actionPrimitives: '[ACTION] le comportement [TEXT]',
+        actionPrimitives: '[ACTION] le comportement [PRIMITIVE]',
         stopMovePlayer: 'arrêter le mouvement [TEXT]',
         setCompliant: 'rendre le(s) moteur(s) [MOTORS] [STATUS]',
-        setValue: 'mettre [STATUS] pour le(s) moteur(s) [MOTORS] à [VALUE]',
-        setLed: 'mettre la couleur des leds du moteur(s) [MOTORS] en [STATUS]',
+        setValue: 'mettre [REGISTER] pour le(s) moteur(s) [MOTORS] à [VALUE]',
         popup: 'popup [TEXT]',
-        startMovePlayerWithSpeed: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
-        startMovePlayerBackwardsWithSpeed: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
         startMovePlayer: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
-        startMovePlayerBackwards: 'réaliser le mouvement [MOVE] à l\'envers | vitesse x [SPEED]',
-        setMotorsGoto: 'mettre à la position [POS] le(s) moteur(s) [MOTORS] en [TIME] secondes | attendre ? [WAIT]', //TODO:
+        motorGotoPosition: 'mettre à la position [POSITIONS] le(s) moteur(s) [MOTORS] en [DURATION] secondes, attendre ? [WAIT]',
         initRobot: 'robot [TEXT]',
-        remove: 'supprimer [TEXT]',
-        createRecordMove: 'créer et enregistrer le mouvement [MOVE] avec le(s) moteur(s) [MOTOR]',
-        stopSaveMove: 'arrêter l\'enregistrement & sauvegarder le mouvement [MOVE]',
-        playConcurrent: 'réaliser en même temps les mouvements [MOVE]',
-        playSequentially: 'réaliser les mouvements les uns à la suite des autres [MOVE]', //TODO:
-        indexMotor: 'index du moteur [TEXT]',
-        getMotorRegister: 'récupérer [REG] du moteur(s) [MOTOR]',
-        getMotorsInGroup: 'les moteurs dans le groupe [TEXT]',
-        getPrimitives: 'récupérer [TEXT] les comportements',
-        getPropertiesMethodes: 'récupérer [PROP] du comportement [TEXT]',
-        concurrent: 'concurrent [INFO1] [INFO2]',
-        getSitemap: 'http:// [URL]',
-        dataToString: 'transformer [TEXT] en chaîne de caractères',
-        callAPI: 'appel de l\'API [TEXT]',
+        deleteRecord: 'supprimer [MOVE]',
+        recordMove: 'créer et enregistrer le mouvement [MOVE] avec le(s) moteur(s) [MOTORS]',
+        saveMove: 'arrêter l\'enregistrement & sauvegarder le mouvement [MOVE]',
+        indexMotor: 'index du moteur [MOTOR]',
+        getMotorRegister: 'récupérer [REGISTER] du moteur [MOTOR]',
+        getMotorsInGroup: 'les moteurs dans le groupe [GROUP]',
+        getPrimitives: 'récupérer [STATE] les comportements',
+        getPropertiesMethods: 'récupérer [ATTRIBUTE] du comportement [BEHAVIOUR]',
+        getRESTAPI: 'appel de l\'API REST [REQUEST]',
+        postRESTAPI: 'post [DATA] vers l\'API REST [URL]',
         detectMarker: 'la carte [TEXT] est détectée ?',
-        sequence: 'sequence [INFO1] [INFO2]' //TODO:
     },
     menus: {
         marker: {
@@ -47,8 +38,8 @@ module.exports = {
             running: 'en cours'
         },
         getPropBehaviours: {
-            methodes: 'méthodes',
-            properties: 'propriétés'
+            method: 'méthodes',
+            property: 'propriétés'
         },
         actionBehaviours: {
             start: 'démarrer',
