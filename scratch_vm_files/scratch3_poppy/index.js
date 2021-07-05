@@ -58,22 +58,17 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'poppyUrl',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.poppyUrl
-				},
-
-				{
 					opcode: 'testConnection',
 					blockType: BlockType.REPORTER,
 					text: messages.blocks.testConnection
 				},
 
 				{
-					opcode: 'getMotorsPositions',
+					opcode: 'poppyUrl',
 					blockType: BlockType.REPORTER,
-					text: messages.blocks.getMotorsPositions
+					text: messages.blocks.poppyUrl
 				},
+
 
 				{
 					opcode: 'getMotors',
@@ -88,36 +83,48 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'getAvailableRecords',
+					opcode: 'getMotorsInGroup',
 					blockType: BlockType.REPORTER,
-					text: messages.blocks.getAvailableRecords
-				},
-
-				{
-					opcode: 'actionPrimitives',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.actionPrimitives,
+					text: messages.blocks.getMotorsInGroup,
 					arguments: {
-						ACTION: {
+						GROUP: {
 							type: ArgumentType.STRING,
-							defaultValue: 'start',
-							menu: 'actionBehaviours'
-						},
-						PRIMITIVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'behaviour_name'
+							defaultValue: 'group_name'
 						}
 					}
 				},
 
 				{
-					opcode: 'stopMovePlayer',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.stopMovePlayer,
+					opcode: 'getMotorRegister',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.getMotorRegister,
 					arguments: {
-						TEXT: {
+						REGISTER: {
 							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
+							defaultValue: 'my_variable_set',
+							menu: 'register'
+						},
+						MOTOR: {
+							type: ArgumentType.STRING,
+							defaultValue: 'motor_name'
+						}
+					}
+				},
+
+				{
+					opcode: 'getMotorsPositions',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.getMotorsPositions
+				},
+
+				{
+					opcode: 'indexMotor',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.indexMotor,
+					arguments: {
+						MOTOR: {
+							type: ArgumentType.STRING,
+							defaultValue: 'motor_name'
 						}
 					}
 				},
@@ -159,34 +166,6 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'popup',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.popup,
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: ' '
-						}
-					}
-				},
-
-				{
-					opcode: 'startMovePlayer',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.startMovePlayer,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
-						},
-						SPEED: {
-							type: ArgumentType.NUMBER,
-							defaultValue: -1.0
-						}
-					}
-				},
-
-				{
 					opcode: 'motorGotoPosition',
 					blockType: BlockType.COMMAND,
 					text: messages.blocks.motorGotoPosition,
@@ -210,29 +189,25 @@ class Scratch3Poppy {
 					}
 				},
 
+
 				{
-					opcode: 'initRobot',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.initRobot,
+					opcode: 'detectMarker',
+					blockType: BlockType.BOOLEAN,
+					text: messages.blocks.detectMarker,
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
-							defaultValue: 'start',
-							menu: 'init'
+							defaultValue: "caribou",
+							menu: "marker"
 						}
 					}
 				},
 
+
 				{
-					opcode: 'deleteRecord',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.deleteRecord,
-					arguments: {
-						MOVE: {
-							type: ArgumentType.STRING,
-							defaultValue: 'move_name'
-						}
-					}
+					opcode: 'getAvailableRecords',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.getAvailableRecords
 				},
 
 				{
@@ -264,45 +239,45 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'indexMotor',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.indexMotor,
+					opcode: 'startMovePlayer',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.startMovePlayer,
 					arguments: {
-						MOTOR: {
+						MOVE: {
 							type: ArgumentType.STRING,
-							defaultValue: 'motor_name'
-						}
-					}
-				},
-
-				{
-					opcode: 'getMotorRegister',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.getMotorRegister,
-					arguments: {
-						REGISTER: {
-							type: ArgumentType.STRING,
-							defaultValue: 'my_variable_set',
-							menu: 'register'
+							defaultValue: 'move_name'
 						},
-						MOTOR: {
-							type: ArgumentType.STRING,
-							defaultValue: 'motor_name'
+						SPEED: {
+							type: ArgumentType.NUMBER,
+							defaultValue: -1.0
 						}
 					}
 				},
 
 				{
-					opcode: 'getMotorsInGroup',
-					blockType: BlockType.REPORTER,
-					text: messages.blocks.getMotorsInGroup,
+					opcode: 'stopMovePlayer',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.stopMovePlayer,
 					arguments: {
-						GROUP: {
+						TEXT: {
 							type: ArgumentType.STRING,
-							defaultValue: 'group_name'
+							defaultValue: 'move_name'
 						}
 					}
 				},
+
+				{
+					opcode: 'deleteRecord',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.deleteRecord,
+					arguments: {
+						MOVE: {
+							type: ArgumentType.STRING,
+							defaultValue: 'move_name'
+						}
+					}
+				},
+
 
 				{
 					opcode: 'getPrimitives',
@@ -313,6 +288,23 @@ class Scratch3Poppy {
 							type: ArgumentType.STRING,
 							defaultValue: 'all',
 							menu: 'getBehaviours'
+						}
+					}
+				},
+
+				{
+					opcode: 'actionPrimitives',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.actionPrimitives,
+					arguments: {
+						ACTION: {
+							type: ArgumentType.STRING,
+							defaultValue: 'start',
+							menu: 'actionBehaviours'
+						},
+						PRIMITIVE: {
+							type: ArgumentType.STRING,
+							defaultValue: 'behaviour_name'
 						}
 					}
 				},
@@ -329,6 +321,20 @@ class Scratch3Poppy {
 						BEHAVIOUR: {
 							type: ArgumentType.STRING,
 							defaultValue: 'behaviour_name'
+						}
+					}
+				},
+
+
+				{
+					opcode: 'initRobot',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.initRobot,
+					arguments: {
+						TEXT: {
+							type: ArgumentType.STRING,
+							defaultValue: 'start',
+							menu: 'init'
 						}
 					}
 				},
@@ -362,14 +368,13 @@ class Scratch3Poppy {
 				},
 
 				{
-					opcode: 'detectMarker',
-					blockType: BlockType.BOOLEAN,
-					text: messages.blocks.detectMarker,
+					opcode: 'popup',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.popup,
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
-							defaultValue: "caribou",
-							menu: "marker"
+							defaultValue: ' '
 						}
 					}
 				}
