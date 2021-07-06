@@ -10,6 +10,7 @@ GREEN="\033[92m"
 YELLOW="\033[93m"
 CLEAR="\033[0m"
 
+installation_folder=".."
 
 ##############################################################
 # Function add_require()
@@ -45,25 +46,25 @@ add_require () {
 find="poppy: () => require('..\/extensions\/scratch3_poppy'),"
 where="boost: () => require('..\/extensions\/scratch3_boost'),"
 replace="$where\n    $find"
-file="../scratch-vm/src/extension-support/extension-manager.js"
+file="$installation_folder/scratch-vm/src/extension-support/extension-manager.js"
 add_require "$find" "$where" "$replace" "$file"
 
 
 find="import poppyInsetIconURL from '.\/poppy\/poppy-small.png';"
 where="import boostConnectionTipIconURL from '.\/boost\/boost-button-illustration.svg';"
 replace="$where\n\nimport poppyIconURL from '.\/poppy\/poppy.png';\n$find"
-file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
+file="$installation_folder/scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
 find='extensionId: "poppy",'
 where="export default \["
 replace='export default [\n    {\n        name: "Poppy",\n        extensionId: "poppy",\n        collaborator: "Poppy-Station",\n        iconURL: poppyIconURL,\n        insetIconURL: poppyInsetIconURL,\n        description: (\n            <FormattedMessage\n                defaultMessage="Control your Poppy robot"\n                description="Poppy controller extension"\n                id="gui.extension.poppy.description"\n            \/>\n        ),\n        featured: true,\n        disabled: false,\n        internetConnectionRequired: true,\n        bluetoothRequired: false,\n    },'
-file="../scratch-gui/src/lib/libraries/extensions/index.jsx"
+file="$installation_folder/scratch-gui/src/lib/libraries/extensions/index.jsx"
 add_require "$find" "$where" "$replace" "$file"
 
 echo -e "\nCopying Poppy extension code to ${ITALIC}scratch-vm${CLEAR}... \c"
-cp -r ./scratch_vm_files/scratch3_poppy ../scratch-vm/src/extensions
+cp -r ./scratch_vm_files/scratch3_poppy $installation_folder/scratch-vm/src/extensions
 echo -e "${GREEN}DONE!${CLEAR}"
 echo -e "Copying Poppy images to ${ITALIC}scratch-gui${CLEAR}... \c"
-cp -r ./scratch_gui_files/poppy ../scratch-gui/src/lib/libraries/extensions
+cp -r ./scratch_gui_files/poppy $installation_folder/scratch-gui/src/lib/libraries/extensions
 echo -e "${GREEN}DONE!${CLEAR}"
