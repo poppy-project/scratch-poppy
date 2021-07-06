@@ -27,6 +27,7 @@ echo -e "${GREEN}Done!${CLEAR}\n"
 
 # zipping folder
 echo -e "${YELLOW}Zipping built application to ${ITALIC}${archive_name}.zip${CLEAR}..."
+zip -r "$archive_name.zip" "$archive_name"
 cd - || exit 2
-zip -r "$archive_name.zip" "$installation_folder/scratch-gui/$archive_name"
+cp "$installation_folder/scratch-gui/$archive_name.zip" .
 echo -e "${GREEN}Application successfully zipped!${CLEAR}\n"
