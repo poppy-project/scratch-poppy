@@ -374,7 +374,7 @@ class Scratch3Poppy {
 					arguments: {
 						TEXT: {
 							type: ArgumentType.STRING,
-							defaultValue: ' '
+							defaultValue: 'My custom alert'
 						}
 					}
 				}
@@ -494,14 +494,10 @@ class Scratch3Poppy {
 	}
 
 
+	// TODO: (Antoine) Implement QR code reader
 	detectMarker(args) {
 		let argText = args.TEXT.toString();
-		let url = this._robotUrl + '/detect/' + argText;
-		axios.get(url)
-			.then(resp => resp.data)
-			.catch(() => {
-				return 'Error with the connection';
-			});
+		return "Block is not implemented yet."
 	}
 
 	/**
@@ -679,7 +675,10 @@ class Scratch3Poppy {
 		}
 	}
 
-	// Todo : popup
+	/**
+	 * Gives a custom alert to the user
+	 * @param args custom message is stored in args.TEXT
+	 */
 	popup(args) {
 		let argText = args.TEXT.toString();
 		return alert(argText);
@@ -782,14 +781,10 @@ class Scratch3Poppy {
 		}
 	}
 
-
+	// Todo : initRobot
 	initRobot(args) {
 		let argText = args.TEXT.toString();
-		let url = 'http://poppy.local/api/' + argText;
-		axios.get(url)
-			.catch(() => {
-				return 'Error with parameter.';
-			});
+		return 'Block not implemented yet';
 	}
 
 	deleteRecord(args) {
