@@ -1,34 +1,42 @@
 #!/bin/bash
 
+##############################################################
+# Script Name	: Install Extension
+# Description	: Installs the Poppy Extension to Scratch files
+##############################################################
+
 ITALIC="\033[3m"
 GREEN="\033[92m"
 YELLOW="\033[93m"
 CLEAR="\033[0m"
 
-############################################################
-# Adds a require line to a js file,
-# if line does not already exist.
+
+##############################################################
+# Function add_require()
+# Adds a require line to a js file, if line does not already exist.
+# It first scans the 'file' for 'search' arg. If 'search' is not found,
+# it replaces 'where' arg by 'replace' arg.
 #
 # ARGUMENTS:
-#   $1: search = line to add, to check if it already exists
+#   $1: search = line(s) to add, to check if it already exists
 #   $2: where = where to put it ?
 #   $3: replace = where "+" search
 #   $4: file
 #
 # OUTPUTS:
 #   Some echos of the progress of the script
-############################################################
+##############################################################
 
 add_require () {
     echo -e "Adding a require to ${ITALIC}$4${CLEAR}"
-    if grep -q "$1" $4
+    if grep -q "$1" "$4"
     then
         # code if found
         echo -e "${GREEN}Require already satisfied!${CLEAR}"
     else
         # code if not found
         echo -e "${YELLOW}Require not satisfied!${CLEAR}"
-        sed -i "s/$2/$3/" $4
+        sed -i "s/$2/$3/" "$4"
         echo -e "${GREEN}Require has been added!${CLEAR}"
     fi
 }
