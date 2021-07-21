@@ -642,6 +642,16 @@ class Scratch3Poppy {
 		}
 	}
 
+	/**
+	 * Moves one or several MOTORS to a given POSITIONS, in DURATION seconds and if WAIT is set to true, il will only
+	 * return it answer after the move is complete.
+	 * @param args.MOTORS can take one or several motors as a list of motor name separated by commas.
+	 * @param args.POSITIONS should have the same amount of elements than args.MOTORS, they correspond to positions to
+	 * reach for each motor.
+	 * @param args.DURATION is the time to reach each position on seconds. The movement speed is proportional to the duration.
+	 * @param args.WAIT is either True or False. On True, we won't move on to the next block until the move is completed.
+	 * @return {Promise<string | string>} An alert on error with details and tips to resolve the error.
+	 */
 	motorGotoPosition(args) {
 		let duration = parseFloat(args.DURATION);
 		let wait = args.WAIT.toString();
@@ -656,7 +666,7 @@ class Scratch3Poppy {
 				URL: url,
 				DATA: `{"motors": ["${motors}"], "positions": ["${positions}"], "duration": ${duration}, "wait": ${wait}}`
 			};
-			this.postRESTAPI(postArgs)
+			return this.postRESTAPI(postArgs)
 				.catch(() => {
 					return 'Error on connection.';
 				});
@@ -668,7 +678,7 @@ class Scratch3Poppy {
 				URL: url,
 				DATA: `{"position": ${positions}, "duration": ${duration}, "wait": ${wait}}`
 			};
-			this.postRESTAPI(postArgs)
+			return this.postRESTAPI(postArgs)
 				.catch(() => {
 					return 'Error on connection.';
 				});
