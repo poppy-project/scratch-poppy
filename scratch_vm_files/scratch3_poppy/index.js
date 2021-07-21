@@ -798,6 +798,11 @@ class Scratch3Poppy {
 		return 'Block not implemented yet';
 	}
 
+	/**
+	 * Deletes a record.
+	 * @param args args.MOVE is the name of the move to delete.
+	 * @return {Promise<* | string>} An alert on error with details and tips to resolve the error.
+	 */
 	deleteRecord(args) {
 		let moveName = args.MOVE.toString()
 		let url = '/records/' + moveName + '/delete.json';
