@@ -541,7 +541,7 @@ class Scratch3Poppy {
 		let uri = (state === 'all') ? '/primitives/list.json' : '/primitives/running/list.json' + ''
 		return this.getRESTAPI({REQUEST: uri})
 			.then(primitives => {
-				let primitiveId = (state === 'all')? 'primitives' : 'running_primitives';
+				let primitiveId = (state === 'all') ? 'primitives' : 'running_primitives';
 				return JSON.parse(primitives)[primitiveId].toString()
 			})
 			.catch(() => {
@@ -626,7 +626,7 @@ class Scratch3Poppy {
 	 */
 	setValue(args) {
 		let motors = args.MOTORS.toString().split(',');
-		let value =  args.VALUE.toString();
+		let value = args.VALUE.toString();
 		let register = args.REGISTER.toString();
 
 		for (let m = 0; m < motors.length; m++) {
@@ -847,7 +847,7 @@ class Scratch3Poppy {
 				let status = 404
 				try {
 					this.poppyErrorManager(status, error); // Alert thrown to the user
-				} catch	{
+				} catch {
 					return "This motor does not exists";
 				}
 			})
@@ -871,7 +871,7 @@ class Scratch3Poppy {
 			let status = 404
 			try {
 				this.poppyErrorManager(status, error); // Alert thrown to the user
-			} catch	{
+			} catch {
 				return Promise.reject(new Error('Error on Rest API!'));
 			}
 		}
@@ -883,9 +883,10 @@ class Scratch3Poppy {
 				return JSON.stringify(resp.data)
 			})
 			.catch(err => {
-				if (err.response)
+				if (err.response) {
 					de && bug(err.response.data)
-				this.poppyErrorManager(err.response.status, err.response.data);
+					this.poppyErrorManager(err.response.status, err.response.data);
+				}
 			});
 	}
 
@@ -906,7 +907,7 @@ class Scratch3Poppy {
 			let status = 404
 			try {
 				this.poppyErrorManager(status, error); // Alert thrown to the user
-			} catch	{
+			} catch {
 				return Promise.reject(new Error('Error on Rest API!'));
 			}
 		}
@@ -929,9 +930,10 @@ class Scratch3Poppy {
 				return JSON.stringify(resp.data)
 			})
 			.catch(err => {
-				if (err.response)
+				if (err.response) {
 					de && bug(err.response.data)
 					this.poppyErrorManager(err.response.status, err.response.data);
+				}
 			});
 	}
 
@@ -992,8 +994,6 @@ class Scratch3Poppy {
 				return 'Error with parameters.';
 			});
 	}
-
-
 
 	getMessagesForLocale() {
 		const locale = formatMessage.setup().locale;
