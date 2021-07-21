@@ -831,9 +831,21 @@ class Scratch3Poppy {
 				de && bug("index found: ", index);
 				if (index !== -1)
 					return (index + 1).toString();
-				return "This motor does not exists";
+				let error = {
+					"error": "Could not find motor <" + motor + ">",
+					"tip": "Use all motors block to find all motor names",
+					"details": "This block makes a request to the robot to find all available motors and gives the position of the " +
+						"required motor in the list of all motors. This block was able to retrieve the list of all motors but could " +
+						"not find the one you asked."
+				}
+				let status = 404
+				try {
+					this.poppyErrorManager(status, error); // Alert thrown to the user
+				} catch	{
+					return "This motor does not exists";
+				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => de && bug("Index of motor:", err));
 	}
 
 
