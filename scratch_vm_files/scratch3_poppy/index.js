@@ -929,19 +929,6 @@ class Scratch3Poppy {
 			});
 	}
 
-	// TODO: Add the "wait" option to wait until the move is finished
-	setMotorsGoto(args) {
-		let argMotors = args.MOTORS.toString();
-		let argPos = args.POS.toString();
-		let argTime = args.TIME.toString();
-		let url = this._robotUrl + '/motors/set/goto/' + this.motorsStatusUrl(argMotors, argPos, argTime);
-		axios.get(url)
-			.catch(() => {
-				return 'Error with parameter.';
-			});
-	}
-
-
 	/**
 	 * Get the register value of a motor.
 	 * @param args the motor is stored in args.MOTOR
