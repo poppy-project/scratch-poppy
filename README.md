@@ -1,6 +1,8 @@
 # scratch-poppy
 Scratch-poppy is a Scratch 3 extension for [Poppy robots](https://github.com/poppy-project).  
 
+You may want to install this repository if you want to add your own blocks or if you want to improve existing ones.
+
 ## :inbox_tray: Installation
 
 ### :page_facing_up: Scripted installation
