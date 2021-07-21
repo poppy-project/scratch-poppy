@@ -772,6 +772,7 @@ class Scratch3Poppy {
 	}
 
 	/**
+	 * Returns the ip of the robot. You must have used `Set host to [IP]` block before.
 	 * @returns {string} url of Poppy Robot
 	 */
 	poppyUrl() {
