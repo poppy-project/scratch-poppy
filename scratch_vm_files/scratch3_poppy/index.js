@@ -956,8 +956,8 @@ class Scratch3Poppy {
 	/**
 	 * Starts to record a move. If the move does not exist yet, it is created. If a move with the same name has already
 	 * been defined, it will be erased.
-	 * @param args
-	 * @return {Promise<* | string>}
+	 * @param args args.MOVE is the name of the move to create/edit. args.MOTORS are the motors recorded for the move.
+	 * @return {Promise<* | string>} An alert on error with details and tips to resolve the error.
 	 */
 	recordMove(args) {
 		let moveName = args.MOVE.toString();
