@@ -974,6 +974,11 @@ class Scratch3Poppy {
 			});
 	}
 
+	/**
+	 * Stops the record. It saves the move.
+	 * @param args args.MOVE is the name of the move to create/edit.
+	 * @return {Promise<* | string>} An alert on error with details and tips to resolve the error.
+	 */
 	saveMove(args) {
 		let moveName = args.MOVE.toString();
 		let url = '/records/' + moveName + '/save.json';
