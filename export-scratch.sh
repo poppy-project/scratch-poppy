@@ -21,13 +21,13 @@ sudo npm run build
 echo -e "${GREEN}Build done!${CLEAR}\n"
 
 # renaming folder
-echo -ne "${YELLOW}Renaming ${ITALIC}build${CLEAR}${YELLOW} folder to ${ITALIC}${archive_name}${CLEAR}..."
-mv build $archive_name
+echo -e "${YELLOW}Renaming ${ITALIC}build${CLEAR}${YELLOW} folder to ${ITALIC}${archive_name} ...${CLEAR}"
+mv -v build $archive_name
 echo -e "${GREEN}Done!${CLEAR}\n"
 
 # zipping folder
-echo -e "${YELLOW}Zipping built application to ${ITALIC}${archive_name}.zip${CLEAR}..."
+echo -e "${YELLOW}Zipping built application to ${ITALIC}${archive_name}.zip ...${CLEAR}"
 zip -r "$archive_name.zip" "$archive_name"
 cd - || exit 2
-cp "$installation_folder/scratch-gui/$archive_name.zip" .
+cp -v "$installation_folder/scratch-gui/$archive_name.zip" .
 echo -e "${GREEN}Application successfully zipped!${CLEAR}\n"
