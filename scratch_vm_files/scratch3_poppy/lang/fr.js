@@ -12,7 +12,7 @@ module.exports = {
         setCompliant: 'rendre le(s) moteur(s) [MOTORS] [STATUS]',
         setValue: 'mettre [REGISTER] pour le(s) moteur(s) [MOTORS] à [VALUE]',
         popup: 'popup [TEXT]',
-        startMovePlayer: 'réaliser le mouvement [MOVE] | vitesse x [SPEED]',
+        startMovePlayer: 'rejouer le mouvement [MOVE] | vitesse x [SPEED]',
         motorGotoPosition: 'mettre à la position [POSITIONS] le(s) moteur(s) [MOTORS] en [DURATION] secondes, attendre ? [WAIT]',
         initRobot: 'robot [TEXT]',
         deleteRecord: 'supprimer [MOVE]',
@@ -48,7 +48,7 @@ module.exports = {
             resume: 'reprendre'
         },
         compliant: {
-            compliant: 'flexible',
+            compliant: 'mou',
             stiff: 'rigide'
         },
         color: {
