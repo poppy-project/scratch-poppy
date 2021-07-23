@@ -22,12 +22,14 @@ echo -e "${GREEN}Build done!${CLEAR}\n"
 
 # renaming folder
 echo -e "${YELLOW}Renaming ${ITALIC}build${CLEAR}${YELLOW} folder to ${ITALIC}${archive_name} ...${CLEAR}"
-mv -v build $archive_name
+echo -e "Removing previous build folder ${ITALIC}$archive_name${CLEAR}"
+sudo rm -r $archive_name
+sudo mv -v build $archive_name
 echo -e "${GREEN}Done!${CLEAR}\n"
 
 # zipping folder
 echo -e "${YELLOW}Zipping built application to ${ITALIC}${archive_name}.zip ...${CLEAR}"
-zip -r "$archive_name.zip" "$archive_name"
+zip -qr "$archive_name.zip" "$archive_name"
 cd - || exit 2
-cp -v "$installation_folder/scratch-gui/$archive_name.zip" .
+mv -v "$installation_folder/scratch-gui/$archive_name.zip" .
 echo -e "${GREEN}Application successfully zipped!${CLEAR}\n"
