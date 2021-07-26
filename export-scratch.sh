@@ -27,6 +27,10 @@ sudo rm -r $archive_name
 sudo mv -v build $archive_name
 echo -e "${GREEN}Done!${CLEAR}\n"
 
+# adding date in build folder
+echo "Scratch application built on $(date '+%F at %H:%M (%Z)')" > "build-version.txt"
+sudo mv "build-version.txt" $archive_name
+
 # zipping folder
 echo -e "${YELLOW}Zipping built application to ${ITALIC}${archive_name}.zip ...${CLEAR}"
 zip -qr "$archive_name.zip" "$archive_name"
