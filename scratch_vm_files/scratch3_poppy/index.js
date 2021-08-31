@@ -30,9 +30,9 @@ class Scratch3Poppy {
 	}
 
 	poppyErrorManager(status, err) {
-		let error = err.error;
-		let tip = err.tip;
-		let details = err.details;
+		let error = err.error || "";
+		let tip = err.tip || "";
+		let details = err.details || "";
 		let msg = "Error " + status + " : " + error + "\n\nTip : " + tip + "\n\nDetails : " + details;
 		alert(msg)
 		throw new Error("Error " + status);
@@ -195,7 +195,7 @@ class Scratch3Poppy {
 					blockType: BlockType.BOOLEAN,
 					text: messages.blocks.detectMarker,
 					arguments: {
-						TEXT: {
+						CODE: {
 							type: ArgumentType.STRING,
 							defaultValue: "caribou",
 							menu: "marker"
@@ -467,11 +467,19 @@ class Scratch3Poppy {
 			});
 	}
 
-
-	// TODO: (Antoine) Implement QR code reader
+	/**
+	 * Makes a GET request to the REST API using getRESTAPI() to read the qrcode with the embedded camera.
+	 * You should give the name of a preset code such as lapin, tetris, caribou...
+	 * @returns {Promise<*>} a boolean (true of false) depending on whether the code is read by the camera.
+	 */
 	detectMarker(args) {
-		let argText = args.TEXT.toString();
-		return "Block is not implemented yet."
+		console.log(args);
+		let code = args.CODE.toString();
+		return this.getRESTAPI({REQUEST: '/sensors/code/' + code + '.json'})
+			.then(boolean => JSON.parse(boolean).found)
+			.catch(() => {
+				return 'Error with the connection';
+			});
 	}
 
 	/**

@@ -23,7 +23,7 @@ module.exports = {
         getPropertiesMethods: 'get [ATTRIBUTE] of behaviour [BEHAVIOUR]',
         getRESTAPI: 'call the REST API [REQUEST]',
         postRESTAPI: 'post [DATA] to the REST API [URL]',
-        detectMarker: 'card [TEXT] is detected ?',
+        detectMarker: 'card [CODE] is detected ?',
     },
     menus: {
         marker: {
