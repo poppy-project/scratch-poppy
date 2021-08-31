@@ -13,7 +13,6 @@ module.exports = {
         setValue: 'mettre [REGISTER] pour le(s) moteur(s) [MOTORS] à [VALUE]',
         startMovePlayer: 'rejouer le mouvement [MOVE] | vitesse x [SPEED]',
         motorGotoPosition: 'mettre à la position [POSITIONS] le(s) moteur(s) [MOTORS] en [DURATION] secondes, attendre ? [WAIT]',
-        initRobot: 'robot [TEXT]',
         deleteRecord: 'supprimer [MOVE]',
         recordMove: 'créer et enregistrer le mouvement [MOVE] avec le(s) moteur(s) [MOTORS]',
         saveMove: 'arrêter l\'enregistrement & sauvegarder le mouvement [MOVE]',

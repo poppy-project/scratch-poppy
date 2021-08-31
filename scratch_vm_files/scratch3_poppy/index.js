@@ -325,20 +325,6 @@ class Scratch3Poppy {
 					}
 				},
 
-
-				{
-					opcode: 'initRobot',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.initRobot,
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: 'start',
-							menu: 'init'
-						}
-					}
-				},
-
 				{
 					opcode: 'getRESTAPI',
 					blockType: BlockType.REPORTER,
@@ -769,12 +755,6 @@ class Scratch3Poppy {
 		} catch {
 			return 'No URL found'
 		}
-	}
-
-	// Todo : initRobot
-	initRobot(args) {
-		let argText = args.TEXT.toString();
-		return 'Block not implemented yet';
 	}
 
 	/**
