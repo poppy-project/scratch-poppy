@@ -365,18 +365,6 @@ class Scratch3Poppy {
 							defaultValue: '/motor/m1/register/compliant/value.json'
 						}
 					}
-				},
-
-				{
-					opcode: 'popup',
-					blockType: BlockType.COMMAND,
-					text: messages.blocks.popup,
-					arguments: {
-						TEXT: {
-							type: ArgumentType.STRING,
-							defaultValue: 'My custom alert'
-						}
-					}
 				}
 
 			],
@@ -683,15 +671,6 @@ class Scratch3Poppy {
 					return 'Error on connection.';
 				});
 		}
-	}
-
-	/**
-	 * Gives a custom alert to the user
-	 * @param args custom message is stored in args.TEXT
-	 */
-	popup(args) {
-		let argText = args.TEXT.toString();
-		return alert(argText);
 	}
 
 	/**

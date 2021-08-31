@@ -11,7 +11,6 @@ module.exports = {
         stopMovePlayer: 'stop move [TEXT]',
         setCompliant: 'set motor(s) [MOTORS] [STATUS]',
         setValue: 'set [REGISTER] motor(s) [MOTORS] to [VALUE]',
-        popup: 'popup [TEXT]',
         startMovePlayer: 'play move [MOVE] x speed [SPEED]',
         motorGotoPosition: 'set position(s) [POSITIONS] of motor(s) [MOTORS] in [DURATION] seconds, wait ? [WAIT]',
         initRobot: 'robot [TEXT]',
