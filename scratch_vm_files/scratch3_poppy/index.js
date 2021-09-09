@@ -3,7 +3,7 @@ const BlockType = require(`../../extension-support/block-type`);
 const axios = require(`axios`).default;
 const formatMessage = require(`format-message`);
 
-const de = false;  // true when debugging
+const de = true;  // true when debugging
 
 /**
  * write de&&bug(*your arguments*) in your code to make debug logging.
@@ -189,7 +189,6 @@ class Scratch3Poppy {
 					}
 				},
 
-
 				{
 					opcode: 'detectMarker',
 					blockType: BlockType.BOOLEAN,
@@ -203,6 +202,11 @@ class Scratch3Poppy {
 					}
 				},
 
+				{
+					opcode: 'listVisibleMarkers',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.listVisibleMarkers
+				},
 
 				{
 					opcode: 'getAvailableRecords',
@@ -277,7 +281,6 @@ class Scratch3Poppy {
 						}
 					}
 				},
-
 
 				{
 					opcode: 'getPrimitives',
@@ -473,10 +476,39 @@ class Scratch3Poppy {
 	 * @returns {Promise<*>} a boolean (true of false) depending on whether the code is read by the camera.
 	 */
 	detectMarker(args) {
-		console.log(args);
 		let code = args.CODE.toString();
 		return this.getRESTAPI({REQUEST: '/sensors/code/' + code + '.json'})
 			.then(boolean => JSON.parse(boolean).found)
+			.catch(() => {
+				return 'Error with the connection';
+			});
+	}
+
+	/**
+	 * Makes a GET request to the REST API using getRESTAPI() to get the list of all codes read by the camera.
+	 * @returns {Promise<*>} a list of code names in front of the camera.
+	 */
+	listVisibleMarkers() {
+		const knownMarkers = {
+			112259237: 'tetris',
+			221052793: 'caribou',
+			44616414: 'lapin,rabbit',
+		}
+		return this.getRESTAPI({REQUEST: '/sensors/code/list.json'})
+			.then(res => JSON.parse(res).codes)  // list of ints (or empty list)
+			.then(list => {
+				console.log(list);
+				let code_names = [];
+				let name;
+				for(let i = 0; i < list.length; i++){
+					console.log("id" + list[i].toString())
+					name = knownMarkers[list[i]]
+					console.log("name: " + name);
+					code_names.push(name);
+				}
+				console.log("code_names: " + code_names);
+				return code_names.toString()
+			})
 			.catch(() => {
 				return 'Error with the connection';
 			});

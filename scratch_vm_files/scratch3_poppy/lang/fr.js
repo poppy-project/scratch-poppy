@@ -24,6 +24,7 @@ module.exports = {
         getRESTAPI: 'appel de l\'API REST [REQUEST]',
         postRESTAPI: 'post [DATA] vers l\'API REST [URL]',
         detectMarker: 'la carte [CODE] est détectée ?',
+        listVisibleMarkers: 'liste des codes visibles',
     },
     menus: {
         marker: {
