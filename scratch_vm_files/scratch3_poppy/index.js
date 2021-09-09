@@ -3,7 +3,7 @@ const BlockType = require(`../../extension-support/block-type`);
 const axios = require(`axios`).default;
 const formatMessage = require(`format-message`);
 
-const de = true;  // true when debugging
+const de = false;  // true when debugging
 
 /**
  * write de&&bug(*your arguments*) in your code to make debug logging.
@@ -101,7 +101,7 @@ class Scratch3Poppy {
 					arguments: {
 						REGISTER: {
 							type: ArgumentType.STRING,
-							defaultValue: 'my_variable_set',
+							defaultValue: 'present_position',
 							menu: 'register'
 						},
 						MOTOR: {
@@ -354,7 +354,99 @@ class Scratch3Poppy {
 							defaultValue: '/motor/m1/register/compliant/value.json'
 						}
 					}
-				}
+				},
+
+				{
+					opcode: 'getIKpose',
+					blockType: BlockType.REPORTER,
+					text: messages.blocks.getIKpose,
+					arguments: {
+						CHAIN: {
+							type: ArgumentType.STRING,
+							defaultValue: 'chain',
+							menu: 'IKchains'
+						}
+					}
+				},
+
+				{
+					opcode: 'gotoIK',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.gotoIK,
+					arguments: {
+						CHAIN: {
+							type: ArgumentType.STRING,
+							defaultValue: 'chain',
+							menu: 'IKchains'
+						},
+						X: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						Y: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						Z: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						DURATION: {
+							type: ArgumentType.NUMBER,
+							defaultValue: 2
+						},
+						WAIT: {
+							type: ArgumentType.STRING,
+							menu: 'wait'
+						}
+					}
+				},
+
+				{
+					opcode: 'gotoIKorientation',
+					blockType: BlockType.COMMAND,
+					text: messages.blocks.gotoIKorientation,
+					arguments: {
+						CHAIN: {
+							type: ArgumentType.STRING,
+							defaultValue: 'chain',
+							menu: 'IKchains'
+						},
+						X: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						Y: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						Z: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						ROLL: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						PITCH: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						YAW: {
+							type: ArgumentType.STRING,
+							defaultValue: '0'
+						},
+						DURATION: {
+							type: ArgumentType.NUMBER,
+							defaultValue: 2
+						},
+						WAIT: {
+							type: ArgumentType.STRING,
+							menu: 'wait'
+						}
+					}
+				},
+
 
 			],
 
@@ -365,6 +457,14 @@ class Scratch3Poppy {
 						{text: messages.menus.marker.caribou, value: 'caribou'},
 						{text: messages.menus.marker.tetris, value: 'tetris'},
 						{text: messages.menus.marker.lapin, value: 'lapin'}
+					]
+				},
+				IKchains: {
+					acceptReporters: true,
+					items: [
+						{text: messages.menus.IKchains.chain, value: 'chain'},
+						{text: messages.menus.IKchains.r_arm_chain, value: 'r_arm_chain'},
+						{text: messages.menus.IKchains.l_arm_chain, value: 'l_arm_chain'}
 					]
 				},
 				getBehaviours: {
@@ -993,6 +1093,80 @@ class Scratch3Poppy {
 				return 'Error with parameters.';
 			});
 	}
+
+
+	/**
+	 * Gives the x, y and z coordinates of the IK chain of your choice.
+	 * @param args args.CHAIN is the name of your IK chain
+	 * @return {Promise<* | string>}
+	 */
+	getIKpose(args) {
+		let chainName = args.CHAIN.toString();
+		let url = '/ik/' + chainName + '/value.json';
+		return this.getRESTAPI({REQUEST: url})
+			.then(xyz => JSON.parse(xyz)["xyz"].toString())
+			.catch(() => {
+				return 'Error on connection.';
+			});
+	}
+
+
+	/**
+	 * Moves arm to a cartesian position
+	 * @param args args.CHAIN is the name of your IK chain, args.{X,Y,Z} are the cartesian coordinates of the goal position.
+	 * args.DURATION is the travel time in sec and if args.WAIT is set to true, the block waits for the end of the travel
+	 * before proceeding to the next block.
+	 * @return {Promise<* | string>} the actual postiton reached
+	 */
+	gotoIK(args) {
+		let chainName = args.CHAIN.toString();
+		let X = args.X.toString().replace(',', '.');
+		let Y = args.Y.toString().replace(',', '.');
+		let Z = args.Z.toString().replace(',', '.');
+		let duration = parseFloat(args.DURATION);
+		let wait = args.WAIT.toString();
+		let url = '/ik/' + chainName + '/goto.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{"xyz": "' + X + ',' + Y + ',' + Z + '", "duration":' + duration + ', "wait": ' + wait + '}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(xyz => JSON.parse(xyz)["xyz"].toString())
+			.catch(() => {
+				return 'Error with parameters.';
+			});
+	}
+
+
+	/**
+	 * Moves arm to a cartesian position, and with an orientation
+	 * @param args args.CHAIN is the name of your IK chain, args.{X,Y,Z} are the cartesian coordinates of the goal position.
+	 * args.{ROLL,PITCH,YAW} are the orientation of the endeffector, in radians. args.DURATION is the travel time in sec
+	 * and if args.WAIT is set to true, the block waits for the end of the travel before proceeding to the next block.
+	 * @return {Promise<* | string>} the actual postiton reached
+	 */
+	gotoIKorientation(args) {
+		let chainName = args.CHAIN.toString();
+		let X = args.X.toString().replace(',', '.');
+		let Y = args.Y.toString().replace(',', '.');
+		let Z = args.Z.toString().replace(',', '.');
+		let ROLL = args.ROLL.toString().replace(',', '.');
+		let PITCH = args.PITCH.toString().replace(',', '.');
+		let YAW = args.YAW.toString().replace(',', '.');
+		let duration = parseFloat(args.DURATION);
+		let wait = args.WAIT.toString();
+		let url = '/ik/' + chainName + '/goto.json';
+		let postArgs = {
+			URL: url,
+			DATA: '{"xyz": "' + X + ',' + Y + ',' + Z + '", "rpy": "' + ROLL + ',' + PITCH + ',' + YAW + '", "duration":' + duration + ', "wait": ' + wait + '}'
+		};
+		return this.postRESTAPI(postArgs)
+			.then(xyz => JSON.parse(xyz)["xyz"].toString())
+			.catch(() => {
+				return 'Error with parameters.';
+			});
+	}
+
 
 	getMessagesForLocale() {
 		const locale = formatMessage.setup().locale;

@@ -25,12 +25,20 @@ module.exports = {
         postRESTAPI: 'post [DATA] to the REST API [URL]',
         detectMarker: 'card [CODE] is detected ?',
         listVisibleMarkers: 'list visible markers',
+        getIKpose: 'get [CHAIN] IK coordinates',
+        gotoIK: '[CHAIN] goto [X][Y][Z] in [DURATION] sec, wait ? [WAIT]',
+        gotoIKorientation: "[CHAIN] goto [X][Y][Z] with orientation [ROLL][PITCH][YAW] in [DURATION] sec, wait ? [WAIT]",
     },
     menus: {
         marker: {
             caribou: 'caribou',
             tetris: 'tetris',
             lapin: 'lapin'
+        },
+        IKchains: {
+            chain: 'chain',
+            r_arm_chain: 'r_arm_chain',
+            l_arm_chain: 'l_arm_chain'
         },
         getBehaviours: {
             all: 'all',
