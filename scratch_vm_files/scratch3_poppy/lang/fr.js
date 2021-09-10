@@ -2,7 +2,7 @@ module.exports = {
     blocks: {
         setHost: 'se connecter à [URL]',
         poppyUrl: 'robot URL',
-        testConnection: 'test de la connection',
+        testConnection: 'test de la connexion',
         getMotorsPositions: 'récupérer la position de chaque moteur',
         getMotors: 'tous les moteurs',
         getRobotAliases: 'tous les groupes de moteurs',
