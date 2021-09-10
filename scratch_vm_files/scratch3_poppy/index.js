@@ -770,12 +770,25 @@ class Scratch3Poppy {
 		let duration = parseFloat(args.DURATION);
 		let wait = args.WAIT.toString();
 		let motors = args.MOTORS.toString();
-		if (motors.split(',').length > 1) {
-			// Several motors & several positions
-			motors = motors.split(',').join('","');
+		let positions = args.POSITIONS.toString()
 
-			let positions = args.POSITIONS.toString().split(',').join('","');
+		if (motors.split(',').length > 1) {
+			// Several motors
 			let url = '/motors/goto.json';
+			motors = motors.split(',');
+			if (positions.split(',').length === 1) {
+				// Several motors & 1 position
+				let pos = [];
+				for (let i = 0; i < motors.length; i++) {
+					pos.push(positions)
+				}
+				motors = motors.join('","');
+				positions = pos.join('","');
+			} else {
+				// Several motors & several positions
+				motors = motors.join('","');
+				positions = positions.split(',').join('","');
+			}
 			let postArgs = {
 				URL: url,
 				DATA: `{"motors": ["${motors}"], "positions": ["${positions}"], "duration": ${duration}, "wait": ${wait}}`
