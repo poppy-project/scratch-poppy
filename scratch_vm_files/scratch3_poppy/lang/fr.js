@@ -55,7 +55,7 @@ module.exports = {
             resume: 'reprendre'
         },
         compliant: {
-            compliant: 'mou',
+            compliant: 'flexible',
             stiff: 'rigide'
         },
         color: {
