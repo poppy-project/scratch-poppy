@@ -253,7 +253,7 @@ class Scratch3Poppy {
 						},
 						SPEED: {
 							type: ArgumentType.NUMBER,
-							defaultValue: -1.0
+							defaultValue: 1.0
 						}
 					}
 				},
@@ -335,7 +335,7 @@ class Scratch3Poppy {
 					arguments: {
 						REQUEST: {
 							type: ArgumentType.STRING,
-							defaultValue: '/motor/list.json'
+							defaultValue: '/motors/list.json'
 						}
 					}
 				},
@@ -351,7 +351,7 @@ class Scratch3Poppy {
 						},
 						URL: {
 							type: ArgumentType.STRING,
-							defaultValue: '/motor/m1/register/compliant/value.json'
+							defaultValue: '/motors/m1/registers/compliant/value.json'
 						}
 					}
 				},
